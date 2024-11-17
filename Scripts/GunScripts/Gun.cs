@@ -9,9 +9,7 @@ public partial class Gun : Node3D {
 
 	// VARIABLES
     private readonly bool[] chamber = new bool[6];
-	public Player Holder { set => holder = value; }
 	private int chamberIndex;
-	private Player holder;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
