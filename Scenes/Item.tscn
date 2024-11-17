@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://gy2kv2jwlsd3"]
+
+[node name="Item" type="Node3D"]
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="SoundEffect" type="AudioStreamPlayer3D" parent="."]

@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://bjnjei1r7wqq8"]
+
+[ext_resource type="PackedScene" uid="uid://4b1k238gxmft" path="res://Assets/Models/ObjectModels/gun.glb" id="1_if3qc"]
+[ext_resource type="Script" path="res://Scripts/GunScripts/Gun.cs" id="1_it0jy"]
+[ext_resource type="PackedScene" uid="uid://ci37ny3gfiae4" path="res://Assets/Models/ObjectModels/nerf_dartbullet.glb" id="2_7olc0"]
+[ext_resource type="Script" path="res://Scripts/GunScripts/GunModelManager.cs" id="2_y1fbp"]
+[ext_resource type="Script" path="res://Scripts/GunScripts/GunSoundManager.cs" id="4_katwa"]
+[ext_resource type="AudioStream" uid="uid://b2p82rp1xhqty" path="res://Assets/Sounds/Gun/Fired.mp3" id="5_lwxcj"]
+[ext_resource type="AudioStream" uid="uid://b043y1qfelx6k" path="res://Assets/Sounds/Gun/Blank.mp3" id="6_xjl2b"]
+[ext_resource type="AudioStream" uid="uid://buthbll846qt8" path="res://Assets/Sounds/Gun/Spin.mp3" id="7_qgs4p"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_owktr"]
+radius = 0.05
+height = 0.1
+
+[node name="Gun" type="Node3D"]
+script = ExtResource("1_it0jy")
+
+[node name="Model" type="Node3D" parent="." node_paths=PackedStringArray("gunAnimator")]
+script = ExtResource("2_y1fbp")
+gunAnimator = NodePath("Gun/AnimationPlayer")
+
+[node name="Gun" parent="Model" instance=ExtResource("1_if3qc")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+
+[node name="SoundEffect" type="AudioStreamPlayer3D" parent="."]
+script = ExtResource("4_katwa")
+shootSoundEffect = ExtResource("5_lwxcj")
+blankSoundEffect = ExtResource("6_xjl2b")
+barrelSpinSoundEffect = ExtResource("7_qgs4p")
+
+[node name="DartSpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.216946, 0.141211, 0)
+
+[node name="DartPhysicsBody" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.216946, 0.141211, 0)
+visible = false
+gravity_scale = 0.0
+
+[node name="CollisionBox" type="CollisionShape3D" parent="DartPhysicsBody"]
+shape = SubResource("CapsuleShape3D_owktr")
+
+[node name="Dart" type="Node3D" parent="DartPhysicsBody"]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
+
+[node name="DartModel" parent="DartPhysicsBody/Dart" instance=ExtResource("2_7olc0")]
+transform = Transform3D(-5.68248e-08, 0, -1.3, 0, 1.3, 0, 1.3, 0, -5.68248e-08, -1.67, -0.04, 0)
+
+[editable path="Model/Gun"]
