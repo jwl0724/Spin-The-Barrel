@@ -2,15 +2,68 @@ using Godot;
 using System;
 
 public partial class PlayerCamera : Camera3D {
-	private Player player; // maybe get rid of later? will see if necessary
+	private static readonly float MAX_CAMERA_Y_ANGLE = 60f; // up/down camera movement
+	private static readonly float MAX_CAMERA_X_ANGLE = 70f; // left/right camera movement
+	private bool isLocked = false;
+	private Vector3 lerpPosition = Vector3.Zero;
+	private Player player;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 		player = Owner as Player;	
+		player.Connect(Player.SignalName.PlayerDied, Callable.From(() => OnPlayerDeath()));
+		player.Connect(Player.SignalName.PlayerHurt, Callable.From(() => OnPlayerHurt()));
+		player.Connect(Player.SignalName.PlayerHoldGun, Callable.From((Vector3 gunPosition) => OnGunHold(gunPosition)));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
+		if (lerpPosition.IsEqualApprox(Vector3.Zero)) return;
+		Rotation = Rotation.Lerp(lerpPosition.DirectionTo(lerpPosition), 0.4f * (float) delta);
+	}
 
+	
+	// handle camera turning
+	public override void _Input(InputEvent inputEvent) {
+		if (inputEvent is not InputEventMouseMotion movement || isLocked) return;
+		
+		// looking left/right
+		float rotationDegreesY = Rotation.Y + Mathf.DegToRad(-movement.Relative.X * player.MouseSensitivity);
+
+		// looking up/down
+		float rotationDegreesX = Mathf.Clamp(
+			Mathf.DegToRad(-movement.Relative.Y * player.MouseSensitivity) + Rotation.X,
+			Mathf.DegToRad(-89.99f), Mathf.DegToRad(89.99f)
+		);
+		Rotation = new Vector3(rotationDegreesX, rotationDegreesY, 0);
+
+		float rotationY = Mathf.Clamp(
+			Mathf.DegToRad(-movement.Relative.X * player.MouseSensitivity) + Rotation.Y,
+			Mathf.DegToRad(-MAX_CAMERA_Y_ANGLE), Mathf.DegToRad(MAX_CAMERA_Y_ANGLE)	
+		);
+		float rotationX = Mathf.Clamp(
+			Mathf.DegToRad(-movement.Relative.Y * player.MouseSensitivity) + Rotation.X,
+			Mathf.DegToRad(-MAX_CAMERA_X_ANGLE), Mathf.DegToRad(MAX_CAMERA_X_ANGLE)	
+		);
+		Rotation = new Vector3(rotationX, rotationY, 0);
+	}
+
+	private void OnPlayerDeath() {
+		// TODO: animate the camera jerking upwards then falling
+	}
+
+	private void OnPlayerHurt() {
+		// create hurt animation
+		Tween hurtTween = CreateTween();
+		hurtTween.TweenProperty(this, nameof(Rotation), Vector3.Right * Mathf.DegToRad(20), 0.25f);
+		hurtTween.TweenProperty(this, nameof(Rotation), Vector3.Zero, 0.75f);
+		hurtTween.TweenCallback(Callable.From(() => isLocked = false));
+		hurtTween.Play();
+	}
+
+
+	private void OnGunHold(Vector3 gunPosition) {
+		isLocked = true;
+		lerpPosition = gunPosition;
 	}
 }
