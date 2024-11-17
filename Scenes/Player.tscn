@@ -42,8 +42,10 @@ script = ExtResource("1_cp3cb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58365e-08, 0.375976, -0.362298)
 script = ExtResource("2_p0sjk")
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58365e-08, -0.375976, 0.362298)
+[node name="Raycast" type="RayCast3D" parent="Camera"]
+target_position = Vector3(0, 0, -35)
+collide_with_areas = true
+collide_with_bodies = false
 script = ExtResource("3_1jtrk")
 
 [node name="Model" type="Node3D" parent="."]
