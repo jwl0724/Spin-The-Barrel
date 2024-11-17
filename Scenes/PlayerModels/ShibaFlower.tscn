@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1kg7rwiuss1f"]
+
+[ext_resource type="PackedScene" uid="uid://bstoocdftotmp" path="res://Assets/Models/PlayerMeshes/hippie_shiba.glb" id="1_d1ubm"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Flower Shiba" parent="." instance=ExtResource("1_d1ubm")]
+transform = Transform3D(-1.74846e-10, 0, -0.004, 0, 0.004, 0, 0.004, 0, -1.74846e-10, -0.1, -0.1, 0)

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://do8t4h8gi423c"]
+
+[ext_resource type="PackedScene" uid="uid://ctw1d5qcnifox" path="res://Assets/Models/PlayerMeshes/cube_robot.glb" id="1_l4xsl"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Robot" parent="." instance=ExtResource("1_l4xsl")]
+transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0, 0, 0)

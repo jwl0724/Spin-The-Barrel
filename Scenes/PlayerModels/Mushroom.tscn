@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://drmeggacylajo"]
+
+[ext_resource type="PackedScene" uid="uid://cjh80o0ihm1r5" path="res://Assets/Models/PlayerMeshes/mushroom_potion.glb" id="1_te05p"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Mushroom" parent="." instance=ExtResource("1_te05p")]
+transform = Transform3D(-3.49691e-09, 0, -0.08, 0, 0.08, 0, 0.08, 0, -3.49691e-09, 0, -0.1, 0)

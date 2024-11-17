@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://brwl071bucyat"]
+
+[ext_resource type="PackedScene" uid="uid://4sqvoau0vcoe" path="res://Assets/Models/PlayerMeshes/horse.glb" id="1_kjs10"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Horse" parent="." instance=ExtResource("1_kjs10")]
+transform = Transform3D(-1.5299e-08, 0.303109, -0.175, 0, 0.175, 0.303109, 0.35, 1.32493e-08, -7.64949e-09, -0.25, -0.1, 0)

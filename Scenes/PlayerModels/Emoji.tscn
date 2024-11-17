@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwf3wfq6rsgxq"]
+
+[ext_resource type="PackedScene" uid="uid://cbedspahl4sbt" path="res://Assets/Models/PlayerMeshes/laughing_cat_emoji.glb" id="1_vcjpr"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Emoji" parent="." instance=ExtResource("1_vcjpr")]
+transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, 0, 0.2, 0)

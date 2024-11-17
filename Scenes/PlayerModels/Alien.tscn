@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw6i7vl5i6m74"]
+
+[ext_resource type="PackedScene" uid="uid://cr0csn2udgh0h" path="res://Assets/Models/PlayerMeshes/baby_alien_cartoon_character.glb" id="1_54rxe"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Alien" parent="." instance=ExtResource("1_54rxe")]
+transform = Transform3D(-3.0598e-08, 0, -0.7, 0, 0.7, 0, 0.7, 0, -3.0598e-08, 0, 0, 0)

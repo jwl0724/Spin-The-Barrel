@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2g16wv3c8j1"]
+
+[ext_resource type="PackedScene" uid="uid://dcx4dus24dl7x" path="res://Assets/Models/PlayerMeshes/free_toon_shiba_inu_3d_model.glb" id="1_ptxad"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Shiba Toon" parent="." instance=ExtResource("1_ptxad")]
+transform = Transform3D(-1.09278e-07, 0, -2.5, 0, 2.5, 0, 2.5, 0, -1.09278e-07, 0.1, -0.2, 0)

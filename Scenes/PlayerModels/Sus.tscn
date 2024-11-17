@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://q7sp2ktdmltu"]
+
+[ext_resource type="PackedScene" uid="uid://b42ps7ylviijw" path="res://Assets/Models/PlayerMeshes/among_us_witch_one.glb" id="1_4fwvp"]
+
+[node name="Model" type="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Sus" parent="." instance=ExtResource("1_4fwvp")]
+transform = Transform3D(19, 0, 0, 0, 19, 0, 0, 0, 19, 0, -0.1, 0)
