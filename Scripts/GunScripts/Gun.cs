@@ -8,6 +8,7 @@ public partial class Gun : Node3D {
 	[Signal] public delegate void GunResetEventHandler();
 
 	// VARIABLES
+	public static readonly int DEFAULT_DAMAGE = 1;
     private readonly bool[] chamber = new bool[6];
 	private int chamberIndex;
 
