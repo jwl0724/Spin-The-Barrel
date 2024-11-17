@@ -1,0 +1,95 @@
+﻿newmtl M_TableRound
+	map_Kd M_TableRound_D.bmp
+	map_Ks M_TableRound_S.bmp
+	bump M_TableRound_N.bmp
+
+newmtl M_Wood_Oak
+	map_Kd M_Wood_Oak_D.bmp
+	map_Ks M_Wood_Oak_S.bmp
+	bump M_Wood_Oak_N.bmp
+
+newmtl re_shelf_side
+	map_Kd re_shelf_side_D.bmp
+	map_Ks re_shelf_side_S.bmp
+	bump re_shelf_side_N.bmp
+
+newmtl re_shelf_mid
+	map_Kd re_shelf_mid_D.bmp
+	map_Ks re_shelf_mid_S.bmp
+	bump re_shelf_mid_N.bmp
+
+newmtl RedCarpet
+	map_Kd RedCarpet_D.bmp
+	map_Ks RedCarpet_S.bmp
+	bump RedCarpet_N.bmp
+
+newmtl M_Dart
+	map_Kd M_Dart_D.bmp
+	map_Ks M_Dart_S.bmp
+	bump M_Dart_N.bmp
+
+newmtl M_Wood_Walnut
+	map_Kd M_Wood_Walnut_D.bmp
+	map_Ks M_Wood_Walnut_S.bmp
+	bump M_Wood_Walnut_N.bmp
+
+newmtl M_Wood_Floor_Walnut_Polished
+	map_Kd M_Wood_Floor_Walnut_Polished_D.bmp
+	map_Ks M_Wood_Floor_Walnut_Polished_S.bmp
+	bump M_Wood_Floor_Walnut_Polished_N.bmp
+
+newmtl M_Board
+	map_Kd M_Board_D.bmp
+	map_Ks M_Board_S.bmp
+	bump M_Board_N.bmp
+
+newmtl M_Chair
+	map_Kd M_Chair_D.bmp
+	map_Ks M_Chair_S.bmp
+	bump M_Chair_N.bmp
+
+newmtl re_ho_01
+	map_Kd re_ho_01_D.bmp
+	map_Ks re_ho_01_S.bmp
+	bump re_ho_01_N.bmp
+
+newmtl M_Lamp
+	map_Kd M_Lamp_D.bmp
+	map_Ks M_Lamp_S.bmp
+	bump M_Lamp_N.bmp
+
+newmtl re_bar_side
+	map_Kd re_bar_side_D.bmp
+	map_Ks re_bar_side_S.bmp
+	bump re_bar_side_N.bmp
+
+newmtl re_ho_02
+	map_Kd re_ho_02_D.bmp
+	map_Ks re_ho_02_S.bmp
+	bump re_ho_02_N.bmp
+
+newmtl re_bar_end_L
+	map_Kd re_bar_end_L_D.bmp
+	map_Ks re_bar_end_L_S.bmp
+	bump re_bar_end_L_N.bmp
+
+newmtl re_bar_center
+	map_Kd re_bar_center_D.bmp
+	map_Ks re_bar_center_S.bmp
+	bump re_bar_center_N.bmp
+
+newmtl M_Solid
+	map_Kd M_Solid_D.bmp
+	map_Ks M_Solid_S.bmp
+	bump M_Solid_N.bmp
+
+newmtl Bottle_MAT
+	map_Kd Bottle_MAT_D.bmp
+	map_Ks Bottle_MAT_S.bmp
+	bump Bottle_MAT_N.bmp
+
+newmtl Neck_MAT
+	map_Kd Neck_MAT_D.bmp
+	map_Ks Neck_MAT_S.bmp
+	bump Neck_MAT_N.bmp
+
