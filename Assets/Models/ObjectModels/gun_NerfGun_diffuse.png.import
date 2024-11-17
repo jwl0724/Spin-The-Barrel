@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://c5sxjkic462y8"
+path.s3tc="res://.godot/imported/gun_NerfGun_diffuse.png-2ea6bffc2cacc43a9c0d6a38ee32bfbf.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "586521ca37a96bb69f3c573ecbf43d49"
+}
+
+[deps]
+
+source_file="res://Assets/Models/ObjectModels/gun_NerfGun_diffuse.png"
+dest_files=["res://.godot/imported/gun_NerfGun_diffuse.png-2ea6bffc2cacc43a9c0d6a38ee32bfbf.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
