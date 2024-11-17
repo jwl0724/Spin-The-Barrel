@@ -1,19 +1,31 @@
-[gd_scene load_steps=20 format=3 uid="uid://lnxb8j3m7ht3"]
+[gd_scene load_steps=32 format=3 uid="uid://lnxb8j3m7ht3"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_cp3cb"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerCamera.cs" id="2_p0sjk"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerReticle.cs" id="3_1jtrk"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerSoundEffectManager.cs" id="4_2gf8f"]
+[ext_resource type="Script" path="res://Scripts/PlayerScripts/ModelManager.cs" id="4_afn63"]
+[ext_resource type="PackedScene" uid="uid://cw6i7vl5i6m74" path="res://Scenes/PlayerModels/Alien.tscn" id="5_8b6vt"]
 [ext_resource type="AudioStream" uid="uid://b3mcdx6myvwvk" path="res://Assets/Sounds/PlayerHurt/Hurt1.mp3" id="5_ojert"]
 [ext_resource type="AudioStream" uid="uid://d1tfi70k0wt5" path="res://Assets/Sounds/PlayerHurt/Hurt2.mp3" id="6_4pu4q"]
+[ext_resource type="PackedScene" uid="uid://bwf3wfq6rsgxq" path="res://Scenes/PlayerModels/Emoji.tscn" id="6_sbk1y"]
+[ext_resource type="PackedScene" uid="uid://vopkniojsksl" path="res://Scenes/PlayerModels/Fish.tscn" id="7_8saph"]
 [ext_resource type="AudioStream" uid="uid://c1dto7bp1fees" path="res://Assets/Sounds/PlayerHurt/Hurt3.mp3" id="7_acfh6"]
+[ext_resource type="PackedScene" uid="uid://1mwnlh50wofi" path="res://Scenes/PlayerModels/Ghost.tscn" id="8_gt0tb"]
 [ext_resource type="AudioStream" uid="uid://w2dfqt5ybc1p" path="res://Assets/Sounds/PlayerHurt/Hurt4.mp3" id="8_j487r"]
 [ext_resource type="AudioStream" uid="uid://oxl5351e7rld" path="res://Assets/Sounds/PlayerHurt/Hurt5.mp3" id="9_6qncg"]
+[ext_resource type="PackedScene" uid="uid://garel8w3sb5y" path="res://Scenes/PlayerModels/Hippo.tscn" id="9_vhl7b"]
+[ext_resource type="PackedScene" uid="uid://brwl071bucyat" path="res://Scenes/PlayerModels/Horse.tscn" id="10_1hl1i"]
 [ext_resource type="AudioStream" uid="uid://cnrbvs2x4ffmi" path="res://Assets/Sounds/PlayerHurt/Hurt6.mp3" id="10_a6iq2"]
+[ext_resource type="PackedScene" uid="uid://drmeggacylajo" path="res://Scenes/PlayerModels/Mushroom.tscn" id="11_loade"]
 [ext_resource type="AudioStream" uid="uid://b0fue028jsg4g" path="res://Assets/Sounds/PlayerHurt/Hurt7.mp3" id="11_lqegb"]
+[ext_resource type="PackedScene" uid="uid://do8t4h8gi423c" path="res://Scenes/PlayerModels/Robot.tscn" id="12_134tq"]
 [ext_resource type="AudioStream" uid="uid://b6bs12rr1teyo" path="res://Assets/Sounds/PlayerHurt/Hurt8.mp3" id="12_e5xdx"]
 [ext_resource type="AudioStream" uid="uid://caiv1ofl8s8ny" path="res://Assets/Sounds/PlayerDied/Dead1.mp3" id="13_swsod"]
+[ext_resource type="PackedScene" uid="uid://c1kg7rwiuss1f" path="res://Scenes/PlayerModels/ShibaFlower.tscn" id="13_y32qc"]
 [ext_resource type="AudioStream" uid="uid://bxs80sp5d2y81" path="res://Assets/Sounds/PlayerDied/Dead2.mp3" id="14_80rr8"]
+[ext_resource type="PackedScene" uid="uid://b2g16wv3c8j1" path="res://Scenes/PlayerModels/ShibaToon.tscn" id="14_w5jkq"]
+[ext_resource type="PackedScene" uid="uid://q7sp2ktdmltu" path="res://Scenes/PlayerModels/Sus.tscn" id="15_6c4xk"]
 [ext_resource type="AudioStream" uid="uid://cawl3cf12wion" path="res://Assets/Sounds/PlayerDied/Dead3.mp3" id="15_ygm1e"]
 [ext_resource type="AudioStream" uid="uid://gipy8ylmn3b5" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="16_150rv"]
 [ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="17_euge6"]
@@ -36,6 +48,8 @@ script = ExtResource("3_1jtrk")
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("4_afn63")
+modelCollection = Array[PackedScene]([ExtResource("5_8b6vt"), ExtResource("6_sbk1y"), ExtResource("7_8saph"), ExtResource("8_gt0tb"), ExtResource("9_vhl7b"), ExtResource("10_1hl1i"), ExtResource("11_loade"), ExtResource("12_134tq"), ExtResource("13_y32qc"), ExtResource("14_w5jkq"), ExtResource("15_6c4xk")])
 
 [node name="SoundEffects" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("4_2gf8f")
