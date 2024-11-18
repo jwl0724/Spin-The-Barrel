@@ -26,17 +26,6 @@ public partial class PlayerCamera : Camera3D {
 	// handle camera turning
 	public override void _Input(InputEvent inputEvent) {
 		if (inputEvent is not InputEventMouseMotion movement || isLocked) return;
-		
-		// looking left/right
-		float rotationDegreesY = Rotation.Y + Mathf.DegToRad(-movement.Relative.X * player.MouseSensitivity);
-
-		// looking up/down
-		float rotationDegreesX = Mathf.Clamp(
-			Mathf.DegToRad(-movement.Relative.Y * player.MouseSensitivity) + Rotation.X,
-			Mathf.DegToRad(-89.99f), Mathf.DegToRad(89.99f)
-		);
-		Rotation = new Vector3(rotationDegreesX, rotationDegreesY, 0);
-
 		float rotationY = Mathf.Clamp(
 			Mathf.DegToRad(-movement.Relative.X * player.MouseSensitivity) + Rotation.Y,
 			Mathf.DegToRad(-MAX_CAMERA_Y_ANGLE), Mathf.DegToRad(MAX_CAMERA_Y_ANGLE)	
