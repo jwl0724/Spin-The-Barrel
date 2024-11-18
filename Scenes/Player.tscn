@@ -1,10 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://lnxb8j3m7ht3"]
+[gd_scene load_steps=31 format=3 uid="uid://lnxb8j3m7ht3"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_cp3cb"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerCamera.cs" id="2_p0sjk"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerReticle.cs" id="3_1jtrk"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerSoundEffectManager.cs" id="4_2gf8f"]
-[ext_resource type="Script" path="res://Scripts/PlayerScripts/ModelManager.cs" id="4_afn63"]
+[ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerModelManager.cs" id="4_vjan6"]
 [ext_resource type="PackedScene" uid="uid://cw6i7vl5i6m74" path="res://Scenes/PlayerModels/Alien.tscn" id="5_8b6vt"]
 [ext_resource type="AudioStream" uid="uid://b3mcdx6myvwvk" path="res://Assets/Sounds/PlayerHurt/Hurt1.mp3" id="5_ojert"]
 [ext_resource type="AudioStream" uid="uid://d1tfi70k0wt5" path="res://Assets/Sounds/PlayerHurt/Hurt2.mp3" id="6_4pu4q"]
@@ -31,12 +31,10 @@
 [ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="17_euge6"]
 [ext_resource type="AudioStream" uid="uid://b6jhsmtsrpjrh" path="res://Assets/Sounds/PlayerDied/Dead6.mp3" id="18_6g404"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_rscaj"]
-size = Vector3(0.9, 1.1, 0.9)
-
-[node name="Player" type="Node3D"]
+[node name="Player" type="Node3D" node_paths=PackedStringArray("ModelManager")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_cp3cb")
+ModelManager = NodePath("Model")
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58365e-08, 0.375976, -0.362298)
@@ -44,24 +42,22 @@ script = ExtResource("2_p0sjk")
 
 [node name="Raycast" type="RayCast3D" parent="Camera"]
 target_position = Vector3(0, 0, -35)
+collision_mask = 2
+hit_back_faces = false
 collide_with_areas = true
 collide_with_bodies = false
+debug_shape_thickness = 1
 script = ExtResource("3_1jtrk")
-
-[node name="Model" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-script = ExtResource("4_afn63")
-modelCollection = Array[PackedScene]([ExtResource("5_8b6vt"), ExtResource("6_sbk1y"), ExtResource("7_8saph"), ExtResource("8_gt0tb"), ExtResource("9_vhl7b"), ExtResource("10_1hl1i"), ExtResource("11_loade"), ExtResource("12_134tq"), ExtResource("13_y32qc"), ExtResource("14_w5jkq"), ExtResource("15_6c4xk")])
 
 [node name="SoundEffects" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("4_2gf8f")
 hurtCollection = Array[AudioStream]([ExtResource("5_ojert"), ExtResource("6_4pu4q"), ExtResource("7_acfh6"), ExtResource("8_j487r"), ExtResource("9_6qncg"), ExtResource("10_a6iq2"), ExtResource("11_lqegb"), ExtResource("12_e5xdx")])
 deathCollection = Array[AudioStream]([ExtResource("13_swsod"), ExtResource("14_80rr8"), ExtResource("15_ygm1e"), ExtResource("16_150rv"), ExtResource("17_euge6"), ExtResource("18_6g404")])
 
-[node name="PlayerHitBox" type="Area3D" parent="."]
-
-[node name="Box" type="CollisionShape3D" parent="PlayerHitBox"]
-shape = SubResource("BoxShape3D_rscaj")
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("4_vjan6")
+modelCollection = Array[PackedScene]([ExtResource("5_8b6vt"), ExtResource("6_sbk1y"), ExtResource("7_8saph"), ExtResource("8_gt0tb"), ExtResource("9_vhl7b"), ExtResource("10_1hl1i"), ExtResource("11_loade"), ExtResource("12_134tq"), ExtResource("13_y32qc"), ExtResource("14_w5jkq"), ExtResource("15_6c4xk")])
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
