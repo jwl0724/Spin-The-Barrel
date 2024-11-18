@@ -2,6 +2,10 @@ using Godot;
 using System;
 
 public partial class Player : Node3D, IInteractableEntity {
+	// EXPORTED VARIABLES
+	[Export] public bool IsRemotePlayer; // Player set to false, RemotePlayer set to true
+	[Export] public PlayerModelManager ModelManager;
+
 	// SIGNALS
 	[Signal] public delegate void PlayerHurtEventHandler();
 	[Signal] public delegate void PlayerDiedEventHandler();
@@ -16,11 +20,11 @@ public partial class Player : Node3D, IInteractableEntity {
 
 	// VARIABLES
 	private CustomTimer timer = new();
+	private bool hasDoubleDamage = false; // TODO: add this effect when items are added
 	public float MouseSensitivity { get; set; } = 0.05f;
 	public int Health { get; private set; } = DEFAULT_PLAYER_HEATLH;
 	public bool IsDead { get; private set; } = false;
 	public string PlayerName { get; private set; } = "TODO";
-	private bool hasDoubleDamage = false; // TODO: add this effect when items are added
 	private Gun gun;
 	public Gun Gun { set => gun = value; }
 
@@ -35,8 +39,9 @@ public partial class Player : Node3D, IInteractableEntity {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
+		SetProcessInput(!IsRemotePlayer);
 		timer.Time = SHOOT_DELAY_TIME;
-
+		ModelManager.SetModel((int) (GD.Randi() % ModelManager.GetModelCount()));
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
