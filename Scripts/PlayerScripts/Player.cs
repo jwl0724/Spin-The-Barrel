@@ -1,14 +1,16 @@
 using Godot;
 using System;
 
-public partial class Player : Node3D {
+public partial class Player : Node3D, IInteractableEntity {
 	// SIGNALS
 	[Signal] public delegate void PlayerHurtEventHandler();
 	[Signal] public delegate void PlayerDiedEventHandler();
 	[Signal] public delegate void PlayerResetEventHandler();
 	[Signal] public delegate void PlayerHoldGunEventHandler();
+	[Signal] public delegate void PlayerInteractEventHandler();
 
 	// CONSTANTS
+	public static readonly string INTERACT_ACTION = "Interact";
 	public static readonly int DEFAULT_PLAYER_HEATLH = 4;
 	public static readonly float SHOOT_DELAY_TIME = 0.75f;
 
@@ -22,6 +24,15 @@ public partial class Player : Node3D {
 	private Gun gun;
 	public Gun Gun { set => gun = value; }
 
+	// INTERFACE IMPLEMENTATIONS
+	public string GetEntityName() => PlayerName;
+	public Node3D GetModel() { 
+		return GetNode<Node3D>("Model");
+	}
+	public void Interact() {
+		// TODO: see what this will do later on, maybe just leave empty?
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 		timer.Time = SHOOT_DELAY_TIME;
@@ -32,6 +43,12 @@ public partial class Player : Node3D {
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
 
+	}
+
+	public override void _Input(InputEvent inputEvent) {
+		if (Input.IsActionPressed(INTERACT_ACTION)) {
+			EmitSignal(SignalName.PlayerInteract);
+		}
 	}
 
 	public void SpinBarrel() {
