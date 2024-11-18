@@ -1,29 +1,47 @@
-[gd_scene load_steps=4 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=6 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
+[ext_resource type="Script" path="res://Scripts/GameDriver.cs" id="1_py8cd"]
 [ext_resource type="PackedScene" uid="uid://lnxb8j3m7ht3" path="res://Scenes/Player.tscn" id="2_rtiyi"]
+[ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
+glow_enabled = true
 
 [node name="Level" type="Node3D"]
+
+[node name="GameDriver" type="Node" parent="." node_paths=PackedStringArray("spawnPoints")]
+script = ExtResource("1_py8cd")
+playerScene = ExtResource("2_rtiyi")
+remotePlayerScene = ExtResource("3_i7hq4")
+spawnPoints = NodePath("../SpawnPoints")
 
 [node name="LevelModel" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 mesh = ExtResource("1_iflve")
 metadata/_edit_lock_ = true
 
+[node name="Lighting" type="Node" parent="."]
+
+[node name="Lamp" type="SpotLight3D" parent="Lighting"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.496996, 3.76636, -2.91761)
+light_color = Color(0.917647, 0.913725, 0.137255, 1)
+light_energy = 2.0
+spot_range = 3.573
+spot_attenuation = 0.732043
+spot_angle = 19.55
+spot_angle_attenuation = 0.554785
+
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint1" type="Node3D" parent="SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66294, 0.889875, -2.88314)
 
-[node name="Player" parent="SpawnPoints/SpawnPoint1" instance=ExtResource("2_rtiyi")]
-
 [node name="SpawnPoint2" type="Node3D" parent="SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.506566, 0.889875, -4.1736)
 
 [node name="SpawnPoint3" type="Node3D" parent="SpawnPoints"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.752896, 0.889875, -2.88314)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.752896, 0.889875, -2.88314)
 
 [node name="SpawnPoint4" type="Node3D" parent="SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.553339, 0.889875, -1.98003)
