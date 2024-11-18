@@ -1,14 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=10 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
-[ext_resource type="Script" path="res://Scripts/GameDriver.cs" id="1_py8cd"]
+[ext_resource type="Script" path="res://Scripts/GameScripts/GameDriver.cs" id="1_py8cd"]
+[ext_resource type="Script" path="res://Scripts/GameScripts/GameManager.cs" id="1_td32o"]
 [ext_resource type="PackedScene" uid="uid://lnxb8j3m7ht3" path="res://Scenes/Player.tscn" id="2_rtiyi"]
 [ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
+[ext_resource type="Script" path="res://Scripts/CameraScripts/CameraManager.cs" id="6_jsiof"]
+[ext_resource type="Script" path="res://Scripts/CameraScripts/BackgroundCamera.cs" id="7_r47b7"]
+[ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
 
 [node name="Level" type="Node3D"]
+script = ExtResource("1_td32o")
 
 [node name="GameDriver" type="Node" parent="." node_paths=PackedStringArray("spawnPoints")]
 script = ExtResource("1_py8cd")
@@ -45,6 +50,23 @@ transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.752
 
 [node name="SpawnPoint4" type="Node3D" parent="SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.553339, 0.889875, -1.98003)
+
+[node name="Cameras" type="Node" parent="."]
+script = ExtResource("6_jsiof")
+
+[node name="BackgroundCamera" type="Camera3D" parent="Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03073, 2.722, 0)
+script = ExtResource("7_r47b7")
+
+[node name="LobbyCamera" type="Camera3D" parent="Cameras"]
+transform = Transform3D(-4.36225e-08, 0.0637311, -0.997967, 2.78578e-09, 0.997967, 0.0637311, 1, -2.22045e-16, -4.37114e-08, 3.3917, 1.52036, -2.65096)
+
+[node name="PostGameCamera" type="Camera3D" parent="Cameras"]
+transform = Transform3D(0.796899, 0, 0.604112, 0, 1, 0, -0.604112, 0, 0.796899, 1.4312, 1.39086, -1.69626)
+
+[node name="DeadCamera" type="Camera3D" parent="Cameras"]
+transform = Transform3D(1, 0, 0, 0, 0.998028, -0.0627731, 0, 0.0627731, 0.998028, 0.49903, 1.26715, -2.83394)
+script = ExtResource("8_me3am")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e8jpl")
