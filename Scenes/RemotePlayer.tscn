@@ -1,0 +1,84 @@
+[gd_scene load_steps=37 format=3 uid="uid://bnx3p5vxipelj"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_rxqh0"]
+[ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerModelManager.cs" id="2_m3mv1"]
+[ext_resource type="PackedScene" uid="uid://cw6i7vl5i6m74" path="res://Scenes/PlayerModels/Alien.tscn" id="3_p5qcx"]
+[ext_resource type="PackedScene" uid="uid://bwf3wfq6rsgxq" path="res://Scenes/PlayerModels/Emoji.tscn" id="4_auix0"]
+[ext_resource type="PackedScene" uid="uid://vopkniojsksl" path="res://Scenes/PlayerModels/Fish.tscn" id="5_ijdsq"]
+[ext_resource type="PackedScene" uid="uid://1mwnlh50wofi" path="res://Scenes/PlayerModels/Ghost.tscn" id="6_m47dp"]
+[ext_resource type="PackedScene" uid="uid://garel8w3sb5y" path="res://Scenes/PlayerModels/Hippo.tscn" id="7_q6git"]
+[ext_resource type="PackedScene" uid="uid://brwl071bucyat" path="res://Scenes/PlayerModels/Horse.tscn" id="8_3jb0x"]
+[ext_resource type="PackedScene" uid="uid://drmeggacylajo" path="res://Scenes/PlayerModels/Mushroom.tscn" id="9_y8i8o"]
+[ext_resource type="PackedScene" uid="uid://do8t4h8gi423c" path="res://Scenes/PlayerModels/Robot.tscn" id="10_jlv6l"]
+[ext_resource type="PackedScene" uid="uid://c1kg7rwiuss1f" path="res://Scenes/PlayerModels/ShibaFlower.tscn" id="11_jbjrs"]
+[ext_resource type="PackedScene" uid="uid://b2g16wv3c8j1" path="res://Scenes/PlayerModels/ShibaToon.tscn" id="12_wsgs1"]
+[ext_resource type="PackedScene" uid="uid://q7sp2ktdmltu" path="res://Scenes/PlayerModels/Sus.tscn" id="13_fnfku"]
+[ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerSoundEffectManager.cs" id="14_t8vis"]
+[ext_resource type="AudioStream" uid="uid://b3mcdx6myvwvk" path="res://Assets/Sounds/PlayerHurt/Hurt1.mp3" id="15_l6as2"]
+[ext_resource type="AudioStream" uid="uid://d1tfi70k0wt5" path="res://Assets/Sounds/PlayerHurt/Hurt2.mp3" id="16_oju3j"]
+[ext_resource type="AudioStream" uid="uid://c1dto7bp1fees" path="res://Assets/Sounds/PlayerHurt/Hurt3.mp3" id="17_n546s"]
+[ext_resource type="AudioStream" uid="uid://w2dfqt5ybc1p" path="res://Assets/Sounds/PlayerHurt/Hurt4.mp3" id="18_3ge0b"]
+[ext_resource type="AudioStream" uid="uid://oxl5351e7rld" path="res://Assets/Sounds/PlayerHurt/Hurt5.mp3" id="19_m5icg"]
+[ext_resource type="AudioStream" uid="uid://cnrbvs2x4ffmi" path="res://Assets/Sounds/PlayerHurt/Hurt6.mp3" id="20_xl5sj"]
+[ext_resource type="AudioStream" uid="uid://b0fue028jsg4g" path="res://Assets/Sounds/PlayerHurt/Hurt7.mp3" id="21_bt5ic"]
+[ext_resource type="AudioStream" uid="uid://b6bs12rr1teyo" path="res://Assets/Sounds/PlayerHurt/Hurt8.mp3" id="22_d46ys"]
+[ext_resource type="AudioStream" uid="uid://caiv1ofl8s8ny" path="res://Assets/Sounds/PlayerDied/Dead1.mp3" id="23_nha30"]
+[ext_resource type="AudioStream" uid="uid://bxs80sp5d2y81" path="res://Assets/Sounds/PlayerDied/Dead2.mp3" id="24_5djeq"]
+[ext_resource type="AudioStream" uid="uid://cawl3cf12wion" path="res://Assets/Sounds/PlayerDied/Dead3.mp3" id="25_sjtso"]
+[ext_resource type="AudioStream" uid="uid://gipy8ylmn3b5" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="26_1efqj"]
+[ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="27_j1ag1"]
+[ext_resource type="AudioStream" uid="uid://b6jhsmtsrpjrh" path="res://Assets/Sounds/PlayerDied/Dead6.mp3" id="28_nc40r"]
+[ext_resource type="Script" path="res://Scripts/HitBox.cs" id="29_tx4lb"]
+[ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="30_ptg05"]
+[ext_resource type="Script" path="res://Scripts/NameText.cs" id="31_ssiqh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cxlww"]
+size = Vector3(0.6, 1.1, 0.6)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rvfsw"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kcjj0"]
+noise = SubResource("FastNoiseLite_rvfsw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oono3"]
+albedo_color = Color(0.749084, 0.74762, 0.721245, 1)
+emission_enabled = true
+emission = Color(0.691357, 0.691357, 0.691357, 1)
+emission_energy_multiplier = 3.64
+emission_texture = SubResource("NoiseTexture2D_kcjj0")
+
+[sub_resource type="TextMesh" id="TextMesh_qs30r"]
+material = SubResource("StandardMaterial3D_oono3")
+text = "NAME HERE"
+font = ExtResource("30_ptg05")
+font_size = 30
+depth = 0.01
+
+[node name="RemotePlayer" type="Node3D" node_paths=PackedStringArray("ModelManager")]
+script = ExtResource("1_rxqh0")
+IsRemotePlayer = true
+ModelManager = NodePath("Model")
+
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("2_m3mv1")
+modelCollection = Array[PackedScene]([ExtResource("3_p5qcx"), ExtResource("4_auix0"), ExtResource("5_ijdsq"), ExtResource("6_m47dp"), ExtResource("7_q6git"), ExtResource("8_3jb0x"), ExtResource("9_y8i8o"), ExtResource("10_jlv6l"), ExtResource("11_jbjrs"), ExtResource("12_wsgs1"), ExtResource("13_fnfku")])
+
+[node name="SoundEffects" type="AudioStreamPlayer3D" parent="."]
+script = ExtResource("14_t8vis")
+hurtCollection = Array[AudioStream]([ExtResource("15_l6as2"), ExtResource("16_oju3j"), ExtResource("17_n546s"), ExtResource("18_3ge0b"), ExtResource("19_m5icg"), ExtResource("20_xl5sj"), ExtResource("21_bt5ic"), ExtResource("22_d46ys")])
+deathCollection = Array[AudioStream]([ExtResource("23_nha30"), ExtResource("24_5djeq"), ExtResource("25_sjtso"), ExtResource("26_1efqj"), ExtResource("27_j1ag1"), ExtResource("28_nc40r")])
+
+[node name="PlayerHitBox" type="Area3D" parent="."]
+collision_layer = 2
+monitorable = false
+script = ExtResource("29_tx4lb")
+
+[node name="Box" type="CollisionShape3D" parent="PlayerHitBox"]
+shape = SubResource("BoxShape3D_cxlww")
+
+[node name="NameText" type="MeshInstance3D" parent="." node_paths=PackedStringArray("hitbox")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.923123, 0)
+mesh = SubResource("TextMesh_qs30r")
+script = ExtResource("31_ssiqh")
+hitbox = NodePath("../PlayerHitBox")
