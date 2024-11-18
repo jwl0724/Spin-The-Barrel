@@ -44,8 +44,8 @@ public partial class PlayerCamera : Camera3D {
 	private void OnPlayerHurt() {
 		// create hurt animation
 		Tween hurtTween = CreateTween();
-		hurtTween.TweenProperty(this, nameof(Rotation), Vector3.Right * Mathf.DegToRad(20), 0.25f);
-		hurtTween.TweenProperty(this, nameof(Rotation), Vector3.Zero, 0.75f);
+		hurtTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Right * Mathf.DegToRad(20), 0.25f);
+		hurtTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Zero, 0.75f);
 		hurtTween.TweenCallback(Callable.From(() => isLocked = false));
 		hurtTween.Play();
 	}
