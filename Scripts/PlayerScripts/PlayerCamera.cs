@@ -14,6 +14,8 @@ public partial class PlayerCamera : Camera3D {
 		player.Connect(Player.SignalName.PlayerDied, Callable.From(() => OnPlayerDeath()));
 		player.Connect(Player.SignalName.PlayerHurt, Callable.From(() => OnPlayerHurt()));
 		player.Connect(Player.SignalName.PlayerHoldGun, Callable.From((Vector3 gunPosition) => OnGunHold(gunPosition)));
+		player.Connect(Player.SignalName.PlayerReset, Callable.From(() => Current = true ));
+		CameraManager.Instance.AddPlayerCamera(this);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,6 +41,11 @@ public partial class PlayerCamera : Camera3D {
 
 	private void OnPlayerDeath() {
 		// TODO: animate the camera jerking upwards then falling
+		Tween deathTween = CreateTween();
+		deathTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Up * Mathf.DegToRad(90), 0.5f); // TODO: double check this later
+		// TODO: add a delay to the death tween so the player can see the death animation
+		deathTween.TweenCallback(Callable.From(() => CameraManager.SetCurrentCamera(CameraManager.Camera.DEAD_CAMERA)));
+		deathTween.Play();
 	}
 
 	private void OnPlayerHurt() {
