@@ -9,6 +9,8 @@ public partial class NameText : MeshInstance3D {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
+		SetNameDirection();
+
 		// set text
 		TextMesh textMesh = Mesh as TextMesh;
 		textMesh.Text = (Owner as IInteractableEntity).GetEntityName();
@@ -47,5 +49,17 @@ public partial class NameText : MeshInstance3D {
 		hideAnimation.TweenProperty(this, nameof(Scale).ToLower(), Vector3.Zero, 0.25f);
 		hideAnimation.TweenCallback(Callable.From(() => isLookedAt = false));
 		hideAnimation.Play();
+	}
+	
+	private void SetNameDirection() {
+		foreach(Player player in GameDriver.Players) {
+			if(player.IsRemotePlayer) continue;
+			LookAt(player.GlobalPosition);
+			
+			float tiltDownAngle = 30, fullRotation = 180;
+			Rotation += Vector3.Up * Mathf.DegToRad(fullRotation);
+			Rotation += Vector3.Right * Mathf.DegToRad(tiltDownAngle);
+			return;
+		}
 	}
 }
