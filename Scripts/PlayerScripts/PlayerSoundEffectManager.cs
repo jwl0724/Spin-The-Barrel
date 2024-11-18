@@ -21,14 +21,14 @@ public partial class PlayerSoundEffectManager : AudioStreamPlayer3D {
 	}
 
 	private void OnPlayerHit() {	
-		int soundIndex = (int) GD.Randi() % hurtCollection.Count;
+		int soundIndex = (int) (GD.Randi() % hurtCollection.Count);
 		PitchScale = (float) GD.RandRange(0.95, 1.05);
 		Stream = hurtCollection[soundIndex];
 		Play();
 	}
 
 	private void OnPlayerDeath() {
-		int soundIndex = (int) GD.Randi() % hurtCollection.Count;
+		int soundIndex = (int) (GD.Randi() % hurtCollection.Count);
 		VolumeDb = (float) GD.RandRange(0.95, 1.05);
 		PitchScale = (float) GD.RandRange(0.95, 1.05);
 		Stream = deathCollection[soundIndex];
