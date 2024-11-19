@@ -13,6 +13,11 @@ public partial class GameManager : Node3D {
 		POST_GAME
 	}
 
+	// Singleton Constructor for early initialization
+	GameManager() {
+		Instance = this;
+	}
+
 	// VARIABLES
 	public GameState State { get; private set; } = GameState.MAIN_MENU;
 	private Control gameMenus;
@@ -21,7 +26,6 @@ public partial class GameManager : Node3D {
 	[Signal] public delegate void GameStateChangedEventHandler(GameState newState);
 
 	public override void _Ready() {
-		Instance = this;
 		EmitSignal(SignalName.GameStateChanged, (int) GameState.MAIN_MENU);
 	}
 

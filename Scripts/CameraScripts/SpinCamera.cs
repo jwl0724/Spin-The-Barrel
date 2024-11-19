@@ -8,9 +8,7 @@ public partial class SpinCamera : Camera3D {
 
 	private GameManager manager;
 
-	public async override void _Ready() {
-		// TEMP SOLUTION FIGURE SOMETHING OUT LATER, PROBLEM: MANAGER FIRES SIGNAL BEFORE NODE CONNECTS TO SIGNAL
-		await ToSignal(GetTree().Root, SignalName.Ready);
+	public override void _Ready() {
 		manager = GameManager.Instance;
 		manager.Connect(GameManager.SignalName.GameStateChanged, Callable.From((GameManager.GameState state) => OnStateChanged(state)));
 	}
