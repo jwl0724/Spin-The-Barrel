@@ -29,6 +29,7 @@ public partial class NameText : MeshInstance3D {
 			// animates a hover effect
 			int offsetSpeed = 8;
 			float offsetAmount = 0.005f;
+			if (sinVariable >= Mathf.Pi * 2) sinVariable = 0;
 			sinVariable += (float) delta * offsetSpeed;
 			Position += Vector3.Up * Mathf.Sin(sinVariable) * offsetAmount;
 			return;
