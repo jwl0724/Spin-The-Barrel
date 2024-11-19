@@ -22,7 +22,7 @@ public partial class GameManager : Node3D {
 
 	public override void _Ready() {
 		Instance = this;
-		
+		EmitSignal(SignalName.GameStateChanged, (int) GameState.MAIN_MENU);
 	}
 
 	public override void _Process(double delta) {
