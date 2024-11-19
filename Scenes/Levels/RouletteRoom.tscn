@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://lnxb8j3m7ht3" path="res://Scenes/Player.tscn" id="2_rtiyi"]
 [ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/CameraManager.cs" id="6_jsiof"]
-[ext_resource type="Script" path="res://Scripts/CameraScripts/BackgroundCamera.cs" id="7_r47b7"]
+[ext_resource type="Script" path="res://Scripts/CameraScripts/SpinCamera.cs" id="7_r47b7"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
@@ -15,16 +15,16 @@ glow_enabled = true
 [node name="Level" type="Node3D"]
 script = ExtResource("1_td32o")
 
+[node name="LevelModel" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = ExtResource("1_iflve")
+metadata/_edit_lock_ = true
+
 [node name="GameDriver" type="Node" parent="." node_paths=PackedStringArray("spawnPoints")]
 script = ExtResource("1_py8cd")
 playerScene = ExtResource("2_rtiyi")
 remotePlayerScene = ExtResource("3_i7hq4")
 spawnPoints = NodePath("../SpawnPoints")
-
-[node name="LevelModel" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
-mesh = ExtResource("1_iflve")
-metadata/_edit_lock_ = true
 
 [node name="Lighting" type="Node" parent="."]
 
@@ -55,14 +55,20 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.5533
 script = ExtResource("6_jsiof")
 
 [node name="BackgroundCamera" type="Camera3D" parent="Cameras"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03073, 2.722, 0)
+transform = Transform3D(1, 0, 0, 0, 0.97953, 0.2013, 0, -0.2013, 0.97953, 0.548262, 2.2146, -0.216803)
 script = ExtResource("7_r47b7")
+rotationPoint = Vector3(0.486, 1.097, -2.918)
+rotationSpeed = 5.0
 
 [node name="LobbyCamera" type="Camera3D" parent="Cameras"]
 transform = Transform3D(-4.36225e-08, 0.0637311, -0.997967, 2.78578e-09, 0.997967, 0.0637311, 1, -2.22045e-16, -4.37114e-08, 3.3917, 1.52036, -2.65096)
 
 [node name="PostGameCamera" type="Camera3D" parent="Cameras"]
 transform = Transform3D(0.796899, 0, 0.604112, 0, 1, 0, -0.604112, 0, 0.796899, 1.4312, 1.39086, -1.69626)
+script = ExtResource("7_r47b7")
+rotationPoint = Vector3(0.486, 1.097, -2.918)
+stateToEnable = 3
+rotationSpeed = 3.0
 
 [node name="DeadCamera" type="Camera3D" parent="Cameras"]
 transform = Transform3D(1, 0, 0, 0, 0.998028, -0.0627731, 0, 0.0627731, 0.998028, 0.49903, 1.26715, -2.83394)
