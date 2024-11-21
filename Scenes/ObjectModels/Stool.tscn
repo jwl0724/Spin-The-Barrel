@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8qljv4jqmms"]
+
+[ext_resource type="PackedScene" uid="uid://npm2v0c5a8fm" path="res://Assets/Models/ObjectModels/stool_02.glb" id="1_kn4f2"]
+
+[node name="Model" type="Node3D"]
+
+[node name="Stool" parent="." instance=ExtResource("1_kn4f2")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
