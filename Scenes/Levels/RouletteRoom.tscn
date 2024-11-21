@@ -1,13 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=18 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/GameDriver.cs" id="1_py8cd"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/GameManager.cs" id="1_td32o"]
 [ext_resource type="PackedScene" uid="uid://lnxb8j3m7ht3" path="res://Scenes/Player.tscn" id="2_rtiyi"]
+[ext_resource type="Script" path="res://Scripts/GameScripts/LobbyDriver.cs" id="3_aajhq"]
 [ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
+[ext_resource type="PackedScene" uid="uid://cw6i7vl5i6m74" path="res://Scenes/PlayerModels/Alien.tscn" id="4_f2622"]
+[ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="5_nq2ea"]
+[ext_resource type="PackedScene" uid="uid://bwf3wfq6rsgxq" path="res://Scenes/PlayerModels/Emoji.tscn" id="6_gk4mt"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/CameraManager.cs" id="6_jsiof"]
+[ext_resource type="PackedScene" uid="uid://vopkniojsksl" path="res://Scenes/PlayerModels/Fish.tscn" id="7_c4y3r"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/SpinCamera.cs" id="7_r47b7"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
+[ext_resource type="PackedScene" uid="uid://garel8w3sb5y" path="res://Scenes/PlayerModels/Hippo.tscn" id="8_tcv43"]
+[ext_resource type="Script" path="res://Scripts/GunScripts/GunManager.cs" id="12_0fp5k"]
+[ext_resource type="PackedScene" uid="uid://bjnjei1r7wqq8" path="res://Scenes/Gun.tscn" id="13_66huy"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
@@ -15,20 +23,17 @@ glow_enabled = true
 [node name="Level" type="Node3D"]
 script = ExtResource("1_td32o")
 
-[node name="LevelModel" type="MeshInstance3D" parent="."]
+[node name="LevelVisuals" type="Node" parent="."]
+
+[node name="LevelModel" type="MeshInstance3D" parent="LevelVisuals"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 mesh = ExtResource("1_iflve")
+skeleton = NodePath("../..")
 metadata/_edit_lock_ = true
 
-[node name="GameDriver" type="Node" parent="." node_paths=PackedStringArray("spawnPoints")]
-script = ExtResource("1_py8cd")
-playerScene = ExtResource("2_rtiyi")
-remotePlayerScene = ExtResource("3_i7hq4")
-spawnPoints = NodePath("../SpawnPoints")
+[node name="Lighting" type="Node" parent="LevelVisuals"]
 
-[node name="Lighting" type="Node" parent="."]
-
-[node name="Lamp" type="SpotLight3D" parent="Lighting"]
+[node name="Lamp" type="SpotLight3D" parent="LevelVisuals/Lighting"]
 transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.496996, 3.76636, -2.91761)
 light_color = Color(0.917647, 0.913725, 0.137255, 1)
 light_energy = 2.0
@@ -37,19 +42,90 @@ spot_attenuation = 0.732043
 spot_angle = 19.55
 spot_angle_attenuation = 0.554785
 
-[node name="SpawnPoints" type="Node" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="LevelVisuals"]
+environment = SubResource("Environment_e8jpl")
 
-[node name="SpawnPoint1" type="Node3D" parent="SpawnPoints"]
+[node name="LobbyDriver" type="Node3D" parent="."]
+script = ExtResource("3_aajhq")
+
+[node name="LobbySpawn1" type="Node3D" parent="LobbyDriver"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9551, 0.970542, -0.286243)
+
+[node name="Model" parent="LobbyDriver/LobbySpawn1" instance=ExtResource("4_f2622")]
+
+[node name="Stool" parent="LobbyDriver/LobbySpawn1" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbySpawn2" type="Node3D" parent="LobbyDriver"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -1.486)
+
+[node name="Model" parent="LobbyDriver/LobbySpawn2" instance=ExtResource("6_gk4mt")]
+
+[node name="Stool" parent="LobbyDriver/LobbySpawn2" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbySpawn3" type="Node3D" parent="LobbyDriver"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -2.686)
+
+[node name="Model" parent="LobbyDriver/LobbySpawn3" instance=ExtResource("7_c4y3r")]
+
+[node name="Stool" parent="LobbyDriver/LobbySpawn3" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbySpawn4" type="Node3D" parent="LobbyDriver"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -3.886)
+
+[node name="Model" parent="LobbyDriver/LobbySpawn4" instance=ExtResource("8_tcv43")]
+
+[node name="Stool" parent="LobbyDriver/LobbySpawn4" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbyLamp" type="SpotLight3D" parent="LobbyDriver"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.53883, 4.95693, -2.07238)
+light_color = Color(0.675438, 0.695501, 0.659995, 1)
+light_energy = 4.556
+spot_range = 5.915
+spot_attenuation = 0.353553
+spot_angle = 30.46
+spot_angle_attenuation = 1.07177
+
+[node name="GameDriver" type="Node" parent="." node_paths=PackedStringArray("spawnPoints")]
+script = ExtResource("1_py8cd")
+playerScene = ExtResource("2_rtiyi")
+remotePlayerScene = ExtResource("3_i7hq4")
+spawnPoints = NodePath("SpawnPoints")
+
+[node name="SpawnPoints" type="Node" parent="GameDriver"]
+
+[node name="SpawnPoint1" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66294, 0.889875, -2.88314)
 
-[node name="SpawnPoint2" type="Node3D" parent="SpawnPoints"]
+[node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475288, 0.0222871, 0)
+
+[node name="SpawnPoint2" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.506566, 0.889875, -4.1736)
 
-[node name="SpawnPoint3" type="Node3D" parent="SpawnPoints"]
+[node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.680694, 0.0267454, 0)
+
+[node name="SpawnPoint3" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.752896, 0.889875, -2.88314)
 
-[node name="SpawnPoint4" type="Node3D" parent="SpawnPoints"]
+[node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.636507, 0.0359716, 0)
+
+[node name="SpawnPoint4" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.553339, 0.889875, -1.98003)
+
+[node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38857, 0.0403163, 3.57628e-07)
+
+[node name="GunManager" type="Node" parent="GameDriver"]
+script = ExtResource("12_0fp5k")
+
+[node name="Gun" parent="GameDriver/GunManager" instance=ExtResource("13_66huy")]
+transform = Transform3D(0.639418, -0.764213, -0.0843946, 0.00175368, 0.111215, -0.993795, 0.768857, 0.635303, 0.0724534, 0.524724, 0.975898, -2.94465)
 
 [node name="Cameras" type="Node" parent="."]
 script = ExtResource("6_jsiof")
@@ -61,7 +137,7 @@ rotationPoint = Vector3(0.486, 1.097, -2.918)
 rotationSpeed = 5.0
 
 [node name="LobbyCamera" type="Camera3D" parent="Cameras"]
-transform = Transform3D(-4.36225e-08, 0.0637311, -0.997967, 2.78578e-09, 0.997967, 0.0637311, 1, -2.22045e-16, -4.37114e-08, 3.3917, 1.52036, -2.65096)
+transform = Transform3D(-4.32456e-08, 0.1456, -0.989344, 6.36436e-09, 0.989344, 0.1456, 1, -7.10543e-15, -4.37114e-08, 4.94307, 1.03934, -2.05768)
 
 [node name="PostGameCamera" type="Camera3D" parent="Cameras"]
 transform = Transform3D(0.796899, 0, 0.604112, 0, 1, 0, -0.604112, 0, 0.796899, 1.4312, 1.39086, -1.69626)
@@ -74,5 +150,10 @@ rotationSpeed = 3.0
 transform = Transform3D(1, 0, 0, 0, 0.998028, -0.0627731, 0, 0.0627731, 0.998028, 0.49903, 1.26715, -2.83394)
 script = ExtResource("8_me3am")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_e8jpl")
+[node name="Menus" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
