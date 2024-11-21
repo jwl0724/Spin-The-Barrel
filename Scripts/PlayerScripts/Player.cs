@@ -27,6 +27,11 @@ public partial class Player : Node3D, IInteractableEntity {
 	public string PlayerName { get; private set; } = "TODO";
 	private Gun gun;
 	public Gun Gun { set => gun = value; }
+	private int selectedModel = -1;
+	public int SelectedModel {
+		get => selectedModel;
+		set => selectedModel = (0 <= value && value < ModelManager.GetModelCount()) ? value : -1;
+	}
 
 	// INTERFACE IMPLEMENTATIONS
 	public string GetEntityName() => PlayerName;
@@ -41,7 +46,6 @@ public partial class Player : Node3D, IInteractableEntity {
 	public override void _Ready() {
 		SetProcessInput(!IsRemotePlayer);
 		timer.Time = SHOOT_DELAY_TIME;
-		ModelManager.SetModel((int) (GD.Randi() % ModelManager.GetModelCount()));
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
@@ -54,6 +58,12 @@ public partial class Player : Node3D, IInteractableEntity {
 		if (Input.IsActionPressed(INTERACT_ACTION)) {
 			EmitSignal(SignalName.PlayerInteract);
 		}
+	}
+
+	public void SetModel(int modelIndex = -1) {
+		int index = modelIndex;
+		if (modelIndex == -1) index = (int) (GD.Randi() % ModelManager.GetModelCount());
+		ModelManager.SetModel(index);
 	}
 
 	public void SpinBarrel() {
