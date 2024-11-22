@@ -1,8 +1,6 @@
 using Godot;
-using System.Text.RegularExpressions;
 
-public partial class PlayerModelManager : Node3D {
-	[Export] private Godot.Collections.Array<PackedScene> modelCollection;
+public partial class PlayerModelManager : ModelManager {
 	private Player player;
 	private Node3D model = null;
 
@@ -21,18 +19,8 @@ public partial class PlayerModelManager : Node3D {
 		if (player.IsRemotePlayer) Rotation = newRotation;
 	}
 
-	public int GetModelCount() {
-		return modelCollection.Count;
-	}
-
-	public string GetModelName(int modelIndex) {
-		string modelFileName = modelCollection[modelIndex].ResourceName;
-		string actualName = Regex.Replace(modelFileName, "(\\B[A-Z])", " $1");
-		return actualName;
-	}
-
 	public void SetModel(int modelIndex) {
-		if (model == null) model = modelCollection[modelIndex].Instantiate<Node3D>();
+		model ??= modelCollection[modelIndex].Instantiate<Node3D>();
 		AddChild(model);
 	}
 
