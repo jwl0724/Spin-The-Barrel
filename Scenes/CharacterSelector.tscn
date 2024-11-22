@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ds42ar32sv7d6"]
+
+[ext_resource type="Script" path="res://Scripts/GameScripts/CharacterSelector.cs" id="1_m6xnb"]
+[ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="2_vjax8"]
+[ext_resource type="PackedScene" uid="uid://t2ivwwtq54jm" path="res://Scenes/LobbyModelManager.tscn" id="3_nrkii"]
+
+[node name="CharacterSelector" type="Node3D"]
+script = ExtResource("1_m6xnb")
+
+[node name="IdentifierLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
+light_color = Color(0.952498, 0.927003, 0.97788, 1)
+light_energy = 9.529
+spot_range = 9.792
+spot_attenuation = 0.170755
+spot_angle = 8.92
+spot_angle_attenuation = 0.420446
+
+[node name="ModelManager" parent="." instance=ExtResource("3_nrkii")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97, 0)
+
+[node name="Stool" parent="." instance=ExtResource("2_vjax8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006, 0)
