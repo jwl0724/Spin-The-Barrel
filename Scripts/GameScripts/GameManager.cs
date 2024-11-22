@@ -29,6 +29,20 @@ public partial class GameManager : Node3D {
 		EmitSignal(SignalName.GameStateChanged, (int) GameState.MAIN_MENU);
 	}
 
-	public override void _Process(double delta) {
+	public void NotifyEnd(GameState nextState) {
+		switch(nextState) {
+			case GameState.MAIN_MENU:
+				EmitSignal(SignalName.GameStateChanged, (int) GameState.MAIN_MENU);
+				break;
+			case GameState.LOBBY:
+				EmitSignal(SignalName.GameStateChanged, (int) GameState.LOBBY);
+				break;
+			case GameState.IN_GAME:
+				EmitSignal(SignalName.GameStateChanged, (int) GameState.IN_GAME);
+				break;
+			case GameState.POST_GAME:
+				EmitSignal(SignalName.GameStateChanged, (int) GameState.POST_GAME);
+				break;
+		}
 	}
 }
