@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ds42ar32sv7d6"]
 
-[ext_resource type="Script" path="res://Scripts/GameScripts/CharacterSelector.cs" id="1_m6xnb"]
+[ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/CharacterSelector.cs" id="1_m6xnb"]
 [ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="2_vjax8"]
 [ext_resource type="PackedScene" uid="uid://t2ivwwtq54jm" path="res://Scenes/LobbyModelManager.tscn" id="3_nrkii"]
 

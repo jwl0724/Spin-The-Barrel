@@ -20,8 +20,8 @@ public partial class LobbyDriver : Node3D {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		GameManager.Instance.Connect(GameManager.SignalName.GameStateChanged, 
-			Callable.From((GameManager.GameState state) => OnGameStateChange(state))
+		ScreenManager.Instance.Connect(ScreenManager.SignalName.GameStateChanged, 
+			Callable.From((ScreenManager.ScreenState state) => OnGameStateChange(state))
 		);
 	}
 
@@ -41,9 +41,9 @@ public partial class LobbyDriver : Node3D {
 		EmitSignal(SignalName.PlayerJoinLobby);
 	}
 
-	private void OnGameStateChange(GameManager.GameState state) {
+	private void OnGameStateChange(ScreenManager.ScreenState state) {
 		// TODO: Add some more logic here if needed
-		Visible = state == GameManager.GameState.LOBBY;
+		Visible = state == ScreenManager.ScreenState.LOBBY;
 		LocalPlayerIndex = -1;
 	}
 }

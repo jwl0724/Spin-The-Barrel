@@ -28,7 +28,7 @@ public partial class CameraManager : Node {
 		lobbyCamera = GetNode<Camera3D>("LobbyCamera");
 		postGameCamera = GetNode<Camera3D>("PostGameCamera");
 
-		GameManager.Instance.Connect(GameManager.SignalName.GameStateChanged, Callable.From((GameManager.GameState state) => OnGameStateChange(state)));
+		ScreenManager.Instance.Connect(ScreenManager.SignalName.GameStateChanged, Callable.From((ScreenManager.ScreenState state) => OnGameStateChange(state)));
 	}
 
 	public void SwitchToPlayerCamera(Camera3D camera) {
@@ -40,15 +40,15 @@ public partial class CameraManager : Node {
 		deadCamera.Current = true;
 	}
 
-	private void OnGameStateChange(GameManager.GameState state) {
+	private void OnGameStateChange(ScreenManager.ScreenState state) {
 		switch (state) {
-			case GameManager.GameState.MAIN_MENU:
+			case ScreenManager.ScreenState.MAIN_MENU:
 				backgroundCamera.Current = true;
 				break;
-			case GameManager.GameState.LOBBY:
+			case ScreenManager.ScreenState.LOBBY:
 				lobbyCamera.Current = true;
 				break;
-			case GameManager.GameState.POST_GAME:
+			case ScreenManager.ScreenState.POST_GAME:
 				playerCamera.Current = false;
 				playerCamera = null;
 				postGameCamera.Current = true;

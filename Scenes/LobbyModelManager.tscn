@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://t2ivwwtq54jm"]
 
-[ext_resource type="Script" path="res://Scripts/GameScripts/LobbyModelManager.cs" id="1_8ci6x"]
-[ext_resource type="Script" path="res://Scripts/PreviewEffect.cs" id="2_n3f5y"]
+[ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/LobbyModelManager.cs" id="1_8ci6x"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/PreviewEffect.cs" id="2_n3f5y"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e5ac1"]
 albedo_color = Color(0.563957, 0.773966, 0.898751, 1)
