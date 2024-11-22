@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=15 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/GameDriver.cs" id="1_py8cd"]
@@ -6,14 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://lnxb8j3m7ht3" path="res://Scenes/Player.tscn" id="2_rtiyi"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyDriver.cs" id="3_aajhq"]
 [ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
-[ext_resource type="PackedScene" uid="uid://cw6i7vl5i6m74" path="res://Scenes/PlayerModels/Alien.tscn" id="4_f2622"]
+[ext_resource type="PackedScene" uid="uid://t2ivwwtq54jm" path="res://Scenes/LobbyModelManager.tscn" id="5_nbwfe"]
 [ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="5_nq2ea"]
-[ext_resource type="PackedScene" uid="uid://bwf3wfq6rsgxq" path="res://Scenes/PlayerModels/Emoji.tscn" id="6_gk4mt"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/CameraManager.cs" id="6_jsiof"]
-[ext_resource type="PackedScene" uid="uid://vopkniojsksl" path="res://Scenes/PlayerModels/Fish.tscn" id="7_c4y3r"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/SpinCamera.cs" id="7_r47b7"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
-[ext_resource type="PackedScene" uid="uid://garel8w3sb5y" path="res://Scenes/PlayerModels/Hippo.tscn" id="8_tcv43"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/GunManager.cs" id="12_0fp5k"]
 [ext_resource type="PackedScene" uid="uid://bjnjei1r7wqq8" path="res://Scenes/Gun.tscn" id="13_66huy"]
 
@@ -48,42 +45,53 @@ environment = SubResource("Environment_e8jpl")
 [node name="LobbyDriver" type="Node3D" parent="."]
 script = ExtResource("3_aajhq")
 
-[node name="LobbySpawn1" type="Node3D" parent="LobbyDriver"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9551, 0.970542, -0.286243)
+[node name="SpawnPoints" type="Node" parent="LobbyDriver"]
 
-[node name="Model" parent="LobbyDriver/LobbySpawn1" instance=ExtResource("4_f2622")]
+[node name="IdentifierLight" type="SpotLight3D" parent="LobbyDriver/SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.955, 5, -3.886)
+light_color = Color(0.952498, 0.927003, 0.97788, 1)
+light_energy = 9.529
+spot_range = 9.792
+spot_attenuation = 0.170755
+spot_angle = 8.92
+spot_angle_attenuation = 0.420446
 
-[node name="Stool" parent="LobbyDriver/LobbySpawn1" instance=ExtResource("5_nq2ea")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
-
-[node name="LobbySpawn2" type="Node3D" parent="LobbyDriver"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -1.486)
-
-[node name="Model" parent="LobbyDriver/LobbySpawn2" instance=ExtResource("6_gk4mt")]
-
-[node name="Stool" parent="LobbyDriver/LobbySpawn2" instance=ExtResource("5_nq2ea")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
-
-[node name="LobbySpawn3" type="Node3D" parent="LobbyDriver"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -2.686)
-
-[node name="Model" parent="LobbyDriver/LobbySpawn3" instance=ExtResource("7_c4y3r")]
-
-[node name="Stool" parent="LobbyDriver/LobbySpawn3" instance=ExtResource("5_nq2ea")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
-
-[node name="LobbySpawn4" type="Node3D" parent="LobbyDriver"]
+[node name="LobbySpawn1" type="Node3D" parent="LobbyDriver/SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -3.886)
 
-[node name="Model" parent="LobbyDriver/LobbySpawn4" instance=ExtResource("8_tcv43")]
-
-[node name="Stool" parent="LobbyDriver/LobbySpawn4" instance=ExtResource("5_nq2ea")]
+[node name="Stool" parent="LobbyDriver/SpawnPoints/LobbySpawn1" instance=ExtResource("5_nq2ea")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
 
-[node name="LobbyLamp" type="SpotLight3D" parent="LobbyDriver"]
+[node name="LobbyModelManager" parent="LobbyDriver/SpawnPoints/LobbySpawn1" instance=ExtResource("5_nbwfe")]
+
+[node name="LobbySpawn2" type="Node3D" parent="LobbyDriver/SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -2.686)
+
+[node name="Stool" parent="LobbyDriver/SpawnPoints/LobbySpawn2" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbyModelManager" parent="LobbyDriver/SpawnPoints/LobbySpawn2" instance=ExtResource("5_nbwfe")]
+
+[node name="LobbySpawn3" type="Node3D" parent="LobbyDriver/SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0.970133, -1.486)
+
+[node name="Stool" parent="LobbyDriver/SpawnPoints/LobbySpawn3" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbyModelManager" parent="LobbyDriver/SpawnPoints/LobbySpawn3" instance=ExtResource("5_nbwfe")]
+
+[node name="LobbySpawn4" type="Node3D" parent="LobbyDriver/SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9551, 0.970542, -0.286243)
+
+[node name="Stool" parent="LobbyDriver/SpawnPoints/LobbySpawn4" instance=ExtResource("5_nq2ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.964114, 0)
+
+[node name="LobbyModelManager" parent="LobbyDriver/SpawnPoints/LobbySpawn4" instance=ExtResource("5_nbwfe")]
+
+[node name="LobbyLight" type="SpotLight3D" parent="LobbyDriver"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.53883, 4.95693, -2.07238)
-light_color = Color(0.675438, 0.695501, 0.659995, 1)
-light_energy = 4.556
+light_color = Color(0.786221, 0.665321, 0.240221, 1)
+light_energy = 5.526
 spot_range = 5.915
 spot_attenuation = 0.353553
 spot_angle = 30.46
