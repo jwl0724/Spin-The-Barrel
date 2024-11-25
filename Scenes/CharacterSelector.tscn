@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds42ar32sv7d6"]
+[gd_scene load_steps=7 format=3 uid="uid://ds42ar32sv7d6"]
 
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/CharacterSelector.cs" id="1_m6xnb"]
 [ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="2_vjax8"]
 [ext_resource type="PackedScene" uid="uid://t2ivwwtq54jm" path="res://Scenes/LobbyModelManager.tscn" id="3_nrkii"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ief8h"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="TextMesh" id="TextMesh_bw2r3"]
+text = "<"
+pixel_size = 0.04
+depth = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dm5hj"]
+size = Vector3(0.5, 0.5, 0.5)
 
 [node name="CharacterSelector" type="Node3D"]
 script = ExtResource("1_m6xnb")
@@ -21,3 +32,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97, 0)
 
 [node name="Stool" parent="." instance=ExtResource("2_vjax8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006, 0)
+
+[node name="Arrows" type="Node3D" parent="."]
+
+[node name="LeftArrow" type="Area3D" parent="Arrows"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, -0.5)
+
+[node name="Hitbox" type="CollisionShape3D" parent="Arrows/LeftArrow"]
+shape = SubResource("BoxShape3D_ief8h")
+
+[node name="ArrowMesh" type="MeshInstance3D" parent="Arrows/LeftArrow"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TextMesh_bw2r3")
+skeleton = NodePath("../../..")
+
+[node name="RightArrow" type="Area3D" parent="Arrows"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, 0.5)
+
+[node name="Hitbox" type="CollisionShape3D" parent="Arrows/RightArrow"]
+shape = SubResource("BoxShape3D_dm5hj")
+
+[node name="ArrowMesh" type="MeshInstance3D" parent="Arrows/RightArrow"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TextMesh_bw2r3")
+skeleton = NodePath("../../..")
