@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class MenuManager : Control {
@@ -8,15 +9,21 @@ public partial class MenuManager : Control {
 	private static readonly string IN_GAME_MENU = "InGameMenu";
 	private static readonly string POST_GAME_MENU = "PostGameMenu";
 	private ScreenManager screenManager;
-	private Godot.Collections.Array<Control> menus;
+	private readonly List<IMenu> menus = new();
 
 	public override void _Ready() {
+		screenManager = ScreenManager.Instance;
 		screenManager.Connect(ScreenManager.SignalName.GameStateChanged, Callable.From((ScreenManager.ScreenState state) => 
 			OnGameStateChange(state)
 		));
-		foreach(Control menu in GetChildren().Cast<Control>()) {
+		foreach(IMenu menu in GetChildren().Cast<IMenu>()) {
+			menu.HideScreen();
 			menus.Add(menu);
 		}
+	}
+
+	public void NotifyChange(ScreenManager.ScreenState nextState) {
+		screenManager.NotifyEnd(nextState);
 	}
 
 	private void OnGameStateChange(ScreenManager.ScreenState state) {
@@ -24,7 +31,7 @@ public partial class MenuManager : Control {
 			case ScreenManager.ScreenState.MAIN_MENU:
 				ToggleMenu(MAIN_MENU);
 				break;
-			case ScreenManager.ScreenState.LOBBY:
+			case ScreenManager.ScreenState.HOST_LOBBY:
 				ToggleMenu(LOBBY_MENU);
 				break;
 			case ScreenManager.ScreenState.IN_GAME:
@@ -38,13 +45,8 @@ public partial class MenuManager : Control {
 
 	private void ToggleMenu(string name) {
 		foreach(var menu in menus) {
-			if (menu.Name == name) {
-				menu.Visible = true;
-				menu.SetProcessInput(true);
-			} else {
-				menu.Visible = false;
-				menu.SetProcessInput(false);
-			}
+			if (menu.GetName() == name) menu.ShowScreen();
+			else menu.HideScreen();
 		}
 	}
 }
