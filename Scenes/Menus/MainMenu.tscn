@@ -1,0 +1,144 @@
+[gd_scene load_steps=15 format=3 uid="uid://4638js5ocvc3"]
+
+[ext_resource type="Script" path="res://Scripts/MenuScripts/MainMenu.cs" id="1_7r5y5"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Blur.gdshader" id="1_my4v1"]
+[ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="3_f6uab"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/TextWobble.cs" id="4_x6gs0"]
+[ext_resource type="Script" path="res://Scripts/MenuScripts/MainMenuButtonManager.cs" id="5_mypsh"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/ButtonGrowEffect.cs" id="5_tji7y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_it2th"]
+shader = ExtResource("1_my4v1")
+shader_parameter/amount = 3.09
+
+[sub_resource type="LabelSettings" id="LabelSettings_dh7ef"]
+line_spacing = 0.0
+font = ExtResource("3_f6uab")
+font_size = 64
+font_color = Color(0.913454, 0.682481, 0.121887, 1)
+outline_size = 20
+outline_color = Color(0.56859, 0.142117, 0.0459476, 1)
+shadow_size = 20
+shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s0lhm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5rjqo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hmh2o"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wla3i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a3vyc"]
+
+[sub_resource type="Theme" id="Theme_a27gm"]
+default_font = ExtResource("3_f6uab")
+Button/colors/font_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_focus_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_hover_color = Color(0.898831, 0.670262, 0.111887, 1)
+Button/colors/font_outline_color = Color(0.568627, 0.141176, 0.0470588, 1)
+Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 50
+Button/fonts/font = ExtResource("3_f6uab")
+Button/styles/disabled = SubResource("StyleBoxEmpty_s0lhm")
+Button/styles/focus = SubResource("StyleBoxEmpty_5rjqo")
+Button/styles/hover = SubResource("StyleBoxEmpty_hmh2o")
+Button/styles/normal = SubResource("StyleBoxEmpty_wla3i")
+Button/styles/pressed = SubResource("StyleBoxEmpty_a3vyc")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7r5y5")
+
+[node name="Blur" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_it2th")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -118.0
+offset_top = 50.0
+offset_right = 118.0
+offset_bottom = 182.0
+grow_horizontal = 2
+pivot_offset = Vector2(120, 60)
+text = "SPIN THE
+BARREL"
+label_settings = SubResource("LabelSettings_dh7ef")
+horizontal_alignment = 1
+script = ExtResource("4_x6gs0")
+
+[node name="Buttons" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_mypsh")
+
+[node name="Host" type="Button" parent="Buttons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 440.5
+offset_top = 278.0
+offset_right = 671.5
+offset_bottom = 330.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(112, 25)
+theme = SubResource("Theme_a27gm")
+text = "Host Game"
+script = ExtResource("5_tji7y")
+
+[node name="Join" type="Button" parent="Buttons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 445.0
+offset_top = 378.0
+offset_right = 667.0
+offset_bottom = 430.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(112, 25)
+theme = SubResource("Theme_a27gm")
+text = "Join Game"
+script = ExtResource("5_tji7y")
+
+[node name="Quit" type="Button" parent="Buttons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 506.0
+offset_top = 478.0
+offset_right = 606.0
+offset_bottom = 530.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 25)
+theme = SubResource("Theme_a27gm")
+text = "Quit"
+script = ExtResource("5_tji7y")
