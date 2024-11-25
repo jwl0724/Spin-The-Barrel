@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=16 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/InGameScripts/GameDriver.cs" id="1_py8cd"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/GunManager.cs" id="12_0fp5k"]
 [ext_resource type="PackedScene" uid="uid://bjnjei1r7wqq8" path="res://Scenes/Gun.tscn" id="13_66huy"]
+[ext_resource type="Script" path="res://Scripts/GameScripts/MenuManager.cs" id="14_jp7qd"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
@@ -132,6 +133,39 @@ script = ExtResource("8_me3am")
 
 [node name="Menus" type="Control" parent="."]
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_jp7qd")
+
+[node name="MainMenu" type="Control" parent="Menus"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LobbyMenu" type="Control" parent="Menus"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InGameMenu" type="Control" parent="Menus"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostGameMenu" type="Control" parent="Menus"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
