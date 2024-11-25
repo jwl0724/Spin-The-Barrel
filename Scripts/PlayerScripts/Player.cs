@@ -14,7 +14,6 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void PlayerInteractEventHandler();
 
 	// CONSTANTS
-	public static readonly string INTERACT_ACTION = "Interact";
 	public static readonly int DEFAULT_PLAYER_HEATLH = 4;
 	public static readonly float SHOOT_DELAY_TIME = 0.75f;
 
@@ -55,7 +54,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public override void _Input(InputEvent inputEvent) {
-		if (Input.IsActionPressed(INTERACT_ACTION)) {
+		if (Input.IsActionPressed(ProjectInputs.INTERACT)) {
 			EmitSignal(SignalName.PlayerInteract);
 		}
 	}
