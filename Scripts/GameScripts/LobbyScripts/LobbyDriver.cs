@@ -43,7 +43,7 @@ public partial class LobbyDriver : Node3D {
 
 	private void OnGameStateChange(ScreenManager.ScreenState state) {
 		// TODO: Add some more logic here if needed
-		Visible = state == ScreenManager.ScreenState.LOBBY;
+		Visible = state == ScreenManager.ScreenState.HOST_LOBBY;
 		LocalPlayerIndex = -1;
 	}
 }

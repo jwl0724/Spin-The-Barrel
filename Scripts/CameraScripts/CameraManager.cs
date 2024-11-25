@@ -45,7 +45,7 @@ public partial class CameraManager : Node {
 			case ScreenManager.ScreenState.MAIN_MENU:
 				backgroundCamera.Current = true;
 				break;
-			case ScreenManager.ScreenState.LOBBY:
+			case ScreenManager.ScreenState.HOST_LOBBY:
 				lobbyCamera.Current = true;
 				break;
 			case ScreenManager.ScreenState.POST_GAME:
