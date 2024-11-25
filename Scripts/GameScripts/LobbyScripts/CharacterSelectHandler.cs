@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CharacterSelectHandler : Node {
+public partial class CharacterSelectHandler : Node3D {
 	private LobbyDriver driver;
 	public override void _Ready() {
 		driver = LobbyDriver.Instance;
