@@ -10,14 +10,14 @@ public partial class MenuManager : Control {
 	private static readonly string IN_GAME_MENU = "InGameMenu";
 	private static readonly string POST_GAME_MENU = "PostGameMenu";
 	private ScreenManager screenManager;
-	private readonly List<IMenu> menus = new();
+	private readonly List<MenuItem> menus = new();
 
 	public override void _Ready() {
 		screenManager = ScreenManager.Instance;
 		screenManager.Connect(ScreenManager.SignalName.GameStateChanged, Callable.From((ScreenManager.ScreenState state) => 
 			OnGameStateChange(state)
 		));
-		foreach(IMenu menu in GetChildren().Cast<IMenu>()) {
+		foreach(MenuItem menu in GetChildren().Cast<MenuItem>()) {
 			menu.HideScreen();
 			menus.Add(menu);
 		}
