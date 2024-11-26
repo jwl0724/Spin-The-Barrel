@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=18 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/InGameScripts/GameDriver.cs" id="1_py8cd"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/LobbyDriver.cs" id="3_aajhq"]
 [ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/CharacterSelectHandler.cs" id="4_in6ki"]
-[ext_resource type="PackedScene" path="res://Scenes/CharacterSelector.tscn" id="5_v3yw2"]
+[ext_resource type="PackedScene" uid="uid://ds42ar32sv7d6" path="res://Scenes/CharacterSelector.tscn" id="5_v3yw2"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/CameraManager.cs" id="6_jsiof"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/SpinCamera.cs" id="7_r47b7"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bjnjei1r7wqq8" path="res://Scenes/Gun.tscn" id="13_66huy"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/MenuManager.cs" id="14_jp7qd"]
 [ext_resource type="PackedScene" uid="uid://4638js5ocvc3" path="res://Scenes/Menus/MainMenu.tscn" id="15_l8pey"]
+[ext_resource type="PackedScene" uid="uid://bekxwn1it5xqd" path="res://Scenes/Menus/JoinLobbyMenu.tscn" id="16_uyrs5"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
@@ -142,4 +143,7 @@ grow_vertical = 2
 script = ExtResource("14_jp7qd")
 
 [node name="MainMenu" parent="Menus" instance=ExtResource("15_l8pey")]
+layout_mode = 1
+
+[node name="JoinLobbyMenu" parent="Menus" instance=ExtResource("16_uyrs5")]
 layout_mode = 1
