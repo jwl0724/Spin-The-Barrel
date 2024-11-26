@@ -4,7 +4,7 @@
 [ext_resource type="Shader" path="res://Assets/Shaders/Blur.gdshader" id="2_vf501"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="3_c8aq8"]
 [ext_resource type="Script" path="res://Scripts/MenuScripts/JoinLobbyInput.cs" id="4_8lkg3"]
-[ext_resource type="Script" path="res://Scripts/GeneralScripts/ButtonGrowEffect.cs" id="5_73ri4"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/ButtonGrowEffect.cs" id="5_73ri4"]
 [ext_resource type="Script" path="res://Scripts/MenuScripts/JoinLobbyDialogBox.cs" id="6_badyy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_82pjp"]
@@ -41,15 +41,15 @@ LineEdit/styles/focus = SubResource("StyleBoxEmpty_5ht3l")
 LineEdit/styles/normal = SubResource("StyleBoxEmpty_0htgc")
 LineEdit/styles/read_only = SubResource("StyleBoxEmpty_s8nrx")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s0lhm"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uidws"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5rjqo"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5skrp"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hmh2o"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2w5c6"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wla3i"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lv4jf"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a3vyc"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v8lam"]
 
 [sub_resource type="Theme" id="Theme_ou225"]
 default_font = ExtResource("3_c8aq8")
@@ -61,11 +61,11 @@ Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
 Button/constants/outline_size = 10
 Button/font_sizes/font_size = 50
 Button/fonts/font = ExtResource("3_c8aq8")
-Button/styles/disabled = SubResource("StyleBoxEmpty_s0lhm")
-Button/styles/focus = SubResource("StyleBoxEmpty_5rjqo")
-Button/styles/hover = SubResource("StyleBoxEmpty_hmh2o")
-Button/styles/normal = SubResource("StyleBoxEmpty_wla3i")
-Button/styles/pressed = SubResource("StyleBoxEmpty_a3vyc")
+Button/styles/disabled = SubResource("StyleBoxEmpty_uidws")
+Button/styles/focus = SubResource("StyleBoxEmpty_5skrp")
+Button/styles/hover = SubResource("StyleBoxEmpty_2w5c6")
+Button/styles/normal = SubResource("StyleBoxEmpty_lv4jf")
+Button/styles/pressed = SubResource("StyleBoxEmpty_v8lam")
 
 [sub_resource type="LabelSettings" id="LabelSettings_7rf5m"]
 line_spacing = 0.0
@@ -196,6 +196,7 @@ text = "Join"
 script = ExtResource("5_73ri4")
 
 [node name="Back" type="Button" parent="."]
+layout_mode = 0
 offset_left = 30.0
 offset_top = 30.0
 offset_right = 136.0
@@ -206,7 +207,6 @@ text = "Back"
 script = ExtResource("5_73ri4")
 
 [node name="DialogBox" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

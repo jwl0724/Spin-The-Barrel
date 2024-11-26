@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=19 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/InGameScripts/GameDriver.cs" id="1_py8cd"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://Scripts/GameScripts/MenuManager.cs" id="14_jp7qd"]
 [ext_resource type="PackedScene" uid="uid://4638js5ocvc3" path="res://Scenes/Menus/MainMenu.tscn" id="15_l8pey"]
 [ext_resource type="PackedScene" uid="uid://bekxwn1it5xqd" path="res://Scenes/Menus/JoinLobbyMenu.tscn" id="16_uyrs5"]
+[ext_resource type="PackedScene" uid="uid://b3ty1y100jy5" path="res://Scenes/Menus/HostLobbyMenu.tscn" id="17_jc5hn"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
@@ -146,4 +147,7 @@ script = ExtResource("14_jp7qd")
 layout_mode = 1
 
 [node name="JoinLobbyMenu" parent="Menus" instance=ExtResource("16_uyrs5")]
+layout_mode = 1
+
+[node name="HostLobbyMenu" parent="Menus" instance=ExtResource("17_jc5hn")]
 layout_mode = 1

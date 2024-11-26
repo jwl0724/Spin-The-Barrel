@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://Scripts/MenuScripts/MainMenu.cs" id="1_7r5y5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/Blur.gdshader" id="1_my4v1"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="3_f6uab"]
-[ext_resource type="Script" path="res://Scripts/GeneralScripts/TextWobble.cs" id="4_x6gs0"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/TextWobble.cs" id="4_x6gs0"]
 [ext_resource type="Script" path="res://Scripts/MenuScripts/MainMenuButtonManager.cs" id="5_mypsh"]
-[ext_resource type="Script" path="res://Scripts/GeneralScripts/ButtonGrowEffect.cs" id="5_tji7y"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/ButtonGrowEffect.cs" id="5_tji7y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_it2th"]
 shader = ExtResource("1_my4v1")
