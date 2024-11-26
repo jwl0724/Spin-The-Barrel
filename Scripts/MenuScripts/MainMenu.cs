@@ -21,7 +21,7 @@ public partial class MainMenu : MenuItem {
 			component.Modulate = transparentColor;
 			components.Add(component);
 		}
-		fadeInTime = 2.5f;
+		fadeInTime = 1.5f;
 	}
 
     public override void ShowScreen() {

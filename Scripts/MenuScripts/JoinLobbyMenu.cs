@@ -13,7 +13,7 @@ public partial class JoinLobbyMenu : MenuItem {
 	private readonly Color transparentColor = new(1, 1, 1, 0);
 
 	public override void _Ready() {
-		fadeInTime = 0.75f;
+		fadeInTime = 0.3f;
 		foreach(Control component in GetChildren().Cast<Control>()) {
 			if (component.Name == BLUR_RECT_NODE_NAME || component.Name == DIALOG_BOX_NODE_NAME) 
 				continue;
