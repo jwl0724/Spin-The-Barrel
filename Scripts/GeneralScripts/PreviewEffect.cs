@@ -4,7 +4,6 @@ using System;
 public partial class PreviewEffect : Node3D
 {
 	private float angleVariable = 0;
-	private float rotationAngle = 0;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -24,9 +23,8 @@ public partial class PreviewEffect : Node3D
 
 	private void DoRotateEffect(double delta)
 	{
-		const float rotationSpeed = 0.04f;
-		rotationAngle += rotationSpeed * (float)delta;
-		float radians = Mathf.DegToRad(rotationAngle);
+		const float rotationSpeed = 20f;
+		float radians = Mathf.DegToRad(rotationSpeed * (float)delta);
 		Rotate(Vector3.Up, radians);
 	}
 }
