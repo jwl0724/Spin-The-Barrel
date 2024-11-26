@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/LobbyDriver.cs" id="3_aajhq"]
 [ext_resource type="PackedScene" uid="uid://bnx3p5vxipelj" path="res://Scenes/RemotePlayer.tscn" id="3_i7hq4"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/CharacterSelectHandler.cs" id="4_in6ki"]
-[ext_resource type="PackedScene" uid="uid://ds42ar32sv7d6" path="res://Scenes/CharacterSelector.tscn" id="5_v3yw2"]
+[ext_resource type="PackedScene" path="res://Scenes/CharacterSelector.tscn" id="5_v3yw2"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/CameraManager.cs" id="6_jsiof"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/SpinCamera.cs" id="7_r47b7"]
 [ext_resource type="Script" path="res://Scripts/CameraScripts/DeadCamera.cs" id="8_me3am"]
