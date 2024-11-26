@@ -16,6 +16,7 @@ public partial class LobbyDriver : Node3D {
 	// VARIABLES
 	public static readonly int MAX_PLAYERS = 4;
 	public static readonly List<PlayerInfo> Players;
+	public bool IsHost { get; private set; } = false;
 	public int LocalPlayerIndex { get; private set; } = -1;
 
 	// Called when the node enters the scene tree for the first time.
