@@ -22,15 +22,15 @@ shadow_size = 20
 shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
 shadow_offset = Vector2(5, 5)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s0lhm"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jajwi"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5rjqo"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ni7m"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hmh2o"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dyp0i"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wla3i"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fu1id"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a3vyc"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_baupx"]
 
 [sub_resource type="Theme" id="Theme_a27gm"]
 default_font = ExtResource("3_f6uab")
@@ -42,11 +42,11 @@ Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
 Button/constants/outline_size = 10
 Button/font_sizes/font_size = 50
 Button/fonts/font = ExtResource("3_f6uab")
-Button/styles/disabled = SubResource("StyleBoxEmpty_s0lhm")
-Button/styles/focus = SubResource("StyleBoxEmpty_5rjqo")
-Button/styles/hover = SubResource("StyleBoxEmpty_hmh2o")
-Button/styles/normal = SubResource("StyleBoxEmpty_wla3i")
-Button/styles/pressed = SubResource("StyleBoxEmpty_a3vyc")
+Button/styles/disabled = SubResource("StyleBoxEmpty_jajwi")
+Button/styles/focus = SubResource("StyleBoxEmpty_3ni7m")
+Button/styles/hover = SubResource("StyleBoxEmpty_dyp0i")
+Button/styles/normal = SubResource("StyleBoxEmpty_fu1id")
+Button/styles/pressed = SubResource("StyleBoxEmpty_baupx")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
