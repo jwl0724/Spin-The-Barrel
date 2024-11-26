@@ -1,4 +1,108 @@
-[gd_scene format=3 uid="uid://b3ty1y100jy5"]
+[gd_scene load_steps=21 format=3 uid="uid://b3ty1y100jy5"]
+
+[ext_resource type="Script" path="res://Scripts/MenuScripts/HostLobbyMenu.cs" id="1_u44m6"]
+[ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="2_xbvx5"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/ButtonGrowEffect.cs" id="3_b6afi"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/DialogBox.cs" id="4_yj21q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amiwr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ghtuf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1s23"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xuhe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdswk"]
+
+[sub_resource type="Theme" id="Theme_lkxhs"]
+default_font = ExtResource("2_xbvx5")
+Button/colors/font_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_disabled_color = Color(0.770368, 0.559171, 0.376592, 0.682353)
+Button/colors/font_focus_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_hover_color = Color(0.898831, 0.670262, 0.111887, 1)
+Button/colors/font_outline_color = Color(0.568627, 0.141176, 0.0470588, 1)
+Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 50
+Button/fonts/font = ExtResource("2_xbvx5")
+Button/styles/disabled = SubResource("StyleBoxEmpty_amiwr")
+Button/styles/focus = SubResource("StyleBoxEmpty_ghtuf")
+Button/styles/hover = SubResource("StyleBoxEmpty_w1s23")
+Button/styles/normal = SubResource("StyleBoxEmpty_3xuhe")
+Button/styles/pressed = SubResource("StyleBoxEmpty_mdswk")
+
+[sub_resource type="LabelSettings" id="LabelSettings_3waf2"]
+line_spacing = 0.0
+font = ExtResource("2_xbvx5")
+font_size = 50
+font_color = Color(0.913454, 0.682481, 0.121887, 1)
+outline_size = 20
+outline_color = Color(0.56859, 0.142117, 0.0459476, 1)
+shadow_size = 20
+shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sl2ka"]
+line_spacing = 0.0
+font = ExtResource("2_xbvx5")
+font_size = 50
+font_color = Color(0.913454, 0.682481, 0.121887, 1)
+outline_size = 10
+outline_color = Color(0.56859, 0.142117, 0.0459476, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nh4tl"]
+line_spacing = 0.0
+font = ExtResource("2_xbvx5")
+font_size = 64
+font_color = Color(0.913454, 0.682481, 0.121887, 1)
+outline_size = 20
+outline_color = Color(0.56859, 0.142117, 0.0459476, 1)
+shadow_size = 20
+shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j557i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i0pbj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tubsy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v31sj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0rtqk"]
+
+[sub_resource type="Theme" id="Theme_j2s3v"]
+default_font = ExtResource("2_xbvx5")
+Button/colors/font_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_focus_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_hover_color = Color(0.898831, 0.670262, 0.111887, 1)
+Button/colors/font_outline_color = Color(0.568627, 0.141176, 0.0470588, 1)
+Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 64
+Button/fonts/font = ExtResource("2_xbvx5")
+Button/styles/disabled = SubResource("StyleBoxEmpty_j557i")
+Button/styles/focus = SubResource("StyleBoxEmpty_i0pbj")
+Button/styles/hover = SubResource("StyleBoxEmpty_tubsy")
+Button/styles/normal = SubResource("StyleBoxEmpty_v31sj")
+Button/styles/pressed = SubResource("StyleBoxEmpty_0rtqk")
+
+[sub_resource type="Theme" id="Theme_8t4qm"]
+default_font = ExtResource("2_xbvx5")
+Button/colors/font_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_focus_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_hover_color = Color(0.898831, 0.670262, 0.111887, 1)
+Button/colors/font_outline_color = Color(0.568627, 0.141176, 0.0470588, 1)
+Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 64
+Button/fonts/font = ExtResource("2_xbvx5")
+Button/styles/disabled = SubResource("StyleBoxEmpty_j557i")
+Button/styles/focus = SubResource("StyleBoxEmpty_i0pbj")
+Button/styles/hover = SubResource("StyleBoxEmpty_tubsy")
+Button/styles/normal = SubResource("StyleBoxEmpty_v31sj")
+Button/styles/pressed = SubResource("StyleBoxEmpty_0rtqk")
 
 [node name="HostLobbyMenu" type="Control"]
 layout_mode = 3
@@ -7,3 +111,175 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_u44m6")
+
+[node name="Back" type="Button" parent="."]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 136.0
+offset_bottom = 82.0
+pivot_offset = Vector2(50, 25)
+theme = SubResource("Theme_lkxhs")
+text = "Back"
+script = ExtResource("3_b6afi")
+
+[node name="StatusText" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -319.0
+offset_top = 50.0
+offset_right = 319.0
+offset_bottom = 116.0
+grow_horizontal = 2
+pivot_offset = Vector2(120, 60)
+text = "Waiting for Players..."
+label_settings = SubResource("LabelSettings_3waf2")
+
+[node name="JoinText" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -305.5
+offset_top = -108.0
+offset_right = 305.5
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(120, 60)
+text = "Waiting For Host to Start"
+label_settings = SubResource("LabelSettings_sl2ka")
+
+[node name="Start" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -145.0
+offset_top = -108.0
+offset_right = 145.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(50, 25)
+theme = SubResource("Theme_lkxhs")
+text = "Start Match"
+script = ExtResource("3_b6afi")
+
+[node name="DialogBox" type="Control" parent="." node_paths=PackedStringArray("openButton", "closeButton", "actionButton")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(300, 200)
+script = ExtResource("4_yj21q")
+openButton = NodePath("../Back")
+closeButton = NodePath("ConfirmationButtons/No")
+actionButton = NodePath("ConfirmationButtons/Yes")
+
+[node name="BoxBackground" type="Control" parent="DialogBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Border" type="ColorRect" parent="DialogBox/BoxBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.568627, 0.141176, 0.0470588, 1)
+
+[node name="Background" type="ColorRect" parent="DialogBox/BoxBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -190.0
+offset_right = 290.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.204552, 0.601115, 0.75808, 1)
+
+[node name="Message" type="Label" parent="DialogBox"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -153.5
+offset_top = 50.0
+offset_right = 153.5
+offset_bottom = 248.0
+grow_horizontal = 2
+text = "Are You Sure You
+Want to Leave?"
+label_settings = SubResource("LabelSettings_nh4tl")
+horizontal_alignment = 1
+
+[node name="ConfirmationButtons" type="Control" parent="DialogBox"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -130.0
+offset_right = 150.0
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Yes" type="Button" parent="DialogBox/ConfirmationButtons"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -26.0
+offset_right = 76.0
+offset_bottom = 26.0
+grow_vertical = 2
+pivot_offset = Vector2(112, 25)
+theme = SubResource("Theme_j2s3v")
+text = "Yes"
+script = ExtResource("3_b6afi")
+
+[node name="No" type="Button" parent="DialogBox/ConfirmationButtons"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -26.0
+offset_bottom = 26.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(112, 25)
+theme = SubResource("Theme_8t4qm")
+text = "No"
+script = ExtResource("3_b6afi")
