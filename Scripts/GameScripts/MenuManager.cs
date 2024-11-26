@@ -5,7 +5,8 @@ using System.Linq;
 
 public partial class MenuManager : Control {
 	private static readonly string MAIN_MENU = "MainMenu";
-	private static readonly string LOBBY_MENU = "LobbyMenu";
+	private static readonly string HOST_LOBBY_MENU = "HostLobbyMenu";
+	private static readonly string JOIN_LOBBY_MENU = "JoinLobbyMenu";
 	private static readonly string IN_GAME_MENU = "InGameMenu";
 	private static readonly string POST_GAME_MENU = "PostGameMenu";
 	private ScreenManager screenManager;
@@ -32,7 +33,10 @@ public partial class MenuManager : Control {
 				ToggleMenu(MAIN_MENU);
 				break;
 			case ScreenManager.ScreenState.HOST_LOBBY:
-				ToggleMenu(LOBBY_MENU);
+				ToggleMenu(HOST_LOBBY_MENU);
+				break;
+			case ScreenManager.ScreenState.JOIN_LOBBY:
+				ToggleMenu(JOIN_LOBBY_MENU);
 				break;
 			case ScreenManager.ScreenState.IN_GAME:
 				ToggleMenu(IN_GAME_MENU);
