@@ -5,15 +5,15 @@
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/ButtonGrowEffect.cs" id="3_b6afi"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/DialogBox.cs" id="4_yj21q"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amiwr"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8iiij"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ghtuf"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vvfh"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1s23"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13kv2"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xuhe"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_um2h6"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdswk"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gej5q"]
 
 [sub_resource type="Theme" id="Theme_lkxhs"]
 default_font = ExtResource("2_xbvx5")
@@ -26,11 +26,11 @@ Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
 Button/constants/outline_size = 10
 Button/font_sizes/font_size = 50
 Button/fonts/font = ExtResource("2_xbvx5")
-Button/styles/disabled = SubResource("StyleBoxEmpty_amiwr")
-Button/styles/focus = SubResource("StyleBoxEmpty_ghtuf")
-Button/styles/hover = SubResource("StyleBoxEmpty_w1s23")
-Button/styles/normal = SubResource("StyleBoxEmpty_3xuhe")
-Button/styles/pressed = SubResource("StyleBoxEmpty_mdswk")
+Button/styles/disabled = SubResource("StyleBoxEmpty_8iiij")
+Button/styles/focus = SubResource("StyleBoxEmpty_0vvfh")
+Button/styles/hover = SubResource("StyleBoxEmpty_13kv2")
+Button/styles/normal = SubResource("StyleBoxEmpty_um2h6")
+Button/styles/pressed = SubResource("StyleBoxEmpty_gej5q")
 
 [sub_resource type="LabelSettings" id="LabelSettings_3waf2"]
 line_spacing = 0.0
@@ -114,6 +114,7 @@ grow_vertical = 2
 script = ExtResource("1_u44m6")
 
 [node name="Back" type="Button" parent="."]
+layout_mode = 0
 offset_left = 30.0
 offset_top = 30.0
 offset_right = 136.0
@@ -128,10 +129,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -319.0
-offset_top = 50.0
-offset_right = 319.0
-offset_bottom = 116.0
+offset_left = -252.0
+offset_right = 252.0
+offset_bottom = 52.0
 grow_horizontal = 2
 pivot_offset = Vector2(120, 60)
 text = "Waiting for Players..."
