@@ -7,7 +7,6 @@ public partial class MenuManager : Control {
 	private static readonly string MAIN_MENU = "MainMenu";
 	private static readonly string HOST_LOBBY_MENU = "HostLobbyMenu";
 	private static readonly string JOIN_LOBBY_MENU = "JoinLobbyMenu";
-	private static readonly string IN_GAME_MENU = "InGameMenu";
 	private static readonly string POST_GAME_MENU = "PostGameMenu";
 	private ScreenManager screenManager;
 	private readonly List<MenuItem> menus = new();
@@ -39,12 +38,16 @@ public partial class MenuManager : Control {
 				ToggleMenu(JOIN_LOBBY_MENU);
 				break;
 			case ScreenManager.ScreenState.IN_GAME:
-				ToggleMenu(IN_GAME_MENU);
+				// menu will be tied to player since it needs to read player info
+				HideAllMenus();
 				break;
 			case ScreenManager.ScreenState.POST_GAME:
 				ToggleMenu(POST_GAME_MENU);
 				break;
 		}
+	}
+	private void HideAllMenus() {
+		foreach(var menu in menus) menu.HideScreen();
 	}
 
 	private void ToggleMenu(string name) {
