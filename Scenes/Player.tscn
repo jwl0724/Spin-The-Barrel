@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://lnxb8j3m7ht3"]
+[gd_scene load_steps=24 format=3 uid="uid://lnxb8j3m7ht3"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_cp3cb"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerCamera.cs" id="2_p0sjk"]
@@ -19,6 +19,20 @@
 [ext_resource type="AudioStream" uid="uid://gipy8ylmn3b5" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="16_150rv"]
 [ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="17_euge6"]
 [ext_resource type="AudioStream" uid="uid://b6jhsmtsrpjrh" path="res://Assets/Sounds/PlayerDied/Dead6.mp3" id="18_6g404"]
+[ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerUI.cs" id="20_uvte5"]
+[ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="21_k63qk"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/TextShake.cs" id="22_pjq8t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ck838"]
+line_spacing = 0.0
+font = ExtResource("21_k63qk")
+font_size = 64
+font_color = Color(0.913454, 0.682481, 0.121887, 1)
+outline_size = 20
+outline_color = Color(0.56859, 0.142117, 0.0459476, 1)
+shadow_size = 20
+shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
+shadow_offset = Vector2(5, 5)
 
 [node name="Player" type="Node3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
@@ -48,6 +62,93 @@ script = ExtResource("4_vjan6")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("20_uvte5")
+
+[node name="Health" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -116.0
+offset_right = 316.0
+offset_bottom = -50.0
+grow_vertical = 0
+pivot_offset = Vector2(133, 33)
+text = "Health: 4"
+label_settings = SubResource("LabelSettings_ck838")
+horizontal_alignment = 1
+script = ExtResource("22_pjq8t")
+
+[node name="Name" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -356.0
+offset_top = -72.0
+offset_right = -15.0
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(170.5, 33)
+text = "NameHere69"
+label_settings = SubResource("LabelSettings_ck838")
+horizontal_alignment = 1
+script = ExtResource("22_pjq8t")
+
+[node name="Spectate" type="Label" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -336.5
+offset_top = -148.0
+offset_right = 336.5
+offset_bottom = -82.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(120, 60)
+text = "Spectating NameHere69"
+label_settings = SubResource("LabelSettings_ck838")
+horizontal_alignment = 1
+
+[node name="DeadScreen" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -75.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.709804)
+
+[node name="DeadText" type="Label" parent="UI/DeadScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.0
+offset_top = -33.0
+offset_right = 172.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(120, 60)
+text = "You Fainted"
+label_settings = SubResource("LabelSettings_ck838")
+horizontal_alignment = 1
