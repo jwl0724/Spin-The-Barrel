@@ -23,7 +23,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	public float MouseSensitivity { get; set; } = 0.05f;
 	public int Health { get; private set; } = DEFAULT_PLAYER_HEATLH;
 	public bool IsDead { get; private set; } = false;
-	public string PlayerName { get; private set; } = "TODO";
+	public string PlayerName { get; private set; }
 	private Gun gun;
 	public Gun Gun { set => gun = value; }
 	private int selectedModel = -1;
@@ -41,14 +41,12 @@ public partial class Player : Node3D, IInteractableEntity {
 		// TODO: see what this will do later on, maybe just leave empty?
 	}
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 		SetProcessInput(!IsRemotePlayer);
 		timer.Time = SHOOT_DELAY_TIME;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
 
 	}
@@ -57,6 +55,11 @@ public partial class Player : Node3D, IInteractableEntity {
 		if (Input.IsActionPressed(ProjectInputs.INTERACT)) {
 			EmitSignal(SignalName.PlayerInteract);
 		}
+	}
+
+	public void SetPlayerInfo(PlayerInfo playerData) {
+		Name = playerData.Name;
+		IsRemotePlayer = playerData.IsRemote;
 	}
 
 	public void SetModel(int modelIndex = -1) {
