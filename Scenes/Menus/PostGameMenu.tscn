@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://c6u4d7lejr2kb"]
+
+[ext_resource type="Script" path="res://Scripts/MenuScripts/PostGameMenu.cs" id="1_dxcyl"]
+[ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="2_brp1m"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/TextWobble.cs" id="3_30bes"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/ButtonGrowEffect.cs" id="4_hmads"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hy7m2"]
+line_spacing = 0.0
+font = ExtResource("2_brp1m")
+font_size = 50
+font_color = Color(0.913454, 0.682481, 0.121887, 1)
+outline_size = 20
+outline_color = Color(0.56859, 0.142117, 0.0459476, 1)
+shadow_size = 20
+shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amiwr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ghtuf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1s23"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xuhe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdswk"]
+
+[sub_resource type="Theme" id="Theme_or2dk"]
+default_font = ExtResource("2_brp1m")
+Button/colors/font_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_disabled_color = Color(0.770368, 0.559171, 0.376592, 0.682353)
+Button/colors/font_focus_color = Color(0.913725, 0.682353, 0.121569, 1)
+Button/colors/font_hover_color = Color(0.898831, 0.670262, 0.111887, 1)
+Button/colors/font_outline_color = Color(0.568627, 0.141176, 0.0470588, 1)
+Button/colors/font_pressed_color = Color(0.70232, 0.519255, 0.0611657, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 50
+Button/fonts/font = ExtResource("2_brp1m")
+Button/styles/disabled = SubResource("StyleBoxEmpty_amiwr")
+Button/styles/focus = SubResource("StyleBoxEmpty_ghtuf")
+Button/styles/hover = SubResource("StyleBoxEmpty_w1s23")
+Button/styles/normal = SubResource("StyleBoxEmpty_3xuhe")
+Button/styles/pressed = SubResource("StyleBoxEmpty_mdswk")
+
+[node name="PostGameMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dxcyl")
+
+[node name="StatusText" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -182.5
+offset_top = 75.0
+offset_right = 182.5
+offset_bottom = 127.0
+grow_horizontal = 2
+pivot_offset = Vector2(120, 60)
+text = "Match Complete"
+label_settings = SubResource("LabelSettings_hy7m2")
+script = ExtResource("3_30bes")
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -145.0
+offset_top = -108.0
+offset_right = 145.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(50, 25)
+theme = SubResource("Theme_or2dk")
+text = "Back to Menu"
+script = ExtResource("4_hmads")
