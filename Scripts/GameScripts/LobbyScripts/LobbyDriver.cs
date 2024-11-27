@@ -37,7 +37,10 @@ public partial class LobbyDriver : Node3D {
 			return;
 		}
 		if (info.IsRemote) Players.Add(info);
-		else if (LocalPlayerIndex == -1) LocalPlayerIndex = Players.Count;
+		else if (LocalPlayerIndex == -1) {
+			LocalPlayerIndex = Players.Count;
+			IsHost = true;
+		}
 		else GD.PushError("Trying to create multiple local players");
 		EmitSignal(SignalName.PlayerJoinLobby);
 	}
