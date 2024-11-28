@@ -7,6 +7,7 @@ public partial class HostLobbyMenu : MenuItem {
 	private static readonly string STATUS_TEXT_NODE_NAME = "StatusText";
 	private static readonly string NOT_HOST_TEXT_NODE_NAME = "JoinText";
 	private static readonly float DOT_TIMER_TIME = 0.25f;
+	private static readonly int MIN_PLAYERS = 1; // change this to 1 to test gameplay
 	private LobbyDriver lobbyDriver = LobbyDriver.Instance;
 	private CustomTimer dotTimer = new();
 	private Label statusText;
@@ -43,7 +44,7 @@ public partial class HostLobbyMenu : MenuItem {
 
 	// going to assume that this is called when hosts joins
 	private void OnPlayerJoin() {
-		if (LobbyDriver.Players.Count < LobbyDriver.MAX_PLAYERS) return;
+		if (LobbyDriver.Players.Count < MIN_PLAYERS) return;
 		dotTimer.Stop();
 		statusText.Text = lobbyDriver.IsHost ? "Game Ready to Start" : "Waiting For Host to Start";
 		startButton.Visible = lobbyDriver.IsHost;
