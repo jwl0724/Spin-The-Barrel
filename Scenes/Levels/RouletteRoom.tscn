@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=27 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/InGameScripts/GameDriver.cs" id="1_py8cd"]
@@ -21,6 +21,51 @@
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
+
+[sub_resource type="Curve" id="Curve_adeut"]
+_data = [Vector2(0.536232, 0.615385), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_oa75m"]
+_data = [Vector2(0.268116, 0.835165), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_ti1ra"]
+_data = [Vector2(0.826087, 0.43956), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_vp8tg"]
+curve_x = SubResource("Curve_adeut")
+curve_y = SubResource("Curve_oa75m")
+curve_z = SubResource("Curve_ti1ra")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ges1c"]
+lifetime_randomness = 0.07
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+angle_min = -260.2
+angle_max = 277.6
+direction = Vector3(5, 30, 5)
+spread = 180.0
+flatness = 0.5
+initial_velocity_max = 5.0
+angular_velocity_min = -225.53
+angular_velocity_max = 190.85
+directional_velocity_min = 1.0
+directional_velocity_max = 1.0
+directional_velocity_curve = SubResource("CurveXYZTexture_vp8tg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uga2a"]
+albedo_color = Color(0.878431, 0.211765, 0.776471, 1)
+roughness = 0.3
+emission_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsed6"]
+material = SubResource("StandardMaterial3D_uga2a")
+size = Vector3(0.02, 0.03, 0.02)
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_td32o")
@@ -111,6 +156,16 @@ script = ExtResource("12_0fp5k")
 
 [node name="Gun" parent="GameDriver/GunManager" instance=ExtResource("13_66huy")]
 transform = Transform3D(0.639418, -0.764213, -0.0843946, 0.00175368, 0.111215, -0.993795, 0.768857, 0.635303, 0.0724534, 0.524724, 0.975898, -2.94465)
+
+[node name="WinPosition" type="Node3D" parent="GameDriver"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.524724, 0.975898, -2.94465)
+
+[node name="Confetti" type="GPUParticles3D" parent="GameDriver/WinPosition"]
+amount = 150
+lifetime = 0.5
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ges1c")
+draw_pass_1 = SubResource("BoxMesh_bsed6")
 
 [node name="Cameras" type="Node" parent="."]
 script = ExtResource("6_jsiof")
