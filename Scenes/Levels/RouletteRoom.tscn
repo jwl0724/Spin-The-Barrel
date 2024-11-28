@@ -41,6 +41,7 @@ curve_z = SubResource("Curve_ti1ra")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ges1c"]
 lifetime_randomness = 0.07
+particle_flag_align_y = true
 emission_shape = 6
 emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 0.0
@@ -57,15 +58,18 @@ angular_velocity_max = 190.85
 directional_velocity_min = 1.0
 directional_velocity_max = 1.0
 directional_velocity_curve = SubResource("CurveXYZTexture_vp8tg")
+scale_min = 0.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uga2a"]
-albedo_color = Color(0.878431, 0.211765, 0.776471, 1)
+albedo_color = Color(0.945098, 0.945098, 0.117647, 1)
 roughness = 0.3
 emission_enabled = true
+emission = Color(0.866667, 0.00392157, 0.137255, 1)
+emission_energy_multiplier = 2.13
 
 [sub_resource type="BoxMesh" id="BoxMesh_bsed6"]
 material = SubResource("StandardMaterial3D_uga2a")
-size = Vector3(0.02, 0.03, 0.02)
+size = Vector3(0.02, 0.03, 0.001)
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_td32o")
@@ -161,8 +165,9 @@ transform = Transform3D(0.639418, -0.764213, -0.0843946, 0.00175368, 0.111215, -
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.524724, 0.975898, -2.94465)
 
 [node name="Confetti" type="GPUParticles3D" parent="GameDriver/WinPosition"]
-amount = 150
-lifetime = 0.5
+emitting = false
+amount = 350
+lifetime = 0.4
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_ges1c")
 draw_pass_1 = SubResource("BoxMesh_bsed6")
