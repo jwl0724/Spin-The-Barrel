@@ -57,7 +57,7 @@ public class PlayerInfo {
 	};
 
 	// TODO: Add more stuff here later that needs to be tracked in lobby	
-	public bool IsRemote { get; set; }= false;
+	public bool IsRemote { get; private set; } = false;
 	// randomly generated name in MVP
 	public string Name { get; private set; }
 	// probably socket id here when networking is done
