@@ -6,8 +6,10 @@ public partial class Gun : Node3D {
 	[Signal] public delegate void OnShootEventHandler();
 	[Signal] public delegate void SpinBarrelEventHandler();
 	[Signal] public delegate void GunResetEventHandler();
+	[Signal] public delegate void NewHolderEventHandler();
 
 	// VARIABLES
+	public Player Holder { get; private set; }
 	public static readonly int DEFAULT_DAMAGE = 1;
     private readonly bool[] chamber = new bool[6];
 	private int chamberIndex;
@@ -16,10 +18,10 @@ public partial class Gun : Node3D {
 	public override void _Ready() {
 		// TODO: create a main game loop that emits signal of new round and game over, where gun needs to listen to the main game loop
 		chamberIndex = (int) GD.Randi() % chamber.Length;
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta) {
+		GameDriver.Instance.Connect(GameDriver.SignalName.NewTurn, Callable.From((Player holder) => {
+			Holder = holder;
+			EmitSignal(SignalName.NewHolder);
+		}));
 	}
 
 	public bool Shoot() {
