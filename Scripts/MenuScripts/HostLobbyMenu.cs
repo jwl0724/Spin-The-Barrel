@@ -26,13 +26,14 @@ public partial class HostLobbyMenu : MenuItem {
 		AddChild(dotTimer);
 		dotTimer.Start();
 
-		// connect signals to lobby driver
-		lobbyDriver.Connect(LobbyDriver.SignalName.PlayerJoinLobby, Callable.From(() => OnPlayerJoin()));
-		lobbyDriver.Connect(LobbyDriver.SignalName.PlayerLeaveLobby, Callable.From(() => OnPlayerLeave()));
-
 		startButton = GetNode<Button>(START_BUTTON_NODE_NAME);
 		statusText = GetNode<Label>(STATUS_TEXT_NODE_NAME);
 		notHostText = GetNode<Label>(NOT_HOST_TEXT_NODE_NAME);
+
+		// connect signals to lobby driver
+		lobbyDriver.Connect(LobbyDriver.SignalName.PlayerJoinLobby, Callable.From(() => OnPlayerJoin()));
+		lobbyDriver.Connect(LobbyDriver.SignalName.PlayerLeaveLobby, Callable.From(() => OnPlayerLeave()));
+		startButton.Connect(Button.SignalName.Pressed, Callable.From(OnStart));
 	}
 
 	private void UpdateStatusText() {
@@ -54,6 +55,10 @@ public partial class HostLobbyMenu : MenuItem {
 	private void OnPlayerLeave() {
 		statusText.Text = "Waiting For Players";
 		dotTimer.Start();
-		startButton.Disabled = LobbyDriver.Players.Count >= 2;
+		startButton.Disabled = LobbyDriver.Players.Count >= MIN_PLAYERS;
+	}
+
+	private void OnStart() {
+		GoNextScreen(ScreenManager.ScreenState.IN_GAME);
 	}
 }
