@@ -19,13 +19,19 @@ public partial class GameDriver : Node {
 
 	// STATIC CONSTANTS
 	public static readonly List<Player> Players = new(4); // list of players in the game
+	private static readonly string CONFETTI_NODE_NAME = "WinPosition/Confetti";
 
 	// VARIABLES
 	public Player currentTurnPlayer;
+	private GpuParticles3D confetti;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		
+		ScreenManager.Instance.Connect(ScreenManager.SignalName.GameStateChanged,
+			Callable.From((ScreenManager.ScreenState newState) => OnScreenStateChanged(newState))
+		);
+		confetti = GetNode<GpuParticles3D>(CONFETTI_NODE_NAME);
+		confetti.Emitting = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,21 +40,37 @@ public partial class GameDriver : Node {
 
 	// call when game starts, see what happens when networking is done
 	private void spawnPlayers() {
-		int randomPlayerPosition = (int) (GD.Randi() % spawnPoints.GetChildCount());
-		for(int i = 0; i < spawnPoints.GetChildCount(); i++) {
-			Node3D spawnPoint = spawnPoints.GetChild(i) as Node3D;
-			if (i == randomPlayerPosition) {
-				Player player = playerScene.Instantiate<Player>();
-				player.SetModel(player.SelectedModel);
-				Players.Add(player);
-				spawnPoint.AddChild(player);
-
-			} else {
-				Player remotePlayer = remotePlayerScene.Instantiate<Player>();
-				remotePlayer.SetModel(remotePlayer.SelectedModel);
-				Players.Add(remotePlayer);
-				spawnPoint.AddChild(remotePlayer);
-			}
+		int index = 0;
+		foreach(PlayerInfo player in LobbyDriver.Players) {
+			Node3D spawnPoint = spawnPoints.GetChild<Node3D>(index++);
+			Player spawningPlayer = player.IsRemote ? remotePlayerScene.Instantiate<Player>() : playerScene.Instantiate<Player>();
+			spawningPlayer.SetPlayerInfo(player);
+			Players.Add(spawningPlayer);
+			spawnPoint.AddChild(spawningPlayer);
 		}
+	}
+
+	private void DisplayWinner() {
+		// find winner
+		Player winner = null;
+		foreach(Player player in Players) {
+			if (!player.IsDead) winner = player;
+			player.IsRemotePlayer = true;
+			player.Visible = !player.IsDead;
+		}
+		winner.Position = confetti.GlobalPosition;
+		confetti.Emitting = true;
+	}
+
+	private void DeletePlayers() {
+		confetti.Emitting = false;
+		foreach(Player player in Players) {
+			player.QueueFree();
+		}
+	}
+
+	private void OnScreenStateChanged(ScreenManager.ScreenState newState) {
+		if (newState == ScreenManager.ScreenState.IN_GAME) spawnPlayers();
+		else if (newState == ScreenManager.ScreenState.POST_GAME) DisplayWinner();
 	}
 }
