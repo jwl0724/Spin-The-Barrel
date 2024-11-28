@@ -37,6 +37,8 @@ public partial class ScreenManager : Node3D {
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.MAIN_MENU);
 				break;
 			case ScreenState.HOST_LOBBY:
+				// leave this code if testing gameplay by yourself
+				LobbyDriver.Instance.AddPlayer(new PlayerInfo());
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.HOST_LOBBY);
 				break;
 			case ScreenState.JOIN_LOBBY:
