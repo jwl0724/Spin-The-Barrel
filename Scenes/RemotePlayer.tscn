@@ -1,18 +1,7 @@
-[gd_scene load_steps=37 format=3 uid="uid://bnx3p5vxipelj"]
+[gd_scene load_steps=26 format=3 uid="uid://bnx3p5vxipelj"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_rxqh0"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerModelManager.cs" id="2_m3mv1"]
-[ext_resource type="PackedScene" uid="uid://cw6i7vl5i6m74" path="res://Scenes/PlayerModels/Alien.tscn" id="3_p5qcx"]
-[ext_resource type="PackedScene" uid="uid://bwf3wfq6rsgxq" path="res://Scenes/PlayerModels/Emoji.tscn" id="4_auix0"]
-[ext_resource type="PackedScene" uid="uid://vopkniojsksl" path="res://Scenes/PlayerModels/Fish.tscn" id="5_ijdsq"]
-[ext_resource type="PackedScene" uid="uid://1mwnlh50wofi" path="res://Scenes/PlayerModels/Ghost.tscn" id="6_m47dp"]
-[ext_resource type="PackedScene" uid="uid://garel8w3sb5y" path="res://Scenes/PlayerModels/Hippo.tscn" id="7_q6git"]
-[ext_resource type="PackedScene" uid="uid://brwl071bucyat" path="res://Scenes/PlayerModels/Horse.tscn" id="8_3jb0x"]
-[ext_resource type="PackedScene" uid="uid://drmeggacylajo" path="res://Scenes/PlayerModels/Mushroom.tscn" id="9_y8i8o"]
-[ext_resource type="PackedScene" uid="uid://do8t4h8gi423c" path="res://Scenes/PlayerModels/Robot.tscn" id="10_jlv6l"]
-[ext_resource type="PackedScene" uid="uid://c1kg7rwiuss1f" path="res://Scenes/PlayerModels/ShibaFlower.tscn" id="11_jbjrs"]
-[ext_resource type="PackedScene" uid="uid://b2g16wv3c8j1" path="res://Scenes/PlayerModels/ShibaToon.tscn" id="12_wsgs1"]
-[ext_resource type="PackedScene" uid="uid://q7sp2ktdmltu" path="res://Scenes/PlayerModels/Sus.tscn" id="13_fnfku"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerSoundEffectManager.cs" id="14_t8vis"]
 [ext_resource type="AudioStream" uid="uid://b3mcdx6myvwvk" path="res://Assets/Sounds/PlayerHurt/Hurt1.mp3" id="15_l6as2"]
 [ext_resource type="AudioStream" uid="uid://d1tfi70k0wt5" path="res://Assets/Sounds/PlayerHurt/Hurt2.mp3" id="16_oju3j"]
@@ -62,7 +51,6 @@ ModelManager = NodePath("Model")
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("2_m3mv1")
-modelCollection = Array[PackedScene]([ExtResource("3_p5qcx"), ExtResource("4_auix0"), ExtResource("5_ijdsq"), ExtResource("6_m47dp"), ExtResource("7_q6git"), ExtResource("8_3jb0x"), ExtResource("9_y8i8o"), ExtResource("10_jlv6l"), ExtResource("11_jbjrs"), ExtResource("12_wsgs1"), ExtResource("13_fnfku")])
 
 [node name="SoundEffects" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("14_t8vis")

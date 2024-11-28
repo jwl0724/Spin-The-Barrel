@@ -34,9 +34,10 @@ shadow_size = 20
 shadow_color = Color(0.136826, 0.136826, 0.136826, 0.752941)
 shadow_offset = Vector2(5, 5)
 
-[node name="Player" type="Node3D"]
+[node name="Player" type="Node3D" node_paths=PackedStringArray("ModelManager")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_cp3cb")
+ModelManager = NodePath("Model")
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58365e-08, 0.375976, -0.362298)
@@ -124,6 +125,7 @@ label_settings = SubResource("LabelSettings_ck838")
 horizontal_alignment = 1
 
 [node name="DeadScreen" type="ColorRect" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5

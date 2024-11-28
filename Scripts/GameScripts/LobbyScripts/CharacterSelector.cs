@@ -3,6 +3,7 @@ using System;
 
 
 public partial class CharacterSelector : Node3D {
+	[Signal] public delegate void ModelSwitchEventHandler();
 	private static readonly string MODEL_MANAGER_NODE_NAME = "ModelManager";
 	private static readonly string IDENTIFIER_LIGHT_NODE_NAME = "IdentifierLight";
 	private static readonly string LEFT_ARROW_NODE_NAME = "LeftArrow";
@@ -34,6 +35,7 @@ public partial class CharacterSelector : Node3D {
 		}
 		leftArrow.Visible = true;
 		rightArrow.Visible = true;
+		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
 	}
 
 	public void CloseSelector() {
@@ -49,5 +51,6 @@ public partial class CharacterSelector : Node3D {
 	private void OnArrowClicked(bool isLeftClicked) {
 		if (isLeftClicked) modelManager.PreviousModel();
 		else modelManager.NextModel();
+		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
 	}
 }

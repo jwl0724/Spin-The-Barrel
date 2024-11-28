@@ -19,13 +19,13 @@ public partial class LobbyModelManager : ModelManager {
 
 	public void NextModel() {
 		(dumpNode.GetChild(modelIndex) as Node3D).Visible = false;
-		if (++modelIndex == modelCollection.Count) modelIndex = 0;
+		if (++modelIndex == modelCollection.Count + 1) modelIndex = 0;
 		(dumpNode.GetChild(modelIndex) as Node3D).Visible = true;
 	}
 
 	public void PreviousModel() {
 		(dumpNode.GetChild(modelIndex) as Node3D).Visible = false;
-		if (--modelIndex < 0) modelIndex = modelCollection.Count - 1;
+		if (--modelIndex < 0) modelIndex = modelCollection.Count;
 		(dumpNode.GetChild(modelIndex) as Node3D).Visible = true;
 	}
 

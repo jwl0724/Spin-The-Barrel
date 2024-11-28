@@ -42,7 +42,6 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public override void _Ready() {
-		SetProcessInput(!IsRemotePlayer);
 		timer.Time = SHOOT_DELAY_TIME;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
@@ -60,12 +59,9 @@ public partial class Player : Node3D, IInteractableEntity {
 	public void SetPlayerInfo(PlayerInfo playerData) {
 		Name = playerData.Name;
 		IsRemotePlayer = playerData.IsRemote;
-	}
-
-	public void SetModel(int modelIndex = -1) {
-		int index = modelIndex;
-		if (modelIndex == -1) index = (int) (GD.Randi() % ModelManager.GetModelCount());
-		ModelManager.SetModel(index);
+		SetProcessInput(!IsRemotePlayer);
+		int modelIndex = playerData.ChosenModel >= 0 ? playerData.ChosenModel : (int) (GD.Randi() % ModelManager.GetModelCount());
+		ModelManager.SetModel(modelIndex);
 	}
 
 	public void SpinBarrel() {
