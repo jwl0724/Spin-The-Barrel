@@ -15,7 +15,7 @@ public partial class LobbyDriver : Node3D {
 
 	// VARIABLES
 	public static readonly int MAX_PLAYERS = 4;
-	public static readonly List<PlayerInfo> Players;
+	public static readonly List<PlayerInfo> Players = new();
 	public bool IsHost { get; private set; } = false;
 	public int LocalPlayerIndex { get; private set; } = -1;
 
@@ -36,12 +36,15 @@ public partial class LobbyDriver : Node3D {
 			GD.PushWarning("Attempting to add beyond max players");
 			return;
 		}
-		if (info.IsRemote) Players.Add(info);
-		else if (LocalPlayerIndex == -1) {
-			LocalPlayerIndex = Players.Count;
+		Players.Add(info);
+		if (LocalPlayerIndex == -1) {
+			LocalPlayerIndex = Players.Count - 1;
 			IsHost = true;
-		}
-		else GD.PushError("Trying to create multiple local players");
+
+		} else if (LocalPlayerIndex < 4) {
+			LocalPlayerIndex = Players.Count - 1;
+
+		} else GD.PushError("Trying to create multiple local players");
 		EmitSignal(SignalName.PlayerJoinLobby);
 	}
 
