@@ -20,22 +20,28 @@ public partial class CharacterSelector : Node3D {
 
 		leftArrow.Connect(Clickable3D.SignalName.AreaClicked, Callable.From(() => OnArrowClicked(true)));
 		rightArrow.Connect(Clickable3D.SignalName.AreaClicked, Callable.From(() => OnArrowClicked(false)));
+		leftArrow.ProcessMode = ProcessModeEnum.Disabled;
+		rightArrow.ProcessMode = ProcessModeEnum.Disabled;
 	}
 
 	public void ActivateSelector(bool isRemotePlayer = true) {
+		SetProcessInput(!isRemotePlayer);
 		modelManager.StartSelector();
 		identifierLight.Visible = !isRemotePlayer;
-		leftArrow.ProcessMode = ProcessModeEnum.Disabled;
-		rightArrow.ProcessMode = ProcessModeEnum.Disabled;
+		if (!isRemotePlayer) {
+			leftArrow.ProcessMode = ProcessModeEnum.Inherit;
+			rightArrow.ProcessMode = ProcessModeEnum.Inherit;
+		}
 		leftArrow.Visible = true;
 		rightArrow.Visible = true;
 	}
 
 	public void CloseSelector() {
+		SetProcessInput(false);
 		modelManager.EndSelector();
 		identifierLight.Visible = false;
-		leftArrow.ProcessMode = ProcessModeEnum.Inherit;
-		rightArrow.ProcessMode = ProcessModeEnum.Inherit;
+		leftArrow.ProcessMode = ProcessModeEnum.Disabled;
+		rightArrow.ProcessMode = ProcessModeEnum.Disabled;
 		leftArrow.Visible = false;
 		rightArrow.Visible = false;
 	}
