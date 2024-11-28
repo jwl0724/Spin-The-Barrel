@@ -68,7 +68,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.955, 0, -0.286)
 [node name="LobbyLight" type="SpotLight3D" parent="LobbyDriver"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.53883, 4.95693, -2.07238)
 light_color = Color(0.786221, 0.665321, 0.240221, 1)
-light_energy = 5.526
+light_energy = 1.324
 spot_range = 5.915
 spot_attenuation = 0.353553
 spot_angle = 30.46
@@ -122,7 +122,8 @@ rotationPoint = Vector3(0.486, 1.097, -2.918)
 rotationSpeed = 5.0
 
 [node name="LobbyCamera" type="Camera3D" parent="Cameras"]
-transform = Transform3D(-4.32456e-08, 0.1456, -0.989344, 6.36436e-09, 0.989344, 0.1456, 1, -7.10543e-15, -4.37114e-08, 4.94307, 1.03934, -2.05768)
+transform = Transform3D(-4.36366e-08, 0.0584879, -0.998288, 2.55657e-09, 0.998288, 0.0584879, 1, 1.82077e-14, -4.37114e-08, 4.92071, 1.14537, -2.05768)
+fov = 85.0
 
 [node name="PostGameCamera" type="Camera3D" parent="Cameras"]
 transform = Transform3D(0.796899, 0, 0.604112, 0, 1, 0, -0.604112, 0, 0.796899, 1.4312, 1.39086, -1.69626)
