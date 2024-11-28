@@ -6,10 +6,12 @@ public partial class PlayerUI : Control {
 	private static readonly string HEALTH_NODE_NAME = "Health";
 	private static readonly string NAME_NODE_NAME = "Name";
 	private static readonly string SPECTATOR_NODE_NAME = "Spectate";
-	private static readonly string DEAD_SCREEN_NODE_NAME = "Spectate";
+	private static readonly string DEAD_SCREEN_NODE_NAME = "DeadScreen";
+	private static readonly string STATUS_NODE_NAME = "Status";
 	private static readonly Color opaqueColor = new(1, 1, 1, 1);
 	private static readonly Color transparentColor = new(1, 1, 1, 0);
 	private Player player;
+	private Label statusText;
 	private TextShake healthText;
 	private TextShake nameText;
 	private Label spectatingText;
@@ -22,15 +24,21 @@ public partial class PlayerUI : Control {
 		}));
 		player.Connect(Player.SignalName.PlayerReset, Callable.From(UpdateUI));
 		player.Connect(Player.SignalName.PlayerDied, Callable.From(UpdateUI));
+		player.Connect(Player.SignalName.PlayerTurn, Callable.From(TurnAnimation));
 
 		healthText = GetNode(HEALTH_NODE_NAME) as TextShake;
 		nameText = GetNode(NAME_NODE_NAME) as TextShake;
-		nameText.Text = player.PlayerName;
 		spectatingText = GetNode<Label>(SPECTATOR_NODE_NAME);
-		spectatingText.Visible = false;
 		deadScreen = GetNode<Control>(DEAD_SCREEN_NODE_NAME);
+		statusText = GetNode<Label>(STATUS_NODE_NAME);
+
+		nameText.Text = player.PlayerName;
+		spectatingText.Visible = false;
 		deadScreen.Visible = false;
 		deadScreen.Modulate = transparentColor;
+		statusText.Visible = false;
+		statusText.Scale = Vector2.Zero;
+		statusText.Modulate = transparentColor;
 	}
 
 	private void ShakeUI() {
@@ -41,6 +49,21 @@ public partial class PlayerUI : Control {
 	private void UpdateUI() {
 		healthText.Text = $"Health: {player.Health}";
 		if (player.IsDead) AnimateDeadScreen();
+	}
+
+	private void TurnAnimation() {
+		const int displayTime = 1;
+		statusText.Visible = true;
+		statusText.Modulate = opaqueColor;
+		Tween turnAnimation = CreateTween();
+		turnAnimation.TweenProperty(statusText, nameof(Scale).ToLower(), Vector2.One, 0.25f);
+		turnAnimation.TweenInterval(displayTime);
+		turnAnimation.TweenProperty(statusText, nameof(Modulate).ToLower(), transparentColor, 0.6f);
+		turnAnimation.TweenCallback(Callable.From(() => {
+			statusText.Visible = false;
+			statusText.Scale = Vector2.Zero;
+		}));
+		turnAnimation.Play();
 	}
 
 	private void AnimateDeadScreen() {

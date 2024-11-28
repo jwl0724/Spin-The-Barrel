@@ -15,17 +15,18 @@ public partial class GameDriver : Node {
 	[Export] private Node spawnPoints; // node for spawn points
 
 	// SIGNALS
-	
+	[Signal] public delegate void NewTurnEventHandler();
 
 	// STATIC CONSTANTS
-	public static readonly List<Player> Players = new(4); // list of players in the game
+	public static readonly List<Player> Players = new(); // list of players in the game
 	private static readonly string CONFETTI_NODE_NAME = "WinPosition/Confetti";
+	private static readonly string GUN_POINT_NODE_NAME = "GunPoint";
 
 	// VARIABLES
-	public Player currentTurnPlayer;
+	private Player currentTurnPlayer;
+	private int currentPlayerIndex = 0;
 	private GpuParticles3D confetti;
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 		ScreenManager.Instance.Connect(ScreenManager.SignalName.GameStateChanged,
 			Callable.From((ScreenManager.ScreenState newState) => OnScreenStateChanged(newState))
@@ -34,12 +35,29 @@ public partial class GameDriver : Node {
 		confetti.Emitting = false;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta) {
+	// FUNCTIONS FOR PLAYER TO CALL IN GAME
+	public Vector3 GetCurrentPlayerGunPoint() {
+		Node3D spawnPoint = spawnPoints.GetChild<Node3D>(currentPlayerIndex);
+		Node3D gunPoint = spawnPoint.GetNode<Node3D>(GUN_POINT_NODE_NAME);
+		return gunPoint.GlobalPosition;
 	}
 
-	// call when game starts, see what happens when networking is done
-	private void spawnPlayers() {
+	public void EndTurn(bool reverse = false) {
+		// reverse indicates to move backwards on Players list
+		currentPlayerIndex = reverse ? currentPlayerIndex - 1 : currentPlayerIndex + 1;
+		if (currentPlayerIndex < 0) currentPlayerIndex = Players.Count - 1;
+		else if (currentPlayerIndex >= Players.Count) currentPlayerIndex  = 0;
+		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+	}
+
+	private void StartGame() {
+		SpawnPlayers();
+		int currentPlayerIndex = (int) (GD.Randi() % Players.Count);
+		currentTurnPlayer = Players[currentPlayerIndex];
+		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+	}
+
+	private void SpawnPlayers() {
 		int index = 0;
 		foreach(PlayerInfo player in LobbyDriver.Players) {
 			Node3D spawnPoint = spawnPoints.GetChild<Node3D>(index++);
@@ -70,7 +88,7 @@ public partial class GameDriver : Node {
 	}
 
 	private void OnScreenStateChanged(ScreenManager.ScreenState newState) {
-		if (newState == ScreenManager.ScreenState.IN_GAME) spawnPlayers();
+		if (newState == ScreenManager.ScreenState.IN_GAME) StartGame();
 		else if (newState == ScreenManager.ScreenState.POST_GAME) DisplayWinner();
 	}
 }

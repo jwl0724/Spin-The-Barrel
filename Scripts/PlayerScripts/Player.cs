@@ -10,6 +10,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void PlayerHurtEventHandler();
 	[Signal] public delegate void PlayerDiedEventHandler();
 	[Signal] public delegate void PlayerResetEventHandler();
+	[Signal] public delegate void PlayerTurnEventHandler();
 	[Signal] public delegate void PlayerHoldGunEventHandler();
 	[Signal] public delegate void PlayerInteractEventHandler();
 
@@ -24,8 +25,8 @@ public partial class Player : Node3D, IInteractableEntity {
 	public int Health { get; private set; } = DEFAULT_PLAYER_HEATLH;
 	public bool IsDead { get; private set; } = false;
 	public string PlayerName { get; private set; }
+	public bool CanShootOther { get; private set; } = false; // TODO: add this effect when items are added
 	private Gun gun;
-	public Gun Gun { set => gun = value; }
 	private int selectedModel = -1;
 	public int SelectedModel {
 		get => selectedModel;
@@ -46,10 +47,6 @@ public partial class Player : Node3D, IInteractableEntity {
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
-	public override void _Process(double delta) {
-
-	}
-
 	public override void _Input(InputEvent inputEvent) {
 		if (Input.IsActionPressed(ProjectInputs.INTERACT)) {
 			EmitSignal(SignalName.PlayerInteract);
@@ -57,17 +54,20 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public void SetPlayerInfo(PlayerInfo playerData) {
-		Name = playerData.Name;
+		PlayerName = playerData.Name;
 		IsRemotePlayer = playerData.IsRemote;
 		SetProcessInput(!IsRemotePlayer);
 		int modelIndex = playerData.ChosenModel >= 0 ? playerData.ChosenModel : (int) (GD.Randi() % ModelManager.GetModelCount());
 		ModelManager.SetModel(modelIndex);
 	}
 
-	public void SpinBarrel() {
-		EmitSignal(SignalName.PlayerHoldGun);
-		gun.LoadRound();
-		// TODO: connect the a signal listener to gun such that it will know when the animation is done playing
+	public void GiveGun(Gun gun) {
+		this.gun = gun;
+		EmitSignal(SignalName.PlayerTurn);
+	}
+
+	public void PickUpGun(Gun gun) {
+		Input.MouseMode = Input.MouseModeEnum.Visible;
 	}
 
 	public async void Shoot(Player player = null) {
@@ -80,7 +80,7 @@ public partial class Player : Node3D, IInteractableEntity {
 		else player.DamagePlayer(damage);
 	}
 
-	public void DamagePlayer(int amount) {
+	private void DamagePlayer(int amount) {
 		Health -= amount;
 		if (Health < 0) {
 			IsDead = true;
@@ -89,7 +89,7 @@ public partial class Player : Node3D, IInteractableEntity {
 		} else EmitSignal(SignalName.PlayerHurt);
 	}
 
-	public void ResetPlayerState() {
+	private void ResetPlayerState() {
 		Health = DEFAULT_PLAYER_HEATLH;
 		IsDead = false;
 		EmitSignal(SignalName.PlayerReset);
