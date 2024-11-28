@@ -135,25 +135,25 @@ spawnPoints = NodePath("SpawnPoints")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66294, 0.889875, -2.88314)
 
 [node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475288, 0.0222871, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.1, 0)
 
 [node name="SpawnPoint2" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.506566, 0.889875, -4.1736)
 
 [node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.680694, 0.0267454, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.681, 0.1, 0)
 
 [node name="SpawnPoint3" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.752896, 0.889875, -2.88314)
 
 [node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.636507, 0.0359716, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.637, 0.1, 0)
 
 [node name="SpawnPoint4" type="Node3D" parent="GameDriver/SpawnPoints"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.553339, 0.889875, -1.98003)
 
 [node name="GunPoint" type="Node3D" parent="GameDriver/SpawnPoints/SpawnPoint4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38857, 0.0403163, 3.57628e-07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.389, 0.1, 0)
 
 [node name="GunManager" type="Node" parent="GameDriver"]
 script = ExtResource("12_0fp5k")
