@@ -40,17 +40,16 @@ public partial class LobbyDriver : Node3D {
 		if (LocalPlayerIndex == -1) {
 			LocalPlayerIndex = Players.Count - 1;
 			IsHost = true;
-
-		} else if (LocalPlayerIndex < 4) {
-			LocalPlayerIndex = Players.Count - 1;
-
-		} else GD.PushError("Trying to create multiple local players");
+		}
+		else if (LocalPlayerIndex < 4) LocalPlayerIndex = Players.Count - 1;
+		else GD.PushError("Trying to create multiple local players");
 		EmitSignal(SignalName.PlayerJoinLobby);
 	}
 
 	private void OnGameStateChange(ScreenManager.ScreenState state) {
-		// TODO: Add some more logic here if needed
 		Visible = state == ScreenManager.ScreenState.HOST_LOBBY;
-		LocalPlayerIndex = -1;
+		// clear players from list when exiting the lobbies
+		if (state == ScreenManager.ScreenState.MAIN_MENU || state == ScreenManager.ScreenState.JOIN_LOBBY)
+			Players.Clear();
 	}
 }
