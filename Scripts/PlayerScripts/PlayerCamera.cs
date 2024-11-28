@@ -15,7 +15,7 @@ public partial class PlayerCamera : Camera3D {
 		player.Connect(Player.SignalName.PlayerHurt, Callable.From(() => OnPlayerHurt()));
 		player.Connect(Player.SignalName.PlayerHoldGun, Callable.From((Vector3 gunPosition) => OnGunHold(gunPosition)));
 		player.Connect(Player.SignalName.PlayerReset, Callable.From(() => Current = true ));
-		CameraManager.Instance.SwitchToPlayerCamera(this);
+		CameraManager.Instance.SetPlayerCameraInstance(this);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -27,6 +27,7 @@ public partial class PlayerCamera : Camera3D {
 	
 	// handle camera turning
 	public override void _Input(InputEvent inputEvent) {
+		if (!Current) return;
 		if (inputEvent is not InputEventMouseMotion movement || isLocked) return;
 		float rotationY = Mathf.Clamp(
 			Mathf.DegToRad(-movement.Relative.X * player.MouseSensitivity) + Rotation.Y,

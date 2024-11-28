@@ -31,9 +31,8 @@ public partial class CameraManager : Node {
 		ScreenManager.Instance.Connect(ScreenManager.SignalName.GameStateChanged, Callable.From((ScreenManager.ScreenState state) => OnGameStateChange(state)));
 	}
 
-	public void SwitchToPlayerCamera(Camera3D camera) {
+	public void SetPlayerCameraInstance(Camera3D camera) {
 		playerCamera = camera;
-		playerCamera.Current = true;		
 	}
 
 	public void SwitchToDeadCamera() {
@@ -47,6 +46,12 @@ public partial class CameraManager : Node {
 				break;
 			case ScreenManager.ScreenState.HOST_LOBBY:
 				lobbyCamera.Current = true;
+				break;
+			case ScreenManager.ScreenState.JOIN_LOBBY:
+				lobbyCamera.Current = true;
+				break;
+			case ScreenManager.ScreenState.IN_GAME:
+				playerCamera.Current = true;
 				break;
 			case ScreenManager.ScreenState.POST_GAME:
 				playerCamera.Current = false;
