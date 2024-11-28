@@ -35,8 +35,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006, 0)
 
 [node name="LeftArrow" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, -0.5)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, -0.65)
 monitorable = false
 script = ExtResource("4_ummvx")
 
@@ -49,8 +48,7 @@ mesh = SubResource("TextMesh_bw2r3")
 skeleton = NodePath("../..")
 
 [node name="RightArrow" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, 0.5)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, 0.65)
 monitorable = false
 script = ExtResource("4_ummvx")
 
