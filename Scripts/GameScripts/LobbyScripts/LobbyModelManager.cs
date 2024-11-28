@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class LobbyModelManager : ModelManager {
 	private static readonly string dumpNodeName = "Models";
@@ -8,7 +9,7 @@ public partial class LobbyModelManager : ModelManager {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		Node3D dumpNode = GetNode<Node3D>(dumpNodeName);
+		dumpNode = GetNode<Node3D>(dumpNodeName);
 		foreach(PackedScene model in modelCollection) {
 			Node3D modelNode = model.Instantiate<Node3D>();
 			modelNode.Visible = false;
@@ -36,9 +37,17 @@ public partial class LobbyModelManager : ModelManager {
 	public void StartSelector() {
 		modelIndex = (int) (GD.Randi() % (modelCollection.Count + 1));
 		(dumpNode.GetChild(modelIndex) as Node3D).Visible = true;
+		ShowSelected(modelIndex);
 	}
 
 	public void EndSelector() {
 		(dumpNode.GetChild(modelIndex) as Node3D).Visible = false;
+	}
+
+	private void ShowSelected(int index) {
+		foreach(Node3D model in dumpNode.GetChildren().Cast<Node3D>()) {
+			if (model == dumpNode.GetChild(index)) model.Visible = true;
+			else model.Visible = false;
+		}
 	}
 }
