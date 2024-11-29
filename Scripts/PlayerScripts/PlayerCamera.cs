@@ -13,21 +13,15 @@ public partial class PlayerCamera : Camera3D {
 		player = Owner as Player;	
 		player.Connect(Player.SignalName.PlayerDied, Callable.From(() => OnPlayerDeath()));
 		player.Connect(Player.SignalName.PlayerHurt, Callable.From(() => OnPlayerHurt()));
-		player.Connect(Player.SignalName.PlayerHoldGun, Callable.From((Vector3 gunPosition) => OnGunHold(gunPosition)));
+		player.Connect(Player.SignalName.PlayerPickUpGun, Callable.From(() => OnGunInteract(true)));
+		player.Connect(Player.SignalName.PlayerDropGun, Callable.From(() => OnGunInteract(false)));
 		player.Connect(Player.SignalName.PlayerReset, Callable.From(() => Current = true ));
 		CameraManager.Instance.SetPlayerCameraInstance(this);
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta) {
-		if (lerpPosition.IsEqualApprox(Vector3.Zero)) return;
-		Rotation = Rotation.Lerp(lerpPosition.DirectionTo(lerpPosition), 0.4f * (float) delta);
-	}
-
 	
 	// handle camera turning
 	public override void _Input(InputEvent inputEvent) {
-		if (!Current) return;
+		if (!Current || player.IsDead) return;
 		if (inputEvent is not InputEventMouseMotion movement || isLocked || Input.MouseMode != Input.MouseModeEnum.Captured) 
 			return;
 		float rotationY = Mathf.Clamp(
@@ -42,10 +36,11 @@ public partial class PlayerCamera : Camera3D {
 	}
 
 	private void OnPlayerDeath() {
-		// TODO: animate the camera jerking upwards then falling
 		Tween deathTween = CreateTween();
-		deathTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Up * Mathf.DegToRad(90), 0.5f); // TODO: double check this later
-		// TODO: add a delay to the death tween so the player can see the death animation
+		deathTween.SetEase(Tween.EaseType.Out);
+		deathTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Right * Mathf.DegToRad(110), 0.3f);
+		deathTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Up * Mathf.DegToRad(70) + Vector3.Right * Mathf.DegToRad(110), 0.1f);
+		deathTween.TweenInterval(4f);
 		deathTween.TweenCallback(Callable.From(() => CameraManager.Instance.SwitchToDeadCamera()));
 		deathTween.Play();
 	}
@@ -53,15 +48,25 @@ public partial class PlayerCamera : Camera3D {
 	private void OnPlayerHurt() {
 		// create hurt animation
 		Tween hurtTween = CreateTween();
-		hurtTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Right * Mathf.DegToRad(20), 0.25f);
-		hurtTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Zero, 0.75f);
+		hurtTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Right * Mathf.DegToRad(20), 0.05f);
+		hurtTween.SetEase(Tween.EaseType.Out);
+		hurtTween.TweenProperty(this, nameof(Rotation).ToLower(), Vector3.Zero, 0.4f);
 		hurtTween.TweenCallback(Callable.From(() => isLocked = false));
 		hurtTween.Play();
 	}
 
+	private void OnGunInteract(bool isPickUpEvent) {
+		if (!isPickUpEvent) return; // maybe have extra logic here, will see
 
-	private void OnGunHold(Vector3 gunPosition) {
-		isLocked = true;
-		lerpPosition = gunPosition;
+		Vector3 originalRotation = Rotation;
+		LookAt(player.NerfGun.GlobalPosition);
+		Vector3 finalRotation = Rotation;
+		Rotation = originalRotation;
+		
+		const float tweenTime = 0.4f;
+		Tween centerCameraTween = CreateTween();
+		centerCameraTween.SetEase(Tween.EaseType.Out);
+		centerCameraTween.TweenProperty(this, nameof(Rotation).ToLower(), finalRotation, tweenTime);
+		centerCameraTween.Play();
 	}
 }
