@@ -12,6 +12,8 @@ public partial class GunMenu : Node3D {
 	private Clickable3D shootButton;
 	private Clickable3D dropButton;
 	private Clickable3D shootOtherButton;
+	private bool isPickedUp = false;
+
 	public override void _Ready() {
 		SetProcessInput(false);
 		gun = Owner as Gun;
@@ -20,7 +22,8 @@ public partial class GunMenu : Node3D {
 		dropButton = GetNode<Clickable3D>(DROP_NODE_NAME);
 		shootOtherButton = GetNode<Clickable3D>(SHOOT_OTHER_NODE_NAME);
 
-		gun.Connect(Gun.SignalName.NewHolder, Callable.From(OnNewHolder));
+		gun.Connect(Gun.SignalName.PickedUp, Callable.From(() => ShowMenu(true)));
+		gun.Connect(Gun.SignalName.Dropped, Callable.From(() => ShowMenu(false)));
 		addButton.Connect(Clickable3D.SignalName.AreaClicked, Callable.From(() => {
 			gun.LoadRound();
 		}));
@@ -28,30 +31,34 @@ public partial class GunMenu : Node3D {
 			gun.Shoot();
 		}));
 		dropButton.Connect(Clickable3D.SignalName.AreaClicked, Callable.From(() => {
-			// TODO: ADD CODE AFTER PROPER GAME LOOP IS IMPLEMENTED
+			gun.Drop();
 		}));
 		shootOtherButton.Connect(Clickable3D.SignalName.AreaClicked, Callable.From(() => {
 			// TODO: IMPLEMENT LATER WHEN ITEMS ARE ADDED
 		}));
 		ProcessMode = ProcessModeEnum.Disabled;
+		Visible = false;
 	}
 
-	public override void _PhysicsProcess(double delta) {
-		// if (gun.Holder != null) LookAt(gun.Holder.GlobalPosition);
-	}
-
-	private void OnNewHolder() {
-		// TODO: ADD SIGNAL ON GUN FOR WHEN PLAYER PICKS UP GUN
+	private void ShowMenu(bool show) {
+		isPickedUp = show;
 		if (gun.Holder.IsRemotePlayer) {
 			Visible = false;
 			SetProcessInput(false);
 			ProcessMode = ProcessModeEnum.Disabled;
-			return;
+			shootOtherButton.Visible = false;
+			shootOtherButton.SetProcessInput(false);
+
+		} else {
+			SetProcessInput(true);
+			ProcessMode = ProcessModeEnum.Inherit;
+			shootOtherButton.Visible = gun.Holder.CanShootOther;
+			shootOtherButton.SetProcessInput(gun.Holder.CanShootOther);
+
+			LookAt(gun.Holder.GlobalPosition);
+			Rotation += Vector3.Up * Mathf.DegToRad(90);
+			Rotation = new Vector3(0, Rotation.Y, 0);
+			Visible = show;
 		}
-		Visible = true;
-		ProcessMode = ProcessModeEnum.Inherit;
-		shootOtherButton.Visible = gun.Holder.CanShootOther;
-		shootOtherButton.SetProcessInput(gun.Holder.CanShootOther);
-		LookAt(gun.Holder.GlobalPosition);
 	}
 }
