@@ -29,6 +29,7 @@ public partial class PlayerUI : Control {
 		player.Connect(Player.SignalName.PlayerStartTurn, Callable.From(TurnAnimation));
 		player.Connect(Player.SignalName.NewRound, Callable.From(UpdateUI));
 		player.Connect(Player.SignalName.GameEnd, Callable.From(() => Visible = false));
+		player.Connect(Player.SignalName.UpdateSpectate, Callable.From((Player watching) => UpdateSpectateText(watching)));
 
 		healthText = GetNode(HEALTH_NODE_NAME) as TextShake;
 		nameText = GetNode(NAME_NODE_NAME) as TextShake;
@@ -79,7 +80,16 @@ public partial class PlayerUI : Control {
 		deathTween.TweenProperty(deadScreen, nameof(Modulate).ToLower(), opaqueColor, waitTime);
 		deathTween.TweenInterval(waitTime);
 		deathTween.TweenProperty(deadScreen, nameof(Modulate).ToLower(), transparentColor, waitTime);
-		deathTween.TweenCallback(Callable.From(() => deadScreen.Visible = false));
+		deathTween.TweenCallback(Callable.From(() => {
+			// don't need to reset these values back to default because player object gets deleted after a game
+			deadScreen.Visible = false;
+			nameText.Visible = false;
+			healthText.Visible = false;
+		}));
 		deathTween.Play();
+	}
+
+	private void UpdateSpectateText(Player player) {
+		spectatingText.Text = $"Spectating {player.PlayerName}";
 	}
 }

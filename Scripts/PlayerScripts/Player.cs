@@ -15,6 +15,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void PlayerPickUpGunEventHandler();
 	[Signal] public delegate void PlayerDropGunEventHandler();
 	[Signal] public delegate void PlayerInteractEventHandler();
+	[Signal] public delegate void UpdateSpectateEventHandler();
 	[Signal] public delegate void NewRoundEventHandler();
 	[Signal] public delegate void GameEndEventHandler();
 
@@ -56,10 +57,12 @@ public partial class Player : Node3D, IInteractableEntity {
 		}));
 		driver.Connect(GameDriver.SignalName.NewRound, Callable.From((Player holder) => {
 			if (holder != this) NerfGun = null;
-			EmitSignal(SignalName.NewRound);
+			if (IsDead) EmitSignal(SignalName.UpdateSpectate, holder);
+			else EmitSignal(SignalName.NewRound);
 		}));
 		driver.Connect(GameDriver.SignalName.NewTurn, Callable.From((Player holder) => {
 			if (holder != this) NerfGun = null;
+			if (IsDead) EmitSignal(SignalName.UpdateSpectate, holder);
 		}));
 	}
 
