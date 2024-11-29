@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class GameDriver : Node {
 	// SET UP SINGLETON
@@ -47,9 +48,13 @@ public partial class GameDriver : Node {
 
 	public void EndTurn(bool reverse = false) {
 		// reverse indicates to move backwards on Players list
-		currentPlayerIndex = reverse ? currentPlayerIndex - 1 : currentPlayerIndex + 1;
-		if (currentPlayerIndex < 0) currentPlayerIndex = Players.Count - 1;
-		else if (currentPlayerIndex >= Players.Count) currentPlayerIndex  = 0;
+		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
+		int tempIndex = aliveIndices.IndexOf(currentPlayerIndex);
+		tempIndex = reverse ? tempIndex - 1 : tempIndex + 1;
+		if (tempIndex >= aliveIndices.Count) tempIndex = 0;
+		else if (tempIndex < 0) tempIndex = aliveIndices.Count - 1;
+		currentPlayerIndex = aliveIndices[tempIndex];
+		currentTurnPlayer = Players[currentPlayerIndex];
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
@@ -62,7 +67,8 @@ public partial class GameDriver : Node {
 			return;
 		}
 		Round++;
-		currentPlayerIndex = (int) (GD.Randi() % Players.Count);
+		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
+		currentPlayerIndex = aliveIndices[(int) (GD.Randi() % aliveIndices.Count)];
 		currentTurnPlayer = Players[currentPlayerIndex];
 		EmitSignal(SignalName.NewRound, currentTurnPlayer);
 	}
@@ -88,7 +94,8 @@ public partial class GameDriver : Node {
 	private void DisplayWinner(Player winner) {
 		foreach(Player player in Players) player.Visible = !player.IsDead; // hide dead players
 		winner.IsRemotePlayer = true; // disable inputs, even for local in win screen
-		winner.Position = confetti.GlobalPosition;
+		winner.GlobalPosition = confetti.GlobalPosition;
+		winner.Rotation = Vector3.Up * Mathf.DegToRad(220);
 		confetti.Emitting = true;
 	}
 
