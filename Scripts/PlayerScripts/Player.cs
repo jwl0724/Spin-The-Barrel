@@ -15,13 +15,14 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void PlayerPickUpGunEventHandler();
 	[Signal] public delegate void PlayerDropGunEventHandler();
 	[Signal] public delegate void PlayerInteractEventHandler();
+	[Signal] public delegate void NewRoundEventHandler();
+	[Signal] public delegate void GameEndEventHandler();
 
 	// CONSTANTS
 	public static readonly int DEFAULT_PLAYER_HEATLH = 4;
 	public static readonly float SHOOT_DELAY_TIME = 0.75f;
 
 	// VARIABLES
-	private CustomTimer timer = new();
 	private bool hasDoubleDamage = false; // TODO: add this effect when items are added
 	public float MouseSensitivity { get; set; } = 0.05f;
 	public int Health { get; private set; } = DEFAULT_PLAYER_HEATLH;
@@ -29,6 +30,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	public string PlayerName { get; private set; }
 	public bool CanShootOther { get; private set; } = false; // TODO: add this effect when items are added
 	public Gun NerfGun { get; private set; } = null;
+	private GameDriver driver;
 	private int selectedModel = -1;
 	public int SelectedModel {
 		get => selectedModel;
@@ -45,8 +47,20 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public override void _Ready() {
-		timer.Time = SHOOT_DELAY_TIME;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		driver = GameDriver.Instance;
+		driver.Connect(GameDriver.SignalName.GameOver, Callable.From(() => {
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+			SetProcessInput(false);
+			EmitSignal(SignalName.GameEnd);
+		}));
+		driver.Connect(GameDriver.SignalName.NewRound, Callable.From((Player holder) => {
+			if (holder != this) NerfGun = null;
+			EmitSignal(SignalName.NewRound);
+		}));
+		driver.Connect(GameDriver.SignalName.NewTurn, Callable.From((Player holder) => {
+			if (holder != this) NerfGun = null;
+		}));
 	}
 
 	public override void _Input(InputEvent inputEvent) {
@@ -63,21 +77,23 @@ public partial class Player : Node3D, IInteractableEntity {
 		ModelManager.SetModel(modelIndex);
 	}
 
+	// called on start of new turn to give gun to whoever's turn it is
 	public void GiveGun(Gun gun) {
 		NerfGun = gun;
 		EmitSignal(SignalName.PlayerStartTurn);
 	}
 
+	// called when player looks at gun, physically pick up the gun
 	public void PickUpGun() {
 		if (NerfGun == null) return;
 		if (!IsRemotePlayer) Input.MouseMode = Input.MouseModeEnum.Visible;
 		NerfGun.PickUp();
 	}
 
-	public void DropGun(bool callDropForGun) {
+	public void DropGun() {
 		if (NerfGun == null) return;
 		if (!IsRemotePlayer) Input.MouseMode = Input.MouseModeEnum.Captured;
-		if (callDropForGun) NerfGun.Drop();
+		if (IsRemotePlayer) NerfGun.Drop();
 	}
 
 	// this functions is intended to be called in the callback function in gun to let player know the animation is done
@@ -86,17 +102,35 @@ public partial class Player : Node3D, IInteractableEntity {
 		else EmitSignal(SignalName.PlayerDropGun);
 	}
 
+	// this function is intended to be called by the network interface, emulates player input for shoot
 	public void Shoot(Player player = null) {
-		NerfGun.Shoot(player);
+		if (IsRemotePlayer) NerfGun.Shoot(player);
+	}
+
+	// propagate the call to the driver that player was shot
+	public void EndTurn() {
+		driver.EndTurn();
 	}
 
 	public void DamagePlayer(int amount) {
 		Health -= amount;
 		if (Health <= 0) {
 			IsDead = true;
+			Input.MouseMode = Input.MouseModeEnum.Visible;
 			EmitSignal(SignalName.PlayerDied);
 
 		} else EmitSignal(SignalName.PlayerHurt);
+		driver.EndRound();
+	}
+
+	// used when items are implemented? depends on how much time left
+	public void HealPlayer(int amount) {
+		// will allow for negative healing (RNG healing items)
+		Health += amount;
+		if (Health <= 0) {
+			IsDead = true;
+			EmitSignal(SignalName.PlayerDied);
+		}
 	}
 
 	private void ResetPlayerState() {

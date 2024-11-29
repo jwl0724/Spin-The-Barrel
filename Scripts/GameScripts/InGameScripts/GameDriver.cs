@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public partial class GameDriver : Node {
@@ -22,10 +21,12 @@ public partial class GameDriver : Node {
 
 	// STATIC CONSTANTS
 	public static readonly List<Player> Players = new(); // list of players in the game
+	private static readonly int START_ROUND = 1;
 	private static readonly string CONFETTI_NODE_NAME = "WinPosition/Confetti";
 	private static readonly string GUN_POINT_NODE_NAME = "GunPoint";
 
 	// VARIABLES
+	public int Round { get; private set; } = START_ROUND;
 	private Player currentTurnPlayer;
 	private int currentPlayerIndex = 0;
 	private GpuParticles3D confetti;
@@ -38,7 +39,6 @@ public partial class GameDriver : Node {
 		confetti.Emitting = false;
 	}
 
-	// FUNCTIONS FOR PLAYER TO CALL IN GAME
 	public Vector3 GetCurrentPlayerGunPoint() {
 		Node3D spawnPoint = spawnPoints.GetChild<Node3D>(currentPlayerIndex);
 		Node3D gunPoint = spawnPoint.GetNode<Node3D>(GUN_POINT_NODE_NAME);
@@ -51,6 +51,20 @@ public partial class GameDriver : Node {
 		if (currentPlayerIndex < 0) currentPlayerIndex = Players.Count - 1;
 		else if (currentPlayerIndex >= Players.Count) currentPlayerIndex  = 0;
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+	}
+
+	public void EndRound() {
+		Player winner = GetWinner();
+		if (winner != null) {
+			DisplayWinner(winner);
+			EmitSignal(SignalName.GameOver);
+			ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.POST_GAME);
+			return;
+		}
+		Round++;
+		currentPlayerIndex = (int) (GD.Randi() % Players.Count);
+		currentTurnPlayer = Players[currentPlayerIndex];
+		EmitSignal(SignalName.NewRound, currentTurnPlayer);
 	}
 
 	private void StartGame() {
@@ -71,16 +85,20 @@ public partial class GameDriver : Node {
 		}
 	}
 
-	private void DisplayWinner() {
-		// find winner
-		Player winner = null;
-		foreach(Player player in Players) {
-			if (!player.IsDead) winner = player;
-			player.IsRemotePlayer = true;
-			player.Visible = !player.IsDead;
-		}
+	private void DisplayWinner(Player winner) {
+		foreach(Player player in Players) player.Visible = !player.IsDead; // hide dead players
+		winner.IsRemotePlayer = true; // disable inputs, even for local in win screen
 		winner.Position = confetti.GlobalPosition;
 		confetti.Emitting = true;
+	}
+
+	private Player GetWinner() {
+		Player winner = null;
+		foreach(Player player in Players) {
+			if (!player.IsDead && winner != null) return null;
+			else if (!player.IsDead) winner = player;
+		}
+		return winner;
 	}
 
 	private void DeletePlayers() {
@@ -90,8 +108,19 @@ public partial class GameDriver : Node {
 		}
 	}
 
+	private void ResetDriverState() {
+		Round = START_ROUND;
+		DeletePlayers();
+		Players.Clear();
+		confetti.Emitting = false;
+	}
+
 	private void OnScreenStateChanged(ScreenManager.ScreenState newState) {
 		if (newState == ScreenManager.ScreenState.IN_GAME) StartGame();
-		else if (newState == ScreenManager.ScreenState.POST_GAME) DisplayWinner();
+		else if (newState == ScreenManager.ScreenState.POST_GAME) EmitSignal(SignalName.GameOver);
+		else if (newState == ScreenManager.ScreenState.MAIN_MENU) {
+			EmitSignal(SignalName.BackToMenu);
+			ResetDriverState();
+		}
 	}
 }

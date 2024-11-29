@@ -8,10 +8,12 @@ public partial class PlayerUI : Control {
 	private static readonly string SPECTATOR_NODE_NAME = "Spectate";
 	private static readonly string DEAD_SCREEN_NODE_NAME = "DeadScreen";
 	private static readonly string STATUS_NODE_NAME = "Status";
+	private static readonly string ROUND_TEXT_NODE_NAME = "Round";
 	private static readonly Color opaqueColor = new(1, 1, 1, 1);
 	private static readonly Color transparentColor = new(1, 1, 1, 0);
 	private Player player;
 	private Label statusText;
+	private Label roundText;
 	private TextShake healthText;
 	private TextShake nameText;
 	private Label spectatingText;
@@ -25,9 +27,12 @@ public partial class PlayerUI : Control {
 		player.Connect(Player.SignalName.PlayerReset, Callable.From(UpdateUI));
 		player.Connect(Player.SignalName.PlayerDied, Callable.From(UpdateUI));
 		player.Connect(Player.SignalName.PlayerStartTurn, Callable.From(TurnAnimation));
+		player.Connect(Player.SignalName.NewRound, Callable.From(UpdateUI));
+		player.Connect(Player.SignalName.GameEnd, Callable.From(() => Visible = false));
 
 		healthText = GetNode(HEALTH_NODE_NAME) as TextShake;
 		nameText = GetNode(NAME_NODE_NAME) as TextShake;
+		roundText = GetNode(ROUND_TEXT_NODE_NAME) as TextShake;
 		spectatingText = GetNode<Label>(SPECTATOR_NODE_NAME);
 		deadScreen = GetNode<Control>(DEAD_SCREEN_NODE_NAME);
 		statusText = GetNode<Label>(STATUS_NODE_NAME);
@@ -48,6 +53,7 @@ public partial class PlayerUI : Control {
 
 	private void UpdateUI() {
 		healthText.Text = $"Health: {player.Health}";
+		roundText.Text = $"Round {GameDriver.Instance.Round}";
 		if (player.IsDead) AnimateDeadScreen();
 	}
 

@@ -18,14 +18,13 @@ public partial class Gun : Node3D, IInteractableEntity {
 	public Player Holder { get; private set; }
 	private HitBox hitbox;
 	private GunModelManager model;
-	public static readonly int DEFAULT_DAMAGE = 4;
+	public static readonly int DEFAULT_DAMAGE = 1;
     private readonly bool[] chamber = new bool[6];
 	private int currentDamage = DEFAULT_DAMAGE;
 	private int chamberIndex;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		// TODO: create a main game loop that emits signal of new round and game over, where gun needs to listen to the main game loop
 		chamberIndex = (int) (GD.Randi() % chamber.Length);
 		hitbox = GetNode<HitBox>(HITBOX_NODE_NAME);
 		model = GetNode<GunModelManager>(MODEL_MANAGER_NODE_NAME);
@@ -37,7 +36,10 @@ public partial class Gun : Node3D, IInteractableEntity {
 		if (chamberIndex >= chamber.Length) chamberIndex = 0;
 		model.PlayShoot(player, Callable.From(() => {
 			EmitSignal(SignalName.OnShoot, hasBullet);
-			if (!hasBullet) return;
+			if (!hasBullet) {
+				Holder.EndTurn();
+				return;
+			}
 			if (player != null) player.DamagePlayer(currentDamage);
 			else Holder.DamagePlayer(currentDamage);
 			Drop();
@@ -80,7 +82,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 		}));
 		model.PlayDrop(tweenTime);
 		dropTween.Play();
-		Holder.DropGun(false);
+		Holder.DropGun();
 	}
 
 	public void SetupNewTurn(Player newHolder) {
