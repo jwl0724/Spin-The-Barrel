@@ -54,5 +54,6 @@ public partial class GunModelManager : Node3D {
 		tween.TweenProperty(this, nameof(Rotation).ToLower(), spinningRotation, turnTime);
 		tween.TweenProperty(this, nameof(Rotation).ToLower(), pickedUpRotation, turnTime * 2);
 		tween.Play();
+		gunAnimator.Play(SPIN_ANIMATION);
 	}
 }
