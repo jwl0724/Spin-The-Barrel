@@ -9,10 +9,7 @@ public partial class PlayerReticle : RayCast3D {
 	public override void _Ready() {
 		player = Owner as Player;
 		player.Connect(Player.SignalName.PlayerInteract, Callable.From(() => OnPlayerInteract()));
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta) {
+		
 	}
 
     public override void _PhysicsProcess(double delta) {
