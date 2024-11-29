@@ -1,9 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://bjnjei1r7wqq8"]
+[gd_scene load_steps=26 format=3 uid="uid://bjnjei1r7wqq8"]
 
 [ext_resource type="PackedScene" uid="uid://4b1k238gxmft" path="res://Assets/Models/ObjectModels/gun.glb" id="1_if3qc"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/Gun.cs" id="1_it0jy"]
 [ext_resource type="PackedScene" uid="uid://ci37ny3gfiae4" path="res://Assets/Models/ObjectModels/nerf_dartbullet.glb" id="2_7olc0"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/HitBox.cs" id="2_rdrsf"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/GunModelManager.cs" id="2_y1fbp"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/NameText.cs" id="3_5lh4p"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/GunSoundManager.cs" id="4_katwa"]
 [ext_resource type="AudioStream" uid="uid://b2p82rp1xhqty" path="res://Assets/Sounds/Gun/Fired.mp3" id="5_lwxcj"]
 [ext_resource type="AudioStream" uid="uid://b043y1qfelx6k" path="res://Assets/Sounds/Gun/Blank.mp3" id="6_xjl2b"]
@@ -12,48 +14,89 @@
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/Clickable3D.cs" id="10_nqgw2"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="11_xy77w"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_i8ydc"]
+size = Vector3(0.3, 0.25, 0.3)
+
+[sub_resource type="TextMesh" id="TextMesh_ps3in"]
+text = "Pick Up"
+font = ExtResource("11_xy77w")
+font_size = 3
+pixel_size = 0.02
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_owktr"]
 radius = 0.05
 height = 0.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_idvxi"]
-size = Vector3(0.1, 0.1, 0.3)
+size = Vector3(0.12, 0.1, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s02aw"]
+emission_enabled = true
+emission = Color(0.666569, 0.666569, 0.666569, 1)
 
 [sub_resource type="TextMesh" id="TextMesh_rdovd"]
-text = "Add Round"
+material = SubResource("StandardMaterial3D_s02aw")
+text = "Add
+Round"
 font = ExtResource("11_xy77w")
-font_size = 3
+font_size = 2
 pixel_size = 0.02
+depth = 0.01
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_twi6e"]
-size = Vector3(0.2, 0.1, 0.1)
+size = Vector3(0.15, 0.05, 0.05)
 
 [sub_resource type="TextMesh" id="TextMesh_l62j0"]
+material = SubResource("StandardMaterial3D_s02aw")
 text = "Shoot"
 font = ExtResource("11_xy77w")
-font_size = 3
+font_size = 2
 pixel_size = 0.02
+depth = 0.01
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_strv3"]
-size = Vector3(0.18, 0.1, 0.1)
+size = Vector3(0.1, 0.08, 0.05)
 
 [sub_resource type="TextMesh" id="TextMesh_4hk6s"]
+material = SubResource("StandardMaterial3D_s02aw")
 text = "Drop"
 font = ExtResource("11_xy77w")
-font_size = 3
+font_size = 2
 pixel_size = 0.02
+depth = 0.01
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qkybi"]
-size = Vector3(0.45, 0.1, 0.1)
+size = Vector3(0.15, 0.1, 0.05)
 
 [sub_resource type="TextMesh" id="TextMesh_4lywc"]
-text = "Shoot Other"
+material = SubResource("StandardMaterial3D_s02aw")
+text = "Shoot
+Other"
 font = ExtResource("11_xy77w")
-font_size = 3
+font_size = 2
 pixel_size = 0.02
+depth = 0.01
 
 [node name="Gun" type="Node3D"]
 script = ExtResource("1_it0jy")
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_rdrsf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("BoxShape3D_i8ydc")
+
+[node name="NameText" type="MeshInstance3D" parent="." node_paths=PackedStringArray("hitbox")]
+mesh = SubResource("TextMesh_ps3in")
+skeleton = NodePath("../..")
+script = ExtResource("3_5lh4p")
+hitbox = NodePath("../HitBox")
+namePosition = Vector3(0, 0.1, 0)
+offsetAmount = 0.01
+offsetSpeed = 3.0
+tiltAngle = -20.0
 
 [node name="Model" type="Node3D" parent="." node_paths=PackedStringArray("gunAnimator")]
 script = ExtResource("2_y1fbp")
@@ -86,57 +129,49 @@ transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
 transform = Transform3D(-5.68248e-08, 0, -1.3, 0, 1.3, 0, 1.3, 0, -5.68248e-08, -1.67, -0.04, 0)
 
 [node name="GunMenu" type="Node3D" parent="."]
-visible = false
 script = ExtResource("9_u2o5g")
 
 [node name="Add" type="Area3D" parent="GunMenu"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0490154)
+transform = Transform3D(-0.40436, 0, 0.9146, 0, 1, 0, -0.9146, 0, -0.40436, 0, 0, 0.262956)
 script = ExtResource("10_nqgw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GunMenu/Add"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.223652)
 shape = SubResource("BoxShape3D_idvxi")
 
 [node name="Add" type="MeshInstance3D" parent="GunMenu/Add"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0.22)
 mesh = SubResource("TextMesh_rdovd")
 skeleton = NodePath("../../../..")
 
 [node name="Shoot" type="Area3D" parent="GunMenu"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0455041)
+transform = Transform3D(0.447088, 0, 0.89449, 0, 1, 0, -0.89449, 0, 0.447088, 2.82939e-09, 0, -0.286044)
 script = ExtResource("10_nqgw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GunMenu/Shoot"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.000724919, 0, -0.204463)
 shape = SubResource("BoxShape3D_twi6e")
 
 [node name="Shoot" type="MeshInstance3D" parent="GunMenu/Shoot"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -0.204463)
 mesh = SubResource("TextMesh_l62j0")
 skeleton = NodePath("../../../..")
 
 [node name="Drop" type="Area3D" parent="GunMenu"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.206193, 0)
 script = ExtResource("10_nqgw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GunMenu/Drop"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00300855, -0.139642, 0.00350618)
 shape = SubResource("BoxShape3D_strv3")
 
 [node name="Drop" type="MeshInstance3D" parent="GunMenu/Drop"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.139642, -0.001755)
 mesh = SubResource("TextMesh_4hk6s")
 skeleton = NodePath("../../../..")
 
 [node name="ShootOther" type="Area3D" parent="GunMenu"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.184598, 0.192507)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.224492, 0)
 script = ExtResource("10_nqgw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GunMenu/ShootOther"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.000724919, 0, -0.181855)
 shape = SubResource("BoxShape3D_qkybi")
 
-[node name="Shoot" type="MeshInstance3D" parent="GunMenu/ShootOther"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -0.204463)
+[node name="ShootOther" type="MeshInstance3D" parent="GunMenu/ShootOther"]
 mesh = SubResource("TextMesh_4lywc")
 skeleton = NodePath("../../../..")
 
