@@ -16,6 +16,9 @@ public partial class GameDriver : Node {
 
 	// SIGNALS
 	[Signal] public delegate void NewTurnEventHandler();
+	[Signal] public delegate void NewRoundEventHandler();
+	[Signal] public delegate void GameOverEventHandler();
+	[Signal] public delegate void BackToMenuEventHandler();
 
 	// STATIC CONSTANTS
 	public static readonly List<Player> Players = new(); // list of players in the game
@@ -54,7 +57,7 @@ public partial class GameDriver : Node {
 		SpawnPlayers();
 		int currentPlayerIndex = (int) (GD.Randi() % Players.Count);
 		currentTurnPlayer = Players[currentPlayerIndex];
-		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+		EmitSignal(SignalName.NewRound, currentTurnPlayer);
 	}
 
 	private void SpawnPlayers() {
