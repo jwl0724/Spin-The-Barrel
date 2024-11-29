@@ -4,14 +4,16 @@ using System;
 public partial class NameText : MeshInstance3D {
 	[Export] private HitBox hitbox;
 	[Export] private Vector3 namePosition = new Vector3(0, 0.92f, 0);
-	[Export] private float offsetAmount = 0.005f;
+	[Export] private float offsetAmount = 0.4f;
 	[Export] private float offsetSpeed = 8;
+	[Export] private float tiltAngle = 30;
 	private bool isLookedAt = false;
 	private float sinVariable = 0;
+	private Vector3 basePosition;
+	private Player localPlayer = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		SetNameDirection();
 
 		// set text
 		TextMesh textMesh = Mesh as TextMesh;
@@ -20,6 +22,7 @@ public partial class NameText : MeshInstance3D {
 		// set hide properties
 		Position = namePosition;
 		Scale = Vector3.Zero;
+		basePosition = namePosition;
 
 		// connect signals
 		_ = hitbox.Connect(HitBox.SignalName.LookedAt, Callable.From(() => OnLookedAt()));
@@ -31,7 +34,7 @@ public partial class NameText : MeshInstance3D {
 			// animates a hover effect
 			if (sinVariable >= Mathf.Pi * 2) sinVariable = 0;
 			sinVariable += (float) delta * offsetSpeed;
-			Position += Vector3.Up * Mathf.Sin(sinVariable) * offsetAmount;
+			Position = Vector3.Up * Mathf.Sin(sinVariable) * offsetAmount + basePosition;
 			return;
 		}
 		Position = namePosition;
@@ -39,6 +42,7 @@ public partial class NameText : MeshInstance3D {
 	}
 
 	private void OnLookedAt() {
+		SetNameDirection();
 		Tween showAnimation = CreateTween();
 		showAnimation.TweenProperty(this, nameof(Scale).ToLower(), Vector3.One, 0.25f);
 		showAnimation.TweenCallback(Callable.From(() => isLookedAt = true));
@@ -53,13 +57,19 @@ public partial class NameText : MeshInstance3D {
 	}
 	
 	private void SetNameDirection() {
+		if (localPlayer != null) {
+			LookAt(localPlayer.GlobalPosition);
+			return;
+		}
+
 		foreach(Player player in GameDriver.Players) {
 			if(player.IsRemotePlayer) continue;
+			localPlayer = player;
 			LookAt(player.GlobalPosition);
-			
-			float tiltDownAngle = 30, fullRotation = 180;
+
+			float fullRotation = 180;
 			Rotation += Vector3.Up * Mathf.DegToRad(fullRotation);
-			Rotation += Vector3.Right * Mathf.DegToRad(tiltDownAngle);
+			Rotation += Vector3.Right * Mathf.DegToRad(tiltAngle);
 			return;
 		}
 	}
