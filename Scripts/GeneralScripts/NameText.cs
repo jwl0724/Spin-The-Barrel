@@ -65,6 +65,7 @@ public partial class NameText : MeshInstance3D {
 		foreach(Player player in GameDriver.Players) {
 			if(player.IsRemotePlayer) continue;
 			localPlayer = player;
+			localPlayer.Connect(Node.SignalName.TreeExiting, Callable.From(() => localPlayer = null));
 			LookAt(player.GlobalPosition);
 
 			float fullRotation = 180;
