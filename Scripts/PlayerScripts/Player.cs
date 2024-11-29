@@ -10,8 +10,10 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void PlayerHurtEventHandler();
 	[Signal] public delegate void PlayerDiedEventHandler();
 	[Signal] public delegate void PlayerResetEventHandler();
-	[Signal] public delegate void PlayerTurnEventHandler();
-	[Signal] public delegate void PlayerHoldGunEventHandler();
+	[Signal] public delegate void PlayerStartTurnEventHandler();
+	[Signal] public delegate void PlayerEndTurnEventHandler();
+	[Signal] public delegate void PlayerPickUpGunEventHandler();
+	[Signal] public delegate void PlayerDropGunEventHandler();
 	[Signal] public delegate void PlayerInteractEventHandler();
 
 	// CONSTANTS
@@ -26,7 +28,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	public bool IsDead { get; private set; } = false;
 	public string PlayerName { get; private set; }
 	public bool CanShootOther { get; private set; } = false; // TODO: add this effect when items are added
-	private Gun gun;
+	public Gun NerfGun { get; private set; } = null;
 	private int selectedModel = -1;
 	public int SelectedModel {
 		get => selectedModel;
@@ -62,27 +64,35 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public void GiveGun(Gun gun) {
-		this.gun = gun;
-		EmitSignal(SignalName.PlayerTurn);
+		NerfGun = gun;
+		EmitSignal(SignalName.PlayerStartTurn);
 	}
 
-	public void PickUpGun(Gun gun) {
-		Input.MouseMode = Input.MouseModeEnum.Visible;
+	public void PickUpGun() {
+		if (NerfGun == null) return;
+		if (!IsRemotePlayer) Input.MouseMode = Input.MouseModeEnum.Visible;
+		NerfGun.PickUp();
 	}
 
-	public async void Shoot(Player player = null) {
-		EmitSignal(SignalName.PlayerHoldGun, gun.GlobalPosition);
-		timer.Start();
-		await ToSignal(timer, CustomTimer.SignalName.Timeout);
-		if (!gun.Shoot()) return;
-		int damage = hasDoubleDamage ? Gun.DEFAULT_DAMAGE * 2 : Gun.DEFAULT_DAMAGE;
-		if (player == null) DamagePlayer(damage);
-		else player.DamagePlayer(damage);
+	public void DropGun(bool callDropForGun) {
+		if (NerfGun == null) return;
+		if (!IsRemotePlayer) Input.MouseMode = Input.MouseModeEnum.Captured;
+		if (callDropForGun) NerfGun.Drop();
 	}
 
-	private void DamagePlayer(int amount) {
+	// this functions is intended to be called in the callback function in gun to let player know the animation is done
+	public void UpdateGunHold(bool wasPickedUp) {
+		if (wasPickedUp) EmitSignal(SignalName.PlayerPickUpGun);
+		else EmitSignal(SignalName.PlayerDropGun);
+	}
+
+	public void Shoot(Player player = null) {
+		NerfGun.Shoot(player);
+	}
+
+	public void DamagePlayer(int amount) {
 		Health -= amount;
-		if (Health < 0) {
+		if (Health <= 0) {
 			IsDead = true;
 			EmitSignal(SignalName.PlayerDied);
 
