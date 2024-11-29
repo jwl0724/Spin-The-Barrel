@@ -24,7 +24,7 @@ public partial class PlayerUI : Control {
 		}));
 		player.Connect(Player.SignalName.PlayerReset, Callable.From(UpdateUI));
 		player.Connect(Player.SignalName.PlayerDied, Callable.From(UpdateUI));
-		player.Connect(Player.SignalName.PlayerTurn, Callable.From(TurnAnimation));
+		player.Connect(Player.SignalName.PlayerStartTurn, Callable.From(TurnAnimation));
 
 		healthText = GetNode(HEALTH_NODE_NAME) as TextShake;
 		nameText = GetNode(NAME_NODE_NAME) as TextShake;
