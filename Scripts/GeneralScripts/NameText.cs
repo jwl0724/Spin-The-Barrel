@@ -3,7 +3,7 @@ using System;
 
 public partial class NameText : MeshInstance3D {
 	[Export] private HitBox hitbox;
-	private static readonly Vector3 NAME_POSITION = new Vector3(0, 0.92f, 0);
+	[Export] private Vector3 namePosition = new Vector3(0, 0.92f, 0);
 	private bool isLookedAt = false;
 	private float sinVariable = 0;
 
@@ -16,7 +16,7 @@ public partial class NameText : MeshInstance3D {
 		textMesh.Text = (Owner as IInteractableEntity).GetEntityName();
 
 		// set hide properties
-		Position = NAME_POSITION;
+		Position = namePosition;
 		Scale = Vector3.Zero;
 
 		// connect signals
@@ -34,7 +34,7 @@ public partial class NameText : MeshInstance3D {
 			Position += Vector3.Up * Mathf.Sin(sinVariable) * offsetAmount;
 			return;
 		}
-		Position = NAME_POSITION;
+		Position = namePosition;
 		sinVariable = 0;
 	}
 
