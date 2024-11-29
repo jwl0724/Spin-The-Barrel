@@ -162,7 +162,7 @@ script = ExtResource("12_0fp5k")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.524724, 0.975898, -2.94465)
 
 [node name="WinPosition" type="Node3D" parent="GameDriver"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.524724, 0.975898, -2.94465)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.524724, 1.24472, -2.94465)
 
 [node name="Confetti" type="GPUParticles3D" parent="GameDriver/WinPosition"]
 emitting = false
@@ -189,8 +189,8 @@ fov = 85.0
 transform = Transform3D(0.796899, 0, 0.604112, 0, 1, 0, -0.604112, 0, 0.796899, 1.4312, 1.39086, -1.69626)
 script = ExtResource("7_r47b7")
 rotationPoint = Vector3(0.486, 1.097, -2.918)
-stateToEnable = 3
-rotationSpeed = 3.0
+stateToEnable = 4
+rotationSpeed = 6.0
 
 [node name="DeadCamera" type="Camera3D" parent="Cameras"]
 transform = Transform3D(1, 0, 0, 0, 0.998028, -0.0627731, 0, 0.0627731, 0.998028, 0.49903, 1.26715, -2.83394)
