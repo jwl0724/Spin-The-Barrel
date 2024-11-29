@@ -5,12 +5,14 @@ public partial class SpinCamera : Camera3D {
 	[Export] private Vector3 rotationPoint;
 	[Export] private ScreenManager.ScreenState stateToEnable;
 	[Export] private float rotationSpeed = 1;
+	private Vector3 startPoint;
 
 	private ScreenManager manager;
 
 	public override void _Ready() {
 		manager = ScreenManager.Instance;
 		manager.Connect(ScreenManager.SignalName.GameStateChanged, Callable.From((ScreenManager.ScreenState state) => OnStateChanged(state)));
+		startPoint = Position;
 	}
 
 	public override void _Process(double delta) {
@@ -28,6 +30,7 @@ public partial class SpinCamera : Camera3D {
 			Current = true;
 			return;
 		}
+		Position = startPoint;
 		ProcessMode = ProcessModeEnum.Disabled;
 	}
 }
