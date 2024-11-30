@@ -105,6 +105,9 @@ gunAnimator = NodePath("Gun/AnimationPlayer")
 [node name="Gun" parent="Model" instance=ExtResource("1_if3qc")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
+[node name="NerfGun_001" parent="Model/Gun" index="1"]
+transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 1.11027e-09, 0, -1.11027e-09, 0.0254, 0.188052, 0.084658, -8.51579e-06)
+
 [node name="SoundEffect" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("4_katwa")
 shootSoundEffect = ExtResource("5_lwxcj")

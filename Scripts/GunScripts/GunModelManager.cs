@@ -36,7 +36,7 @@ public partial class GunModelManager : Node3D {
 	}
 
 	public void PlayShoot(Player player, Callable function) {
-		Player target = player == null ? gun.Holder : player;
+		Player target = player ?? gun.Holder;
 		Vector3 originalRotation = Rotation;
 		LookAt(target.GlobalPosition);
 		Vector3 finalRotation = Rotation + Vector3.Up * Mathf.DegToRad(90);
@@ -57,15 +57,18 @@ public partial class GunModelManager : Node3D {
 	}
 
 	public void PlaySpinBarrel() {
+		gunAnimator.Play(SPIN_ANIMATION);
 		const float turnTime = 0.3f;
 		Tween tween = CreateTween();
 		tween.TweenProperty(this, nameof(Rotation).ToLower(), spinningRotation, turnTime);
 		tween.TweenInterval(turnTime);
 		tween.TweenProperty(this, nameof(Rotation).ToLower(), pickedUpRotation, turnTime * 2);
-		tween.TweenCallback(Callable.From(() => IsPlayingAnimation = false));
+		tween.TweenInterval(gunAnimator.CurrentAnimationLength - turnTime * 4);
+		tween.TweenCallback(Callable.From(() => {
+			IsPlayingAnimation = false;
+		}));
 		IsPlayingAnimation = true;
 		tween.Play();
-		gunAnimator.Play(SPIN_ANIMATION);
 	}
 
 	public void SpinBarrelOnly() {
