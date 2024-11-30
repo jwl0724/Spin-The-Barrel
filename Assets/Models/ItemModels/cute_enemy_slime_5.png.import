@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cm0wqqnfd110u"
+path.s3tc="res://.godot/imported/cute_enemy_slime_5.png-3e7b1b74bc36bed75f552de1808fd5de.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "626b91e3cf3ac05d70f38c82702e67e0"
+}
+
+[deps]
+
+source_file="res://Assets/Models/ItemModels/cute_enemy_slime_5.png"
+dest_files=["res://.godot/imported/cute_enemy_slime_5.png-3e7b1b74bc36bed75f552de1808fd5de.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=8
+roughness/src_normal="res://Assets/Models/ItemModels/cute_enemy_slime_7.png"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
