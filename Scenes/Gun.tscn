@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://4b1k238gxmft" path="res://Assets/Models/ObjectModels/gun.glb" id="1_if3qc"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/Gun.cs" id="1_it0jy"]
 [ext_resource type="PackedScene" uid="uid://ci37ny3gfiae4" path="res://Assets/Models/ObjectModels/nerf_dartbullet.glb" id="2_7olc0"]
-[ext_resource type="Script" path="res://Scripts/GeneralScripts/HitBox.cs" id="2_rdrsf"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/LookBox.cs" id="2_rdrsf"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/GunModelManager.cs" id="2_y1fbp"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/NameText.cs" id="3_5lh4p"]
 [ext_resource type="Script" path="res://Scripts/GunScripts/GunSoundManager.cs" id="4_katwa"]

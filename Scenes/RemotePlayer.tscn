@@ -17,7 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://gipy8ylmn3b5" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="26_1efqj"]
 [ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="27_j1ag1"]
 [ext_resource type="AudioStream" uid="uid://b6jhsmtsrpjrh" path="res://Assets/Sounds/PlayerDied/Dead6.mp3" id="28_nc40r"]
-[ext_resource type="Script" path="res://Scripts/GeneralScripts/HitBox.cs" id="29_tx4lb"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/LookBox.cs" id="29_tx4lb"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="30_ptg05"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/NameText.cs" id="31_ssiqh"]
 

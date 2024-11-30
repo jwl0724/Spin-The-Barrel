@@ -16,7 +16,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 
 	// VARIABLES
 	public Player Holder { get; private set; }
-	private HitBox hitbox;
+	private LookBox hitbox;
 	private GunModelManager model;
 	public static readonly int DEFAULT_DAMAGE = 1;
     private readonly bool[] chamber = new bool[6];
@@ -26,7 +26,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 		chamberIndex = (int) (GD.Randi() % chamber.Length);
-		hitbox = GetNode<HitBox>(HITBOX_NODE_NAME);
+		hitbox = GetNode<LookBox>(HITBOX_NODE_NAME);
 		model = GetNode<GunModelManager>(MODEL_MANAGER_NODE_NAME);
 	}
 

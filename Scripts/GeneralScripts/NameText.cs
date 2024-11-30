@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class NameText : MeshInstance3D {
-	[Export] private HitBox hitbox;
+	[Export] private LookBox hitbox;
 	[Export] private Vector3 namePosition = new Vector3(0, 0.92f, 0);
 	[Export] private float offsetAmount = 0.4f;
 	[Export] private float offsetSpeed = 8;
@@ -25,8 +25,8 @@ public partial class NameText : MeshInstance3D {
 		basePosition = namePosition;
 
 		// connect signals
-		_ = hitbox.Connect(HitBox.SignalName.LookedAt, Callable.From(() => OnLookedAt()));
-		_ = hitbox.Connect(HitBox.SignalName.LookedAway, Callable.From(() => OnLookedAway()));
+		_ = hitbox.Connect(LookBox.SignalName.LookedAt, Callable.From(() => OnLookedAt()));
+		_ = hitbox.Connect(LookBox.SignalName.LookedAway, Callable.From(() => OnLookedAway()));
 	}
 
 	public override void _Process(double delta) {

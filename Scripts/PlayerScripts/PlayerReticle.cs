@@ -3,7 +3,7 @@ using System;
 
 public partial class PlayerReticle : RayCast3D {
 	private Player player;
-	private HitBox lookAtTarget;
+	private LookBox lookAtTarget;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
@@ -18,7 +18,7 @@ public partial class PlayerReticle : RayCast3D {
 			lookAtTarget = null;
 			return;
 		}
-		HitBox target = GetCollider() as HitBox;
+		LookBox target = GetCollider() as LookBox;
 		if (target == lookAtTarget) return;
 		else {
 			lookAtTarget = target;

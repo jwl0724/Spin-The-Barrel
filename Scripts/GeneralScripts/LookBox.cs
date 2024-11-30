@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class HitBox : Area3D {
+public partial class LookBox : Area3D {
 	[Signal] public delegate void LookedAtEventHandler();
 	[Signal] public delegate void LookedAwayEventHandler();
 
