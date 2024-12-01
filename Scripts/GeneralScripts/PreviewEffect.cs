@@ -4,15 +4,19 @@ using System;
 public partial class PreviewEffect : Node3D
 {
 	[Export] private float rotationSpeed = 40f;
-	[Export] private float hoverSpeed = 8;
-	[Export] private float hoverOffsetAmount = 0.005f;
+	[Export] private float hoverSpeed = 6;
+	[Export] private float hoverOffsetAmount = 0.025f;
 	private Vector3 basePosition;
 	private float angleVariable = 0;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    public override void _Ready()
+    {
+        basePosition = Position;
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
-		basePosition = Position;
 		DoHoverEffect(delta);
 		DoRotateEffect(delta);
 	}
