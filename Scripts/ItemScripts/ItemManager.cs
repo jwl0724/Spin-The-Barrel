@@ -50,6 +50,7 @@ public partial class ItemManager : Node3D, IInteractableEntity {
 	private static readonly string MODEL_NODE_NAME = "Model";
 	private static readonly string SCRIPT_PLACEMENT_NODE_NAME = "ItemEffect";
 	private static readonly string ANIMATION_PLAYER_NODE_NAME = "Animator";
+	private static readonly string LOOK_BOX_NODE_NAME = "HitBox";
 
 	private GameDriver gameDriver;
 	private AnimationPlayer animator;
@@ -80,6 +81,7 @@ public partial class ItemManager : Node3D, IInteractableEntity {
     }
 
     public void Interact() {
+		GetNode<LookBox>(LOOK_BOX_NODE_NAME).Monitoring = false;
 		EmitSignal(SignalName.ItemUsed);
 		animator.Play(USE_ANIMATION);
 		animator.Connect(AnimationPlayer.SignalName.AnimationFinished, Callable.From((StringName name) => {
