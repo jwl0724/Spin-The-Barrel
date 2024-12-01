@@ -30,6 +30,10 @@ public partial class Gun : Node3D, IInteractableEntity {
 		model = GetNode<GunModelManager>(MODEL_MANAGER_NODE_NAME);
 	}
 
+	public void DoubleGunDamage() {
+		currentDamage *= 2;
+	}
+
 	public void Shoot(Player player = null) {
 		if (model.IsPlayingAnimation) return;
 		bool hasBullet = chamber[chamberIndex++];
@@ -83,6 +87,19 @@ public partial class Gun : Node3D, IInteractableEntity {
 		model.PlayDrop(tweenTime);
 		dropTween.Play();
 		Holder.DropGun();
+	}
+
+	public void RollToSafe() {
+		var unloadedIndices = Enumerable.Range(0, chamber.Length).Where(i => !chamber[i]).ToList();
+		if (unloadedIndices.Count == 0) return;
+		int randomIndex = unloadedIndices[(int) (GD.Randi() % unloadedIndices.Count)];
+		chamberIndex = randomIndex;
+		model.SpinBarrelOnly();
+	}
+
+	public void Reroll() {
+		chamberIndex = (int) (GD.Randi() % chamber.Length);
+		model.SpinBarrelOnly();
 	}
 
 	public void SetupNewTurn(Player newHolder) {
