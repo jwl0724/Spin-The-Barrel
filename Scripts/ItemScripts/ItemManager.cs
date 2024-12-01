@@ -5,8 +5,20 @@ using System.Text.RegularExpressions;
 
 public partial class ItemManager : Node3D, IInteractableEntity {
 	// Model collections data
+	private static readonly string ITEM_MODEL_DIRECTORY = "res://Scenes/ItemModels/";
 	private static readonly string ITEM_SCRIPT_PATH = "res://Scripts/ItemScripts/Items/";
-	[Export] private static readonly Godot.Collections.Array<PackedScene> itemModels;
+	private static readonly Godot.Collections.Array<PackedScene> itemModels; 
+	// can't export static variables, need to manually preload them
+	static ItemManager() {
+		itemModels = new();
+		DirAccess modelDirectory = DirAccess.Open(ITEM_MODEL_DIRECTORY);
+		if (modelDirectory == null) GD.PushError("Model directory configuration incorrect");
+		var allModels = modelDirectory.GetFiles();
+		foreach(string fileName in allModels) {
+			PackedScene modelScene = ResourceLoader.Load<PackedScene>(ITEM_MODEL_DIRECTORY + fileName);
+			if (modelScene != null) itemModels.Add(modelScene);
+		}
+	}
 
 	// Hard coding the values of their respective models
 	private static readonly Dictionary<string, string> descriptionKey = new() { // model name key, model description value
@@ -90,10 +102,10 @@ public partial class ItemManager : Node3D, IInteractableEntity {
 		deleteDelay.Start();
 	}
 
-	private void PrepareItem() {
+    private void PrepareItem() {
 		int randomIndex = (int) (GD.Randi() % itemModels.Count);
 		model = itemModels[randomIndex].Instantiate<Node3D>();
-		itemName = Regex.Replace(itemModels[randomIndex].ResourceName, "(\\B[A-Z])", " $1"); // puts space in camel case
+		itemName = Regex.Replace(model.Name, "(\\B[A-Z])", " $1"); // puts space in camel case
 		itemDescription = descriptionKey[itemName];
 		scriptPlacementNode.SetScript(scriptKey[itemName]);
 		GetNode<Node3D>(MODEL_NODE_NAME).AddChild(model);
