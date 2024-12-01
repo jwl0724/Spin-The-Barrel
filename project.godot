@@ -32,3 +32,4 @@ Interact={
 3d_physics/layer_1="Clickables"
 3d_physics/layer_2="NameTexts"
 3d_physics/layer_3="GunLayer"
+3d_physics/layer_4="ItemLayer"
