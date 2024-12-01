@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://h22mix1i33bu"]
+
+[ext_resource type="PackedScene" uid="uid://bg8vpj8lisywk" path="res://Assets/Models/ItemModels/cute_enemy_slime.glb" id="1_828eo"]
+
+[node name="Slime" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_828eo")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)

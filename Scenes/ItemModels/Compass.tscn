@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://nxb7to33vbv5"]
+
+[ext_resource type="PackedScene" uid="uid://bjmp2d871iu1r" path="res://Assets/Models/ItemModels/compass.glb" id="1_jug3q"]
+
+[node name="Compass" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_jug3q")]
+transform = Transform3D(-8.74228e-11, 0, 0.002, 0, 0.002, 0, -0.002, 0, -8.74228e-11, 0, 0, 0)

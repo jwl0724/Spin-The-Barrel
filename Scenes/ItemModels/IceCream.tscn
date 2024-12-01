@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://vkmo6qxc47tg"]
+
+[ext_resource type="PackedScene" uid="uid://c7snu0swl8m3y" path="res://Assets/Models/ItemModels/ice_cream_lp.glb" id="1_ywkn3"]
+
+[node name="IceCream" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_ywkn3")]
+transform = Transform3D(0.004, 0, 0, 0, 0.004, 0, 0, 0, 0.004, 0.281983, 0, -0.101693)

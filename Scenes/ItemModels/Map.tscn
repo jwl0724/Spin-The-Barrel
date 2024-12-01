@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://f0aswdn521np"]
+
+[ext_resource type="PackedScene" uid="uid://retf6rhrghhj" path="res://Assets/Models/ItemModels/vintage_map_parchment.glb" id="1_yrmq1"]
+
+[node name="Map" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_yrmq1")]
+transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, 0.005, 0)

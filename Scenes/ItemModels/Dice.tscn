@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://hdxgry4b3gpy"]
+
+[ext_resource type="PackedScene" uid="uid://byvtdl1dx4c5u" path="res://Assets/Models/ItemModels/dice.glb" id="1_3k0ky"]
+
+[node name="Dice" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_3k0ky")]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, -0.130246, 0, 0)

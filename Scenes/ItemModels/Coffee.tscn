@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://0ly5ha355lt3"]
+
+[ext_resource type="PackedScene" uid="uid://dqc0x78yebhmb" path="res://Assets/Models/ItemModels/coffee_and_cup.glb" id="1_jb86v"]
+
+[node name="Coffee" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_jb86v")]
+transform = Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0)

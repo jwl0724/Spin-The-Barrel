@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://xolt0462rfhp"]
+
+[ext_resource type="PackedScene" uid="uid://cktonpmdkqy6v" path="res://Assets/Models/ItemModels/cc0_foam_finger.glb" id="1_f4u1q"]
+
+[node name="Finger" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_f4u1q")]
+transform = Transform3D(-2.18557e-08, -0.5, -2.18557e-08, 0, -2.18557e-08, 0.5, -0.5, 2.18557e-08, 9.55343e-16, 0, 0, 0)

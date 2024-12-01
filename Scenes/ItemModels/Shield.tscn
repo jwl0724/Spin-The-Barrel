@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci54cmgsj6766"]
+
+[ext_resource type="PackedScene" uid="uid://bk5d1m01w5n51" path="res://Assets/Models/ItemModels/wooden_shield.glb" id="1_o3q5t"]
+
+[node name="Shield" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_o3q5t")]
+transform = Transform3D(-1.31134e-10, -0.003, -1.31134e-10, 0, -1.31134e-10, 0.003, -0.003, 1.31134e-10, 5.73206e-18, 0, 0, 0)

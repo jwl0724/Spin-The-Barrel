@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp2nwt16e26ns"]
+
+[ext_resource type="PackedScene" uid="uid://be185jekgd2og" path="res://Assets/Models/ItemModels/labmedicine_bottle.glb" id="1_iufvx"]
+
+[node name="Chemical" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_iufvx")]
+transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 0, 0)

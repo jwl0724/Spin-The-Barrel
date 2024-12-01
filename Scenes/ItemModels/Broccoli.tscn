@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7xiw5vupaa23"]
+
+[ext_resource type="PackedScene" uid="uid://dfpmej23mc1fx" path="res://Assets/Models/ItemModels/broccolifbx.glb" id="1_qgegh"]
+
+[node name="Broccoli" type="Node3D"]
+
+[node name="Mesh" parent="." instance=ExtResource("1_qgegh")]
+transform = Transform3D(-3.93403e-08, -0.9, -3.93403e-08, 0, -3.93403e-08, 0.9, -0.9, 3.93403e-08, 1.71962e-15, 0, 0, 0)
