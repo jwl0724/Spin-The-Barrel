@@ -27,7 +27,9 @@ public partial class GameDriver : Node {
 	private static readonly string GUN_POINT_NODE_NAME = "GunPoint";
 
 	// VARIABLES
+	public bool Reverse { get; set; } = false;
 	public int Round { get; private set; } = START_ROUND;
+	private Player forcedNextTurnPlayer = null;
 	private Player currentTurnPlayer;
 	private int currentPlayerIndex = 0;
 	private GpuParticles3D confetti;
@@ -40,21 +42,32 @@ public partial class GameDriver : Node {
 		confetti.Emitting = false;
 	}
 
+	// intended to be called by a player, to force the next turn onto someone
+	public void SetNextTurn(Player player) {
+		forcedNextTurnPlayer = player;
+	}
+
 	public Vector3 GetCurrentPlayerGunPoint() {
 		Node3D spawnPoint = spawnPoints.GetChild<Node3D>(currentPlayerIndex);
 		Node3D gunPoint = spawnPoint.GetNode<Node3D>(GUN_POINT_NODE_NAME);
 		return gunPoint.GlobalPosition;
 	}
 
-	public void EndTurn(bool reverse = false) {
-		// reverse indicates to move backwards on Players list
-		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
-		int tempIndex = aliveIndices.IndexOf(currentPlayerIndex);
-		tempIndex = reverse ? tempIndex - 1 : tempIndex + 1;
-		if (tempIndex >= aliveIndices.Count) tempIndex = 0;
-		else if (tempIndex < 0) tempIndex = aliveIndices.Count - 1;
-		currentPlayerIndex = aliveIndices[tempIndex];
-		currentTurnPlayer = Players[currentPlayerIndex];
+	public void EndTurn() {
+		if (forcedNextTurnPlayer != null) {
+			currentTurnPlayer = forcedNextTurnPlayer;
+			currentPlayerIndex = Players.IndexOf(forcedNextTurnPlayer);
+			forcedNextTurnPlayer = null;
+			
+		} else {
+			var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
+			int tempIndex = aliveIndices.IndexOf(currentPlayerIndex);
+			tempIndex = Reverse ? tempIndex - 1 : tempIndex + 1; // check if reverse is in effect
+			if (tempIndex >= aliveIndices.Count) tempIndex = 0;
+			else if (tempIndex < 0) tempIndex = aliveIndices.Count - 1;
+			currentPlayerIndex = aliveIndices[tempIndex];
+			currentTurnPlayer = Players[currentPlayerIndex];
+		}
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
@@ -67,6 +80,8 @@ public partial class GameDriver : Node {
 			return;
 		}
 		Round++;
+		Reverse = false;
+		forcedNextTurnPlayer = null;
 		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
 		currentPlayerIndex = aliveIndices[(int) (GD.Randi() % aliveIndices.Count)];
 		currentTurnPlayer = Players[currentPlayerIndex];
@@ -117,6 +132,8 @@ public partial class GameDriver : Node {
 
 	private void ResetDriverState() {
 		Round = START_ROUND;
+		Reverse = false;
+		forcedNextTurnPlayer = null;
 		DeletePlayers();
 		Players.Clear();
 		confetti.Emitting = false;
