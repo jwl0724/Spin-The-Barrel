@@ -1,9 +1,7 @@
 using Godot;
-using System;
-using System.Collections.Generic;
 
 public partial class ItemSoundEffectManager : AudioStreamPlayer3D {
-	// sounds played when item is used
+	public static readonly float MAX_LENGTH = 0.75f; // the longest audio clip in seconds
 	[Export] private static readonly AudioStream spawnSoundEffect;
 	[Export] private static readonly Godot.Collections.Array<AudioStream> itemUsedSoundEffect;
 	[Export] private static readonly Godot.Collections.Array<AudioStream> itemDestroyedSoundEffect;
