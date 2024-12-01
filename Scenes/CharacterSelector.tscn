@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://ds42ar32sv7d6"]
+[gd_scene load_steps=12 format=3 uid="uid://ds42ar32sv7d6"]
 
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/CharacterSelector.cs" id="1_m6xnb"]
 [ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="2_vjax8"]
 [ext_resource type="PackedScene" uid="uid://t2ivwwtq54jm" path="res://Scenes/LobbyModelManager.tscn" id="3_nrkii"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/Clickable3D.cs" id="4_ummvx"]
+[ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="5_sndho"]
+[ext_resource type="Script" path="res://Scripts/GeneralScripts/PreviewEffect.cs" id="6_4ca5i"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ief8h"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -15,6 +17,19 @@ depth = 0.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dm5hj"]
 size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_is6rj"]
+emission_enabled = true
+emission = Color(0.513233, 0.513233, 0.513233, 1)
+emission_energy_multiplier = 2.23
+
+[sub_resource type="TextMesh" id="TextMesh_2l8mo"]
+material = SubResource("StandardMaterial3D_is6rj")
+text = "Model Name"
+font = ExtResource("5_sndho")
+font_size = 10
+pixel_size = 0.02
+depth = 0.003
 
 [node name="CharacterSelector" type="Node3D"]
 script = ExtResource("1_m6xnb")
@@ -29,13 +44,13 @@ spot_angle = 8.92
 spot_angle_attenuation = 0.420446
 
 [node name="ModelManager" parent="." instance=ExtResource("3_nrkii")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10879, 0)
 
 [node name="Stool" parent="." instance=ExtResource("2_vjax8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006, 0)
 
 [node name="LeftArrow" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, -0.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41679, -0.65)
 monitorable = false
 script = ExtResource("4_ummvx")
 
@@ -48,7 +63,7 @@ mesh = SubResource("TextMesh_bw2r3")
 skeleton = NodePath("../..")
 
 [node name="RightArrow" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.278, 0.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41679, 0.65)
 monitorable = false
 script = ExtResource("4_ummvx")
 
@@ -59,3 +74,14 @@ shape = SubResource("BoxShape3D_dm5hj")
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("TextMesh_bw2r3")
 skeleton = NodePath("../..")
+
+[node name="ModelName" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.423263, 0.393702, 0)
+script = ExtResource("6_4ca5i")
+rotationSpeed = 0.0
+hoverSpeed = 1.0
+hoverOffsetAmount = 0.02
+
+[node name="Name" type="MeshInstance3D" parent="ModelName"]
+mesh = SubResource("TextMesh_2l8mo")
+skeleton = NodePath("../../..")
