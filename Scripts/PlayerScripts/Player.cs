@@ -24,13 +24,14 @@ public partial class Player : Node3D, IInteractableEntity {
 	public static readonly float SHOOT_DELAY_TIME = 0.75f;
 
 	// VARIABLES
-	private bool hasDoubleDamage = false; // TODO: add this effect when items are added
 	public float MouseSensitivity { get; set; } = 0.05f;
 	public int Health { get; private set; } = DEFAULT_PLAYER_HEATLH;
 	public bool IsDead { get; private set; } = false;
 	public string PlayerName { get; private set; }
-	public bool CanShootOther { get; private set; } = false; // TODO: add this effect when items are added
 	public Gun NerfGun { get; private set; } = null;
+	public bool CanShootOther { get; set; } = false;
+	public bool IsProtected { get; set; } = false;
+	public bool CanChooseNextTurn { get; set; } = false;
 	private GameDriver driver;
 	private int selectedModel = -1;
 	public int SelectedModel {
@@ -56,11 +57,16 @@ public partial class Player : Node3D, IInteractableEntity {
 			EmitSignal(SignalName.GameEnd);
 		}));
 		driver.Connect(GameDriver.SignalName.NewRound, Callable.From((Player holder) => {
+			IsProtected = false;
+			CanShootOther = false;
+			CanChooseNextTurn = false;
 			if (holder != this) NerfGun = null;
 			if (IsDead) EmitSignal(SignalName.UpdateSpectate, holder);
 			else EmitSignal(SignalName.NewRound);
 		}));
 		driver.Connect(GameDriver.SignalName.NewTurn, Callable.From((Player holder) => {
+			CanShootOther = false;
+			CanChooseNextTurn = false;
 			if (holder != this) NerfGun = null;
 			if (IsDead) EmitSignal(SignalName.UpdateSpectate, holder);
 		}));
@@ -116,6 +122,10 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public void DamagePlayer(int amount) {
+		if (IsProtected) {
+			driver.EndRound();
+			return;
+		}
 		Health -= amount;
 		if (Health <= 0) {
 			IsDead = true;
@@ -136,6 +146,7 @@ public partial class Player : Node3D, IInteractableEntity {
 		}
 	}
 
+	// originally for play again, but now is useless, marked for deletion or just change its functionality
 	private void ResetPlayerState() {
 		Health = DEFAULT_PLAYER_HEATLH;
 		IsDead = false;
