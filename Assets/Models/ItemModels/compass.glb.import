@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c2vxfc4k474pl"
-path="res://.godot/imported/rubiks_cube.glb-6e753118df1297d814b40eb047eb2590.scn"
+uid="uid://bjmp2d871iu1r"
+path="res://.godot/imported/compass.glb-69ad519fd9eabbbac9f79a4a9f40a66c.scn"
 
 [deps]
 
-source_file="res://Assets/Models/ItemModels/rubiks_cube.glb"
-dest_files=["res://.godot/imported/rubiks_cube.glb-6e753118df1297d814b40eb047eb2590.scn"]
+source_file="res://Assets/Models/ItemModels/compass.glb"
+dest_files=["res://.godot/imported/compass.glb-69ad519fd9eabbbac9f79a4a9f40a66c.scn"]
 
 [params]
 
