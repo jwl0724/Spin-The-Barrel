@@ -3,16 +3,19 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 public abstract partial class ModelManager : Node3D {
-	protected readonly static Godot.Collections.Array<PackedScene> modelCollection;
+	protected readonly static Godot.Collections.Array<PackedScene> modelCollection = new();
+	private static readonly Godot.Collections.Array<string> modelNames = new();
 	private static readonly string modelDirectoryPath = "res://Scenes/PlayerModels/";
 	static ModelManager() {
-		modelCollection = new();
 		DirAccess modelDirectory = DirAccess.Open(modelDirectoryPath);
 		if (modelDirectory == null) GD.PushError("Model directory configuration incorrect");
 		var allModels = modelDirectory.GetFiles();
 		foreach(string fileName in allModels) {
 			PackedScene modelScene = ResourceLoader.Load<PackedScene>(modelDirectoryPath + fileName);
-			if (modelScene != null) modelCollection.Add(modelScene);
+			if (modelScene != null) {
+				modelNames.Add(fileName.Replace(".tscn", ""));
+				modelCollection.Add(modelScene);
+			}
 		}
 	}
 	
@@ -21,7 +24,7 @@ public abstract partial class ModelManager : Node3D {
 	}
 
 	public string GetModelName(int modelIndex) {
-		string modelFileName = modelCollection[modelIndex].ResourceName;
+		string modelFileName = modelNames[modelIndex];
 		string actualName = Regex.Replace(modelFileName, "(\\B[A-Z])", " $1");
 		return actualName;
 	}
