@@ -12,7 +12,6 @@ public partial class GunMenu : Node3D {
 	private Clickable3D shootButton;
 	private Clickable3D dropButton;
 	private Clickable3D shootOtherButton;
-	private bool isPickedUp = false;
 
 	public override void _Ready() {
 		SetProcessInput(false);
@@ -34,31 +33,62 @@ public partial class GunMenu : Node3D {
 			gun.Drop();
 		}));
 		shootOtherButton.Connect(Clickable3D.SignalName.AreaClicked, Callable.From(() => {
-			// TODO: IMPLEMENT LATER WHEN ITEMS ARE ADDED
+			DisableButtons();
+			gun.EnterAimMode();
+			gun.Holder.ToggleAimMode(true);
+
+			// to read cancel input from player
+			ProcessMode = ProcessModeEnum.Inherit;
+			SetProcessInput(true);
 		}));
 		ProcessMode = ProcessModeEnum.Disabled;
 		Visible = false;
 	}
 
 	private void ShowMenu(bool show) {
-		isPickedUp = show;
-		if (gun.Holder.IsRemotePlayer) {
-			Visible = false;
+		if (!show || gun.Holder.IsRemotePlayer) {
 			SetProcessInput(false);
+			DisableButtons();
+			Visible = false;
 			ProcessMode = ProcessModeEnum.Disabled;
-			shootOtherButton.Visible = false;
-			shootOtherButton.SetProcessInput(false);
+			return;
 
 		} else {
 			SetProcessInput(true);
 			ProcessMode = ProcessModeEnum.Inherit;
-			shootOtherButton.Visible = gun.Holder.CanShootOther;
-			shootOtherButton.SetProcessInput(gun.Holder.CanShootOther);
+			Visible = true;
+
+			// re-enable all of the menu buttons
+			if (gun.Holder.CanShootOther)
+				DisableButtons(addButton, shootButton, dropButton, shootOtherButton);
+			else DisableButtons(addButton, shootButton, dropButton);
 
 			LookAt(gun.Holder.GlobalPosition);
 			Rotation += Vector3.Up * Mathf.DegToRad(90);
 			Rotation = new Vector3(0, Rotation.Y, 0);
-			Visible = show;
+		}
+	}
+
+	private void DisableButtons(params Clickable3D[] exceptions) {
+		addButton.Visible = exceptions.Contains(addButton);
+		shootButton.Visible = exceptions.Contains(shootButton);
+		dropButton.Visible = exceptions.Contains(dropButton);
+		shootOtherButton.Visible = exceptions.Contains(shootOtherButton);
+
+		addButton.SetProcessInput(exceptions.Contains(addButton));
+		shootButton.SetProcessInput(exceptions.Contains(shootButton));
+		dropButton.SetProcessInput(exceptions.Contains(dropButton));
+		shootOtherButton.SetProcessInput(exceptions.Contains(shootOtherButton));
+	}
+
+	public override void _Input(InputEvent inputEvent) {
+		if (inputEvent is not InputEventMouseButton) return;
+		if (!gun.InAimMode) return;
+		if (Input.IsActionJustPressed(ProjectInputs.CANCEL)) {
+			gun.Holder.ToggleAimMode(false);
+			gun.ExitAimMode();
+			ShowMenu(true);
+			Input.MouseMode = Input.MouseModeEnum.Visible;
 		}
 	}
 }

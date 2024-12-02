@@ -15,6 +15,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void PlayerPickUpGunEventHandler();
 	[Signal] public delegate void PlayerDropGunEventHandler();
 	[Signal] public delegate void PlayerInteractEventHandler();
+	[Signal] public delegate void PlayerEnterAimModeEventHandler();
 	[Signal] public delegate void UpdateSpectateEventHandler();
 	[Signal] public delegate void NewRoundEventHandler();
 	[Signal] public delegate void GameEndEventHandler();
@@ -76,6 +77,10 @@ public partial class Player : Node3D, IInteractableEntity {
 		if (Input.IsActionPressed(ProjectInputs.INTERACT)) {
 			EmitSignal(SignalName.PlayerInteract);
 		}
+	}
+
+	public void ToggleAimMode(bool inAimMode) {
+		EmitSignal(SignalName.PlayerEnterAimMode, inAimMode);
 	}
 
 	public void SetPlayerInfo(PlayerInfo playerData) {

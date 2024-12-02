@@ -5,7 +5,6 @@ public partial class PlayerCamera : Camera3D {
 	private static readonly float MAX_CAMERA_Y_ANGLE = 60f; // up/down camera movement
 	private static readonly float MAX_CAMERA_X_ANGLE = 70f; // left/right camera movement
 	private bool isLocked = false;
-	private Vector3 lerpPosition = Vector3.Zero;
 	private Player player;
 
 	// Called when the node enters the scene tree for the first time.
@@ -15,6 +14,7 @@ public partial class PlayerCamera : Camera3D {
 		player.Connect(Player.SignalName.PlayerHurt, Callable.From(() => OnPlayerHurt()));
 		player.Connect(Player.SignalName.PlayerPickUpGun, Callable.From(() => OnGunInteract(true)));
 		player.Connect(Player.SignalName.PlayerDropGun, Callable.From(() => OnGunInteract(false)));
+		player.Connect(Player.SignalName.PlayerEnterAimMode, Callable.From((bool inAimMode) => OnAimMode(inAimMode)));
 		player.Connect(Player.SignalName.PlayerReset, Callable.From(() => Current = true ));
 		CameraManager.Instance.SetPlayerCameraInstance(this);
 	}
@@ -56,7 +56,7 @@ public partial class PlayerCamera : Camera3D {
 	}
 
 	private void OnGunInteract(bool isPickUpEvent) {
-		if (!isPickUpEvent) return; // maybe have extra logic here, will see
+		if (!isPickUpEvent) return;
 
 		Vector3 originalRotation = Rotation;
 		LookAt(player.NerfGun.GlobalPosition);
@@ -68,5 +68,13 @@ public partial class PlayerCamera : Camera3D {
 		centerCameraTween.SetEase(Tween.EaseType.Out);
 		centerCameraTween.TweenProperty(this, nameof(Rotation).ToLower(), finalRotation, tweenTime);
 		centerCameraTween.Play();
+	}
+
+	private void OnAimMode(bool inAimMode) {
+		if (inAimMode) Input.MouseMode = Input.MouseModeEnum.Captured;
+		else {
+		 	Input.MouseMode = Input.MouseModeEnum.Visible;
+			OnGunInteract(true);
+		}
 	}
 }
