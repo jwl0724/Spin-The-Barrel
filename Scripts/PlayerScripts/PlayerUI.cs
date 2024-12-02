@@ -9,6 +9,7 @@ public partial class PlayerUI : Control {
 	private static readonly string DEAD_SCREEN_NODE_NAME = "DeadScreen";
 	private static readonly string STATUS_NODE_NAME = "Status";
 	private static readonly string ROUND_TEXT_NODE_NAME = "Round";
+	private static readonly string CONTROLS_TEXT_NODE_NAME = "Controls";
 	private static readonly Color opaqueColor = new(1, 1, 1, 1);
 	private static readonly Color transparentColor = new(1, 1, 1, 0);
 	private Player player;
@@ -17,6 +18,7 @@ public partial class PlayerUI : Control {
 	private TextShake healthText;
 	private TextShake nameText;
 	private Label spectatingText;
+	private Label controlsText;
 	private Control deadScreen;
 	public override void _Ready() {
 		player = Owner as Player;
@@ -30,6 +32,7 @@ public partial class PlayerUI : Control {
 		player.Connect(Player.SignalName.NewRound, Callable.From(UpdateUI));
 		player.Connect(Player.SignalName.GameEnd, Callable.From(() => Visible = false));
 		player.Connect(Player.SignalName.UpdateSpectate, Callable.From((Player watching) => UpdateSpectateText(watching)));
+		player.Connect(Player.SignalName.PlayerEnterAimMode, Callable.From((bool inAimMode) => controlsText.Visible = inAimMode));
 
 		healthText = GetNode(HEALTH_NODE_NAME) as TextShake;
 		nameText = GetNode(NAME_NODE_NAME) as TextShake;
@@ -37,6 +40,7 @@ public partial class PlayerUI : Control {
 		spectatingText = GetNode<Label>(SPECTATOR_NODE_NAME);
 		deadScreen = GetNode<Control>(DEAD_SCREEN_NODE_NAME);
 		statusText = GetNode<Label>(STATUS_NODE_NAME);
+		controlsText = GetNode<Label>(CONTROLS_TEXT_NODE_NAME);
 
 		nameText.Text = player.PlayerName;
 		spectatingText.Visible = false;
@@ -45,6 +49,7 @@ public partial class PlayerUI : Control {
 		statusText.Visible = false;
 		statusText.Scale = Vector2.Zero;
 		statusText.Modulate = transparentColor;
+		controlsText.Visible = false;
 	}
 
 	private void ShakeUI() {

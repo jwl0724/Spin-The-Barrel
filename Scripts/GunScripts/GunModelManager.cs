@@ -7,6 +7,8 @@ public partial class GunModelManager : Node3D {
 	private static readonly Vector3 droppedRotation = new(Mathf.DegToRad(83.6f), Mathf.DegToRad(-49.4f), Mathf.DegToRad(0.9f));
 	private static readonly Vector3 pickedUpRotation = new(Mathf.DegToRad(15.5f), Mathf.DegToRad(-72.9f), Mathf.DegToRad(24.5f));
 	private static readonly Vector3 spinningRotation = new(Mathf.DegToRad(-36.4f), Mathf.DegToRad(-175.6f), Mathf.DegToRad(34.5f));
+	private static readonly Vector3 aimModeRelativePosition = new(0.182f, -0.148f, -0.229f);
+	private static readonly Vector3 aimModeRelativeRotation = new(0, Mathf.Pi / 2, 0);
 	private static readonly string SPIN_ANIMATION = "NerfGun_001Action_001";
 	private static readonly string SHOOT_ANIMATION = "NerfGun_002Action_001";
 	public bool IsPlayingAnimation { get; private set; } = false;
@@ -49,6 +51,7 @@ public partial class GunModelManager : Node3D {
 		tween.TweenCallback(Callable.From(() => {
 			gunAnimator.Play(SHOOT_ANIMATION);
 			IsPlayingAnimation = false;
+			if (gun.InAimMode) ExitAimMode();
 			gun.Drop();
 			function.Call();
 		}));
@@ -77,5 +80,35 @@ public partial class GunModelManager : Node3D {
 
 	public void ResetRotation() {
 		Rotation = droppedRotation;
+	}
+
+	public void EnterAimMode() {
+		if (gun.InAimMode) return; // do nothing if already in aim mode
+
+		// parent to model if remote, otherwise to camera
+		if (gun.Holder.IsRemotePlayer) Reparent(gun.Holder.GetModel(), true);
+		else Reparent(GetViewport().GetCamera3D());
+
+		// play transition animation
+		IsPlayingAnimation = true;
+		Tween transition = CreateTween();
+		transition.TweenProperty(this, nameof(Rotation).ToLower(), aimModeRelativeRotation, 0.2f);
+		transition.TweenProperty(this, nameof(Position).ToLower(), aimModeRelativePosition, 0.2f);
+		transition.TweenCallback(Callable.From(() => IsPlayingAnimation = false));
+		transition.Play();
+	}
+
+	public void ExitAimMode() {
+		if (!gun.InAimMode) return; // do nothing if not in aim mode
+		Reparent(gun, true);
+
+		IsPlayingAnimation = true;
+		Tween rotationTransition = CreateTween();
+		Tween positionTransition = CreateTween();
+		rotationTransition.TweenProperty(this, nameof(Rotation).ToLower(), pickedUpRotation, 0.2f);
+		positionTransition.TweenProperty(this, nameof(Position).ToLower(), Vector3.Zero, 0.2f);
+		positionTransition.TweenCallback(Callable.From(() => IsPlayingAnimation = false));
+		rotationTransition.Play();
+		positionTransition.Play();
 	}
 }

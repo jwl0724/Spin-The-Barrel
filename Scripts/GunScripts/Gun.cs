@@ -15,7 +15,8 @@ public partial class Gun : Node3D, IInteractableEntity {
 	private static readonly string MODEL_MANAGER_NODE_NAME = "Model";
 
 	// VARIABLES
-	public Player Holder { get; private set; }
+	public Player Holder { get; private set; } = null;
+	public bool InAimMode { get; private set; } = false;
 	private LookBox hitbox;
 	private GunModelManager model;
 	public static readonly int DEFAULT_DAMAGE = 1;
@@ -48,6 +49,17 @@ public partial class Gun : Node3D, IInteractableEntity {
 			else Holder.DamagePlayer(currentDamage);
 			Drop();
 		}));
+	}
+
+	public void EnterAimMode() {
+		// model uses InAimMode to check if repeated calls are made, need to be called first
+		model.EnterAimMode();
+		InAimMode = true;
+	}
+
+	public void ExitAimMode() {
+		model.ExitAimMode();
+		InAimMode = false;
 	}
 
 	public void LoadRound() {
@@ -103,11 +115,13 @@ public partial class Gun : Node3D, IInteractableEntity {
 	}
 
 	public void SetupNewTurn(Player newHolder) {
+		ExitAimMode();
 		Holder = newHolder;
 		EmitSignal(SignalName.NewHolder, newHolder);
 	}
 
 	public void SetupNewRound(Player startingPlayer) {
+		ExitAimMode();
 		Holder = startingPlayer;
 		ResetChamber();
 		chamberIndex = (int) (GD.Randi() % chamber.Length);
@@ -118,6 +132,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 	}
 
 	private void ResetChamber() {
+		InAimMode = false;
 		for (int i = 0; i < chamber.Length; i++) {
 			chamber[i] = false;
 		}

@@ -9,7 +9,6 @@ public partial class PlayerReticle : RayCast3D {
 	public override void _Ready() {
 		player = Owner as Player;
 		player.Connect(Player.SignalName.PlayerInteract, Callable.From(() => OnPlayerInteract()));
-		
 	}
 
     public override void _PhysicsProcess(double delta) {
@@ -27,6 +26,17 @@ public partial class PlayerReticle : RayCast3D {
     }
 
     private void OnPlayerInteract() {
-		lookAtTarget?.GetInteractableEntity()?.Interact();
+		if (lookAtTarget?.GetOwner() is Player otherPlayer) {
+			if (player.CanShootOther && player.NerfGun.InAimMode) {
+				player.NerfGun.Shoot(otherPlayer);
+				player.NerfGun.ExitAimMode();
+				player.CanShootOther = false;
+
+			} else if (player.CanChooseNextTurn) {
+				GameDriver.Instance.SetNextTurn(otherPlayer);
+				player.CanChooseNextTurn = false;
+			}
+
+		} else lookAtTarget?.GetInteractableEntity()?.Interact();
 	}
 }

@@ -9,6 +9,10 @@ public partial class LookBox : Area3D {
 		return Owner as IInteractableEntity;
 	}
 
+	public Node GetOwner() {
+		return Owner;
+	}
+
 	public void TriggerLookedAt() {
 		EmitSignal(SignalName.LookedAt);
 	}

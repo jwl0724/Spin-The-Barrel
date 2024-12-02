@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://gy2kv2jwlsd3"]
+[gd_scene load_steps=13 format=3 uid="uid://gy2kv2jwlsd3"]
 
 [ext_resource type="Script" path="res://Scripts/ItemScripts/ItemManager.cs" id="1_eqgy8"]
+[ext_resource type="PackedScene" uid="uid://bp2nwt16e26ns" path="res://Scenes/ItemModels/Chemical.tscn" id="2_ep2xn"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/LookBox.cs" id="2_fjd4x"]
 [ext_resource type="Script" path="res://Scripts/ItemScripts/ItemSoundEffectManager.cs" id="2_txlof"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="3_xbuly"]
@@ -18,7 +19,7 @@ emission_energy_multiplier = 2.23
 material = SubResource("StandardMaterial3D_b2qt7")
 text = "Item Name"
 font = ExtResource("3_xbuly")
-font_size = 3
+font_size = 2
 pixel_size = 0.02
 depth = 0.003
 
@@ -89,6 +90,8 @@ script = ExtResource("1_eqgy8")
 
 [node name="Model" type="Node3D" parent="."]
 
+[node name="Chemical" parent="Model" instance=ExtResource("2_ep2xn")]
+
 [node name="SoundEffect" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("2_txlof")
 
@@ -108,7 +111,7 @@ mesh = SubResource("TextMesh_a1v8l")
 skeleton = NodePath("../..")
 script = ExtResource("4_0papf")
 hitbox = NodePath("../HitBox")
-namePosition = Vector3(0, 0.1, 0)
+namePosition = Vector3(0, 0.23, 0)
 offsetAmount = 0.01
 offsetSpeed = 3.0
 tiltAngle = -20.0
