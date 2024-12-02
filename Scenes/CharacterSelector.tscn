@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/CharacterSelector.cs" id="1_m6xnb"]
 [ext_resource type="PackedScene" uid="uid://b8qljv4jqmms" path="res://Scenes/ObjectModels/Stool.tscn" id="2_vjax8"]
-[ext_resource type="PackedScene" uid="uid://t2ivwwtq54jm" path="res://Scenes/LobbyModelManager.tscn" id="3_nrkii"]
+[ext_resource type="PackedScene" uid="uid://cg0xmag2dga3h" path="res://Scenes/LobbyModelManager.tscn" id="3_nrkii"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/Clickable3D.cs" id="4_ummvx"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="5_sndho"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/PreviewEffect.cs" id="6_4ca5i"]

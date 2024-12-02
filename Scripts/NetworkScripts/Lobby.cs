@@ -38,7 +38,11 @@ public partial class Lobby : Node
     // Called when the node is ready, sets up callback listeners
     public override void _Ready()
     {
-        Instance = this;
+        GD.Print("Lobby Ready");
+        if (Instance == null)
+        {
+            Instance = this;
+        }
         // Listen for player connections, disconnections, etc.
         Multiplayer.PeerConnected += OnPlayerConnected;
         Multiplayer.PeerDisconnected += OnPlayerDisconnected;
@@ -49,7 +53,7 @@ public partial class Lobby : Node
 
 
     // Used for a client to connect to the game server
-    private Error JoinGame(string address = "")
+    public Error JoinGame(string address = "")
     {
         if (string.IsNullOrEmpty(address))
         {
@@ -69,7 +73,7 @@ public partial class Lobby : Node
     }
 
     // Used to create the game server
-    private Error CreateGame()
+    public Error CreateGame()
     {
         var peer = new ENetMultiplayerPeer();
         Error error = peer.CreateServer(Port, MaxConnections);
@@ -145,6 +149,7 @@ public partial class Lobby : Node
                 return ip.ToString();
             }
         }
+        GD.Print("ip", host.AddressList);
         throw new Exception("No network adapters with an IPv4 address in the system!");
     }
 

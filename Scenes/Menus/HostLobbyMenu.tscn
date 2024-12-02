@@ -155,7 +155,6 @@ text = "Waiting For Host to Start"
 label_settings = SubResource("LabelSettings_sl2ka")
 
 [node name="Start" type="Button" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -283,3 +282,17 @@ pivot_offset = Vector2(112, 25)
 theme = SubResource("Theme_8t4qm")
 text = "No"
 script = ExtResource("3_b6afi")
+
+[node name="roomNumber" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -252.0
+offset_top = 54.0
+offset_right = 252.0
+offset_bottom = 106.0
+grow_horizontal = 2
+pivot_offset = Vector2(120, 60)
+text = "Room number: "
+label_settings = SubResource("LabelSettings_3waf2")

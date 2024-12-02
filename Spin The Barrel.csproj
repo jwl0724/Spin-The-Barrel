@@ -6,4 +6,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>SpinTheBarrel</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ENet" Version="1.3.6.3" />
+  </ItemGroup>
 </Project>

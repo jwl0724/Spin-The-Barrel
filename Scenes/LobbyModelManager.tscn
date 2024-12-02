@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://t2ivwwtq54jm"]
+[gd_scene load_steps=5 format=3 uid="uid://cg0xmag2dga3h"]
 
 [ext_resource type="Script" path="res://Scripts/GameScripts/LobbyScripts/LobbyModelManager.cs" id="1_8ci6x"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/PreviewEffect.cs" id="2_n3f5y"]
