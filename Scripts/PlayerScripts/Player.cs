@@ -74,6 +74,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	}
 
 	public override void _Input(InputEvent inputEvent) {
+		if (IsRemotePlayer) return;
 		if (Input.IsActionPressed(ProjectInputs.INTERACT)) {
 			EmitSignal(SignalName.PlayerInteract);
 		}
@@ -118,7 +119,9 @@ public partial class Player : Node3D, IInteractableEntity {
 
 	// this function is intended to be called by the network interface, emulates player input for shoot
 	public void Shoot(Player player = null) {
-		if (IsRemotePlayer) NerfGun.Shoot(player);
+		if (!IsRemotePlayer) return;
+		Player target = player ?? this;
+		NerfGun.Shoot(target);
 	}
 
 	// propagate the call to the driver that player was shot
