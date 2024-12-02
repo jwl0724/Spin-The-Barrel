@@ -1,4 +1,8 @@
 using Godot;
+using System.Net;
+using System.Net.Sockets;
+using System;
+
 
 public partial class Lobby : Node
 {
@@ -129,6 +133,19 @@ public partial class Lobby : Node
     {
         _players.Remove(id);
         EmitSignal(SignalName.PlayerDisconnected, id);
+    }
+
+    public string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        throw new Exception("No network adapters with an IPv4 address in the system!");
     }
 
     private void OnConnectOk()
