@@ -106,7 +106,10 @@ gunAnimator = NodePath("Gun/AnimationPlayer")
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
 [node name="NerfGun_001" parent="Model/Gun" index="1"]
-transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 1.11027e-09, 0, -1.11027e-09, 0.0254, 0.188052, 0.084658, -8.51579e-06)
+transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0.188052, 0.084658, -8.51579e-06)
+
+[node name="NerfGun_002" parent="Model/Gun" index="2"]
+transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 1.11027e-09, 0, -1.11027e-09, 0.0254, -0.135474, 0.0391361, -1.93311e-09)
 
 [node name="SoundEffect" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("4_katwa")
@@ -168,7 +171,7 @@ mesh = SubResource("TextMesh_4hk6s")
 skeleton = NodePath("../../../..")
 
 [node name="ShootOther" type="Area3D" parent="GunMenu"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.224492, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.129804, 0)
 script = ExtResource("10_nqgw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GunMenu/ShootOther"]
