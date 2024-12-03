@@ -54,9 +54,12 @@ public partial class LobbyModelManager : ModelManager {
 		nameNode.Visible = false;
 	}
 
-	private void ShowSelected(int index) {
+	public void ShowSelected(int index) {
 		foreach(Node3D model in dumpNode.GetChildren().Cast<Node3D>()) {
-			if (model == dumpNode.GetChild(index)) model.Visible = true;
+			if (model == dumpNode.GetChild(index)) {
+				model.Visible = true;
+				modelIndex = model.GetIndex();
+			}
 			else model.Visible = false;
 		}
 	}

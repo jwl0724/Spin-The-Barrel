@@ -7,7 +7,7 @@ public partial class HostLobbyMenu : MenuItem {
 	private static readonly string STATUS_TEXT_NODE_NAME = "StatusText";
 	private static readonly string NOT_HOST_TEXT_NODE_NAME = "JoinText";
 	private static readonly float DOT_TIMER_TIME = 0.25f;
-	private static readonly int MIN_PLAYERS = 1; // change this to 1 to test gameplay
+	private static readonly int MIN_PLAYERS = 2;
 	private LobbyDriver lobbyDriver = LobbyDriver.Instance;
 	private CustomTimer dotTimer = new();
 	private Label statusText;
@@ -45,7 +45,13 @@ public partial class HostLobbyMenu : MenuItem {
 
 	// going to assume that this is called when hosts joins
 	private void OnPlayerJoin() {
-		if (LobbyDriver.Players.Count < MIN_PLAYERS) return;
+		if (LobbyDriver.Players.Count < MIN_PLAYERS) {
+			// for when host first joins lobby
+			statusText.Text = "Waiting For Players";
+			startButton.Disabled = true;
+			return;
+		}
+		startButton.Disabled = false;
 		dotTimer.Stop();
 		statusText.Text = lobbyDriver.IsHost ? "Game Ready to Start" : "Waiting For Host to Start";
 		startButton.Visible = lobbyDriver.IsHost;
@@ -53,12 +59,16 @@ public partial class HostLobbyMenu : MenuItem {
 	}
 
 	private void OnPlayerLeave() {
-		statusText.Text = "Waiting For Players";
-		dotTimer.Start();
-		startButton.Disabled = LobbyDriver.Players.Count >= MIN_PLAYERS;
+		bool canStart = LobbyDriver.Players.Count >= MIN_PLAYERS;
+		startButton.Disabled = canStart;
+		if (!canStart) {
+			dotTimer.Start();
+			statusText.Text = "Waiting For Players";
+		}
 	}
 
 	private void OnStart() {
-		GoNextScreen(ScreenManager.ScreenState.IN_GAME);
+		if (GameNetwork.Instance.MultiplayerAPIObject.IsServer())
+			GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostStartGame);
 	}
 }

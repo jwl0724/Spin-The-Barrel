@@ -28,7 +28,8 @@ public partial class JoinLobbyMenu : MenuItem {
 
 	// when networking is implemented, use this to interface with network code
 	public void SubmitLobbyCode(string code) {
-		EmitSignal(SignalName.LobbyCodeSubmit, code);
+		GoNextScreen(ScreenManager.ScreenState.HOST_LOBBY);
+		// EmitSignal(SignalName.LobbyCodeSubmit, code);
 	}
 
 	public void UpdateJoinRequest(bool success) {
