@@ -37,8 +37,8 @@ public partial class CharacterSelector : Node3D {
 			leftArrow.ProcessMode = ProcessModeEnum.Inherit;
 			rightArrow.ProcessMode = ProcessModeEnum.Inherit;
 		}
-		leftArrow.Visible = true;
-		rightArrow.Visible = true;
+		leftArrow.Visible = !isRemotePlayer;
+		rightArrow.Visible = !isRemotePlayer;
 		GameNetwork.Instance.Rpc(GameNetwork.MethodName.UpdatePlayerModels, 
 			LobbyDriver.Players[GetIndex()].NetworkID, modelManager.GetSelected());
 		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
