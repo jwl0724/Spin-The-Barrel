@@ -6,7 +6,7 @@ public partial class Game : Node3D // Or Node2D.
     {
         // Preconfigure game.
 
-        Lobby.Instance.RpcId(1, Lobby.MethodName.PlayerLoaded); // Tell the server that this peer has loaded.
+        LobbyNetwork.Instance.RpcId(1, LobbyNetwork.MethodName.PlayerLoaded); // Tell the server that this peer has loaded.
     }
 
     // Called only on the server.
