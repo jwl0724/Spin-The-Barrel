@@ -37,12 +37,12 @@ public partial class ScreenManager : Node3D {
 		switch(nextState) {
 			case ScreenState.MAIN_MENU:
 				IsHosting = true;
-				LobbyNetwork.Instance.CloseConnection();
+				GameNetwork.Instance.CloseConnection();
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.MAIN_MENU);
 				break;
 			case ScreenState.HOST_LOBBY:
-				if (IsHosting) LobbyNetwork.Instance.HostGame();
-				else LobbyNetwork.Instance.JoinGame();
+				if (IsHosting) GameNetwork.Instance.HostGame();
+				else GameNetwork.Instance.JoinGame();
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.HOST_LOBBY);
 				break;
 			case ScreenState.JOIN_LOBBY:

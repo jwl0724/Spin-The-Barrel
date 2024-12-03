@@ -15,9 +15,8 @@ public partial class LobbyDriver : Node3D {
 
 	// VARIABLES
 	public static readonly int MAX_PLAYERS = 4;
-	public static readonly List<PlayerInfo> Players = new();
+	public static readonly List<PlayerInfo> Players = new();	
 	public bool IsHost { get; private set; } = false;
-	public int LocalPlayerIndex { get; private set; } = -1;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
@@ -37,12 +36,7 @@ public partial class LobbyDriver : Node3D {
 			return;
 		}
 		Players.Add(info);
-		if (LocalPlayerIndex == -1) {
-			LocalPlayerIndex = Players.Count - 1;
-			IsHost = true;
-		}
-		else if (LocalPlayerIndex < 4) LocalPlayerIndex = Players.Count - 1;
-		else GD.PushError("Trying to create multiple local players");
+		IsHost = GameNetwork.Instance.MultiplayerAPIObject.IsServer();
 		EmitSignal(SignalName.PlayerJoinLobby);
 	}
 

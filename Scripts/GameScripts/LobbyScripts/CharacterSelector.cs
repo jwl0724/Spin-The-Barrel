@@ -24,8 +24,8 @@ public partial class CharacterSelector : Node3D {
 		leftArrow.ProcessMode = ProcessModeEnum.Disabled;
 		rightArrow.ProcessMode = ProcessModeEnum.Disabled;
 
-		LobbyNetwork.Instance.Connect(LobbyNetwork.SignalName.ModelSwitch, Callable.From((int selector, int modelIndex) => {
-			if (selector == GetIndex()) modelManager.ShowSelected(modelIndex);
+		GameNetwork.Instance.Connect(GameNetwork.SignalName.ModelSwitch, Callable.From((int selector, int modelIndex) => {
+			if (selector == GetIndex()) modelManager.ShowSelected(modelIndex + 1);
 		}));
 	}
 
@@ -39,7 +39,8 @@ public partial class CharacterSelector : Node3D {
 		}
 		leftArrow.Visible = true;
 		rightArrow.Visible = true;
-		LobbyNetwork.Instance.Rpc(LobbyNetwork.MethodName.UpdatePlayerModelsRPC, GetIndex(), modelManager.GetSelected());
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.UpdatePlayerModels, 
+			LobbyDriver.Players[GetIndex()].NetworkID, modelManager.GetSelected());
 		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
 	}
 
@@ -56,7 +57,8 @@ public partial class CharacterSelector : Node3D {
 	private void OnArrowClicked(bool isLeftClicked) {
 		if (isLeftClicked) modelManager.PreviousModel();
 		else modelManager.NextModel();
-		LobbyNetwork.Instance.Rpc(LobbyNetwork.MethodName.UpdatePlayerModelsRPC, GetIndex(), modelManager.GetSelected());
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.UpdatePlayerModels, 
+			LobbyDriver.Players[GetIndex()].NetworkID, modelManager.GetSelected());
 		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
 	}
 }
