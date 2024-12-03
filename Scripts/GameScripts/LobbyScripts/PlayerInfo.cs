@@ -56,23 +56,23 @@ public class PlayerInfo {
 		"Platypus"
 	};
 
-	// TODO: Add more stuff here later that needs to be tracked in lobby	
-	public bool IsRemote { get; private set; } = false;
+	public bool IsRemote { get; set; } = true;
 	public string Name { get; private set; } // randomly generate name in MVP
 	public int ChosenModel { get; set; }
+	public long NetworkID { get; private set; }
 
 	// probably socket id here when networking is done
 
-	public PlayerInfo() {
-		Random random = new();
-		Name = firstName[random.Next(0, firstName.Length)] + 
-			lastName[random.Next(0, lastName.Length)] + 
-			random.Next(0, 9999).ToString();
+	public PlayerInfo(long id, string name = "") {
+		NetworkID = id;
+		Name = name == "" ? generateRandomName() : name;
 	}
 
-	// call this constructor for remote players
-	public PlayerInfo(string name) {
-		IsRemote = true;
-		Name = name;
+	private string generateRandomName() {
+		Random random = new();
+		string name = firstName[random.Next(0, firstName.Length)] + 
+			lastName[random.Next(0, lastName.Length)] + 
+			random.Next(0, 9999).ToString();
+		return name;
 	}
 }

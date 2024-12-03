@@ -34,6 +34,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	public bool IsProtected { get; set; } = false;
 	public bool CanChooseNextTurn { get; set; } = false;
 	private GameDriver driver;
+	private long networkID;
 	private int selectedModel = -1;
 	public int SelectedModel {
 		get => selectedModel;
@@ -88,6 +89,7 @@ public partial class Player : Node3D, IInteractableEntity {
 		PlayerName = playerData.Name;
 		IsRemotePlayer = playerData.IsRemote;
 		SetProcessInput(!IsRemotePlayer);
+		networkID = playerData.NetworkID;
 		int modelIndex = playerData.ChosenModel >= 0 ? playerData.ChosenModel : (int) (GD.Randi() % ModelManager.GetModelCount());
 		ModelManager.SetModel(modelIndex);
 	}

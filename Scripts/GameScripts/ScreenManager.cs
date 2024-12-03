@@ -22,26 +22,31 @@ public partial class ScreenManager : Node3D {
 
 	// VARIABLES
 	public ScreenState State { get; private set; } = ScreenState.MAIN_MENU;
+	public bool IsHosting { get; private set; } = true;
 	private Control gameMenus;
 	
 	// SIGNALS
 	[Signal] public delegate void GameStateChangedEventHandler(ScreenState newState);
 
 	public override void _Ready() {
+		// network = Network.Instance;
 		EmitSignal(SignalName.GameStateChanged, (int) ScreenState.MAIN_MENU);
 	}
 
 	public void NotifyEnd(ScreenState nextState) {
 		switch(nextState) {
 			case ScreenState.MAIN_MENU:
+				IsHosting = true;
+				LobbyNetwork.Instance.CloseConnection();
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.MAIN_MENU);
 				break;
 			case ScreenState.HOST_LOBBY:
-				// leave this code if testing gameplay by yourself
-				LobbyDriver.Instance.AddPlayer(new PlayerInfo());
+				if (IsHosting) LobbyNetwork.Instance.HostGame();
+				else LobbyNetwork.Instance.JoinGame();
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.HOST_LOBBY);
 				break;
 			case ScreenState.JOIN_LOBBY:
+				IsHosting = false;
 				EmitSignal(SignalName.GameStateChanged, (int) ScreenState.JOIN_LOBBY);
 				break;
 			case ScreenState.IN_GAME:
