@@ -18,10 +18,13 @@ public partial class JoinLobbyInput : Control {
 
 	private void OnSubmit(string lobbyCode) {
 		joinLobbyMenu.SubmitLobbyCode(lobbyCode);
+		LobbyNetwork.Instance.JoinGame(lobbyCode);
 	}
 
 	private void OnSubmitButtonPressed() {
 		string lobbyCode = inputField.Text;
+		lobbyCode = lobbyCode.Trim();
+		GD.Print("Joining lobby with code: " + lobbyCode);
 		OnSubmit(lobbyCode);
 	}
 }

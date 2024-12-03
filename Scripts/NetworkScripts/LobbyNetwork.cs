@@ -58,10 +58,11 @@ public partial class LobbyNetwork : Node
     public override void _Ready()
     {
 
-        base._Ready();  
+        base._Ready();
+        GD.Print("ip: ", GetLocalIPAddress());
 
 
-        _instance = this;  
+        _instance = this;
         GD.Print("LobbyNetwork is initialized.");
 
         GD.Print("Scene root node: " + GetTree().Root.Name);
@@ -93,22 +94,32 @@ public partial class LobbyNetwork : Node
     }
 
 
-    // Used for a client to connect to the game server
-    public Error JoinGame(string address = "")
-    {
-        if (string.IsNullOrEmpty(address))
-        {
-            address = DefaultServerIP;
-        }
 
-        if (!_rooms.ContainsKey(roomCode))
+
+    // Used for a client to connect to the game server
+    public Error JoinGame(string code = "")
+    {
+        if (string.IsNullOrEmpty(code))
         {
+            GD.PrintErr("Room code is empty.");
+            return Error.Failed;
+        }
+        GD.PrintErr(code);
+        GD.Print("Room code join: " + _rooms.Keys);
+        if (!_rooms.ContainsKey(code))
+        {
+
             GD.PrintErr("Invalid room code.");
             return Error.Failed;
         }
+        else
+        {
+            GD.Print("Room code is valid.");
+        }
+
 
         var peer = new ENetMultiplayerPeer();
-        Error error = peer.CreateClient(address, Port);
+        Error error = peer.CreateClient(GetLocalIPAddress(), Port);
 
         if (error != Error.Ok)
         {
@@ -143,7 +154,7 @@ public partial class LobbyNetwork : Node
 
         GD.Print("Before setting Multiplayer.MultiplayerPeer");
         GD.Print("Multiplayer: " + (Multiplayer != null ? "Initialized" : "Not Initialized"));
-        
+
         GD.Print("MultiplayerPeer: " + (Multiplayer.MultiplayerPeer != null ? "Initialized" : "Not Initialized"));
 
         Multiplayer.MultiplayerPeer = peer;
@@ -153,32 +164,19 @@ public partial class LobbyNetwork : Node
         {
             GD.PrintErr("MultiplayerPeer is null.");
             return Error.Failed;
-        }else{
+        }
+        else
+        {
             GD.Print("MultiplayerPeer is not null.");
         }
         _players[1] = _playerInfo;
         _rooms[roomCode] = peer;
+        GD.Print("Room code: " + _rooms.Keys);
+        GD.Print("Room code type: " + roomCode.GetType());
         EmitSignal(SignalName.PlayerConnected, 1, _playerInfo);
         return Error.Ok;
     }
 
-    private int IPAddressToInt(string ipAddress)
-    {
-        string[] ipParts = ipAddress.Split('.');
-        if (ipParts.Length != 4)
-        {
-            GD.PrintErr("Invalid IP address format.");
-            return 0;
-        }
-
-        int ipInt = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            ipInt |= (int.Parse(ipParts[i]) << (24 - (i * 8)));
-        }
-
-        return ipInt;
-    }
     public string getRoomCode()
     {
         return roomCode;
