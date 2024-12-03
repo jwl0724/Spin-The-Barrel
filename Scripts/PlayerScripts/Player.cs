@@ -35,11 +35,6 @@ public partial class Player : Node3D, IInteractableEntity {
 	public bool CanChooseNextTurn { get; set; } = false;
 	private GameDriver driver;
 	public long NetworkID { get; private set; }
-	private int selectedModel = -1;
-	public int SelectedModel {
-		get => selectedModel;
-		set => selectedModel = (0 <= value && value < ModelManager.GetModelCount()) ? value : -1;
-	}
 
 	// INTERFACE IMPLEMENTATIONS
 	public string GetEntityName() => PlayerName;
