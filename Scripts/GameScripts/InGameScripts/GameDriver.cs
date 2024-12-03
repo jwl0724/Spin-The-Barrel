@@ -53,6 +53,13 @@ public partial class GameDriver : Node {
 		return gunPoint.GlobalPosition;
 	}
 
+	public void SetCurrentPlayer(int randomIndex, bool newRound = false) {
+		currentPlayerIndex = randomIndex;
+		currentTurnPlayer = Players[randomIndex];
+		if (newRound) EmitSignal(SignalName.NewRound, currentTurnPlayer);
+		else EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+	}
+
 	public void EndTurn() {
 		if (forcedNextTurnPlayer != null) {
 			currentTurnPlayer = forcedNextTurnPlayer;
@@ -68,6 +75,7 @@ public partial class GameDriver : Node {
 			currentPlayerIndex = aliveIndices[tempIndex];
 			currentTurnPlayer = Players[currentPlayerIndex];
 		}
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.BroadcastNextTurnCall, currentPlayerIndex);
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
@@ -82,17 +90,12 @@ public partial class GameDriver : Node {
 		Round++;
 		Reverse = false;
 		forcedNextTurnPlayer = null;
-		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
-		currentPlayerIndex = aliveIndices[(int) (GD.Randi() % aliveIndices.Count)];
-		currentTurnPlayer = Players[currentPlayerIndex];
-		EmitSignal(SignalName.NewRound, currentTurnPlayer);
+		ChooseRandomPlayer();
 	}
 
 	private void StartGame() {
 		SpawnPlayers();
-		int currentPlayerIndex = (int) (GD.Randi() % Players.Count);
-		currentTurnPlayer = Players[currentPlayerIndex];
-		EmitSignal(SignalName.NewRound, currentTurnPlayer);
+		ChooseRandomPlayer(); // new round will be called when broadcast occurs
 	}
 
 	private void SpawnPlayers() {
@@ -137,6 +140,13 @@ public partial class GameDriver : Node {
 		DeletePlayers();
 		Players.Clear();
 		confetti.Emitting = false;
+	}
+
+	private void ChooseRandomPlayer() {
+		if (!GameNetwork.Instance.MultiplayerAPIObject.IsServer()) return;
+		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
+		int randomIndex = (int) (GD.Randi() % aliveIndices.Count);
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostChooseRandomPlayer, randomIndex);
 	}
 
 	private void OnScreenStateChanged(ScreenManager.ScreenState newState) {

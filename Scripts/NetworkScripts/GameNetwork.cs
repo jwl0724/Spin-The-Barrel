@@ -164,4 +164,20 @@ public partial class GameNetwork : Node {
 			if (player.NetworkID == rotatorID) player.SetRotation(rotation);
 		}
 	}
+
+	// called whenever player needs to be set
+	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void HostChooseRandomPlayer(int playerIndex) {
+		Rpc(MethodName.BroadcastNewPlayer, playerIndex);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastNextTurnCall(int nextPlayerIndex) {
+		gameDriver.SetCurrentPlayer(nextPlayerIndex, false);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void BroadcastNewPlayer(int playerIndex) {
+		gameDriver.SetCurrentPlayer(playerIndex, true);
+	}
 }
