@@ -48,6 +48,7 @@ public partial class GameNetwork : Node {
 	public void CloseConnection() {
 		MultiplayerAPIObject.MultiplayerPeer.Close();
 		MultiplayerAPIObject.MultiplayerPeer = null;
+		LobbyDriver.Players.Clear();
 		localPlayerInfo = null;
 	}
 
@@ -132,8 +133,26 @@ public partial class GameNetwork : Node {
 	// IN-GAME FUNCTIONS
 	
 	// called by host only to start game
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void StartGame(ScreenManager.ScreenState state) {
-		ScreenManager.Instance.NotifyEnd(state);
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void HostStartGame() {
+		// GD.Print(MultiplayerAPIObject.IsServer());
+		var array = NetworkHelperFunctions.ConvertPlayersToNetwork(LobbyDriver.Players);
+		Rpc(MethodName.ClientStartGame, array);
+		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.IN_GAME);
+	}
+
+	// called by clients after host does rpc call
+	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void ClientStartGame(Godot.Collections.Array<Godot.Collections.Array> data) {
+		var playerList = NetworkHelperFunctions.ConvertPlayersFromNetwork(data);
+		// standardize the order using the host's list
+		playerList[0].IsRemote = true; // host sends their list, they will always be the first on the list
+		LobbyDriver.Players.Clear();
+		foreach (PlayerInfo player in playerList) {
+			LobbyDriver.Players.Add(player);
+			if (player.NetworkID == localPlayerInfo.NetworkID) 
+				player.IsRemote = false; 
+		}
+		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.IN_GAME);
 	}
 }

@@ -45,7 +45,13 @@ public partial class HostLobbyMenu : MenuItem {
 
 	// going to assume that this is called when hosts joins
 	private void OnPlayerJoin() {
-		if (LobbyDriver.Players.Count < MIN_PLAYERS) return;
+		if (LobbyDriver.Players.Count < MIN_PLAYERS) {
+			// for when host first joins lobby
+			statusText.Text = "Waiting For Players";
+			startButton.Disabled = true;
+			return;
+		}
+		startButton.Disabled = false;
 		dotTimer.Stop();
 		statusText.Text = lobbyDriver.IsHost ? "Game Ready to Start" : "Waiting For Host to Start";
 		startButton.Visible = lobbyDriver.IsHost;
@@ -53,12 +59,16 @@ public partial class HostLobbyMenu : MenuItem {
 	}
 
 	private void OnPlayerLeave() {
-		statusText.Text = "Waiting For Players";
-		dotTimer.Start();
-		startButton.Disabled = LobbyDriver.Players.Count >= MIN_PLAYERS;
+		bool canStart = LobbyDriver.Players.Count >= MIN_PLAYERS;
+		startButton.Disabled = canStart;
+		if (!canStart) {
+			dotTimer.Start();
+			statusText.Text = "Waiting For Players";
+		}
 	}
 
 	private void OnStart() {
-		GameNetwork.Instance.Rpc(GameNetwork.MethodName.StartGame, (int) ScreenManager.ScreenState.IN_GAME);
+		if (GameNetwork.Instance.MultiplayerAPIObject.IsServer())
+			GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostStartGame);
 	}
 }
