@@ -24,9 +24,9 @@ public partial class CharacterSelector : Node3D {
 		leftArrow.ProcessMode = ProcessModeEnum.Disabled;
 		rightArrow.ProcessMode = ProcessModeEnum.Disabled;
 
-		LobbyNetwork.Instance.Connect(LobbyNetwork.SignalName.ModelSwitch, Callable.From((int selector, int modelIndex) =>
-			EmitSignal(SignalName.ModelSwitch, selector, modelIndex)
-		));
+		LobbyNetwork.Instance.Connect(LobbyNetwork.SignalName.ModelSwitch, Callable.From((int selector, int modelIndex) => {
+			if (selector == GetIndex()) modelManager.ShowSelected(modelIndex);
+		}));
 	}
 
 	public void ActivateSelector(bool isRemotePlayer = true) {
@@ -39,8 +39,7 @@ public partial class CharacterSelector : Node3D {
 		}
 		leftArrow.Visible = true;
 		rightArrow.Visible = true;
-		GD.Print(GetIndex());
-		LobbyNetwork.Instance.UpdatePlayerModels(GetIndex(), modelManager.GetSelected());
+		LobbyNetwork.Instance.Rpc(LobbyNetwork.MethodName.UpdatePlayerModelsRPC, GetIndex(), modelManager.GetSelected());
 		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
 	}
 
@@ -57,7 +56,7 @@ public partial class CharacterSelector : Node3D {
 	private void OnArrowClicked(bool isLeftClicked) {
 		if (isLeftClicked) modelManager.PreviousModel();
 		else modelManager.NextModel();
-		LobbyNetwork.Instance.UpdatePlayerModels(GetIndex(), modelManager.GetSelected());
+		LobbyNetwork.Instance.Rpc(LobbyNetwork.MethodName.UpdatePlayerModelsRPC, GetIndex(), modelManager.GetSelected());
 		EmitSignal(SignalName.ModelSwitch, GetIndex(), modelManager.GetSelected());
 	}
 }

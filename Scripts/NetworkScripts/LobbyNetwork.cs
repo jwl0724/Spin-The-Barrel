@@ -111,16 +111,12 @@ public partial class LobbyNetwork : Node {
 
 	// called by everyone else in the game
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void AddPlayerToLobby(string name, int chosenModel) {
+	private void AddPlayerToLobby(string name) {
 		lobbyDriver.AddPlayer(new PlayerInfo(multiplayer.GetRemoteSenderId(), name));
 	}
 
-	public void UpdatePlayerModels(int selector, int modelIndex) {
-		Rpc(MethodName.UpdatePlayerModelsRPC, selector, modelIndex);
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void UpdatePlayerModelsRPC(int selector, int modelIndex) {
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void UpdatePlayerModelsRPC(int selector, int modelIndex) {
 		EmitSignal(SignalName.ModelSwitch, selector, modelIndex);
 	}
 }
