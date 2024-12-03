@@ -7,7 +7,7 @@ public partial class HostLobbyMenu : MenuItem {
 	private static readonly string STATUS_TEXT_NODE_NAME = "StatusText";
 	private static readonly string NOT_HOST_TEXT_NODE_NAME = "JoinText";
 	private static readonly float DOT_TIMER_TIME = 0.25f;
-	private static readonly int MIN_PLAYERS = 1; // change this to 1 to test gameplay
+	private static readonly int MIN_PLAYERS = 2;
 	private LobbyDriver lobbyDriver = LobbyDriver.Instance;
 	private CustomTimer dotTimer = new();
 	private Label statusText;
@@ -59,6 +59,6 @@ public partial class HostLobbyMenu : MenuItem {
 	}
 
 	private void OnStart() {
-		GoNextScreen(ScreenManager.ScreenState.IN_GAME);
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.StartGame, (int) ScreenManager.ScreenState.IN_GAME);
 	}
 }
