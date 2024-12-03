@@ -2,8 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class LobbyNetwork : Node {
-	public static LobbyNetwork Instance { get; private set; }
+public partial class GameNetwork : Node {
+	public static GameNetwork Instance { get; private set; }
 	public static readonly string DEFAULT_IP = "127.0.0.1"; // configure this to something else depending on the store (ex. SteamAPI)
 	public static readonly int DEFAULT_PORT = 7000;
 	private int MAX_PLAYERS = 4;
@@ -14,8 +14,8 @@ public partial class LobbyNetwork : Node {
 	private LobbyDriver lobbyDriver;
 	private GameDriver gameDriver;
 
-	public MultiplayerApi multiplayer;
-	LobbyNetwork() {
+	public MultiplayerApi MultiplayerAPIObject { get; private set; }
+	GameNetwork() {
 		Instance = this;
 	}
 
@@ -23,21 +23,21 @@ public partial class LobbyNetwork : Node {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		multiplayer = GetTree().GetMultiplayer();
+		MultiplayerAPIObject = GetTree().GetMultiplayer();
 		lobbyDriver = LobbyDriver.Instance;
 		gameDriver = GameDriver.Instance;
 
-		multiplayer.PeerConnected += OnPlayerConnect;
-		multiplayer.PeerDisconnected += OnPlayerDisconnect;
-		multiplayer.ConnectedToServer += OnServerConnected;
-		multiplayer.ConnectionFailed += OnServerFailConnect;
-		multiplayer.ServerDisconnected += OnServerDisconnect;
+		MultiplayerAPIObject.PeerConnected += OnPlayerConnect;
+		MultiplayerAPIObject.PeerDisconnected += OnPlayerDisconnect;
+		MultiplayerAPIObject.ConnectedToServer += OnServerConnected;
+		MultiplayerAPIObject.ConnectionFailed += OnServerFailConnect;
+		MultiplayerAPIObject.ServerDisconnected += OnServerDisconnect;
 	}
 
 	public void HostGame() {
 		StartServer();
 		lobbyDriver.AddPlayer(localPlayerInfo);
-		GD.Print("Started Server with ID: ", multiplayer.GetUniqueId());
+		GD.Print("Started Server with ID: ", MultiplayerAPIObject.GetUniqueId());
 	}
 
 	public void JoinGame() {
@@ -46,8 +46,8 @@ public partial class LobbyNetwork : Node {
 
 	// called by both client and server
 	public void CloseConnection() {
-		Multiplayer.MultiplayerPeer.Close();
-		Multiplayer.MultiplayerPeer = null;
+		MultiplayerAPIObject.MultiplayerPeer.Close();
+		MultiplayerAPIObject.MultiplayerPeer = null;
 		localPlayerInfo = null;
 	}
 
@@ -55,8 +55,8 @@ public partial class LobbyNetwork : Node {
 		ENetMultiplayerPeer server = new();
 		int usedPort = port == -1 ? DEFAULT_PORT : port;
 		server.CreateServer(usedPort, MAX_PLAYERS);
-		multiplayer.MultiplayerPeer = server;
-		localPlayerInfo = new PlayerInfo(multiplayer.GetUniqueId()) {
+		MultiplayerAPIObject.MultiplayerPeer = server;
+		localPlayerInfo = new PlayerInfo(MultiplayerAPIObject.GetUniqueId()) {
 			IsRemote = false
 		};
 	}
@@ -66,15 +66,14 @@ public partial class LobbyNetwork : Node {
 		string ip = ipAddress == "" ? DEFAULT_IP : ipAddress;
 		int usedPort = port == -1 ? DEFAULT_PORT : port;
 		client.CreateClient(ip, usedPort);
-		multiplayer.MultiplayerPeer = client;
-		localPlayerInfo = new PlayerInfo(multiplayer.GetUniqueId()) {
+		MultiplayerAPIObject.MultiplayerPeer = client;
+		localPlayerInfo = new PlayerInfo(MultiplayerAPIObject.GetUniqueId()) {
 			IsRemote = false
 		};
 	}
 
 	// called when a peer joins a server
 	private void OnPlayerConnect(long id) {
-		GD.Print(multiplayer);
 		RpcId(id, MethodName.AddPlayerToLobby, localPlayerInfo.Name);
 	}
 
@@ -91,7 +90,7 @@ public partial class LobbyNetwork : Node {
 	// called when peer connects to a server successfully (only called by joinee)
 	private void OnServerConnected() {
 		lobbyDriver.AddPlayer(localPlayerInfo);
-		GD.Print($"Connected As: {multiplayer.GetUniqueId()}");
+		GD.Print($"Connected As: {MultiplayerAPIObject.GetUniqueId()}");
 	}
 
 	// called when the server closes itself while connected
@@ -109,14 +108,32 @@ public partial class LobbyNetwork : Node {
 		CloseConnection();
 	}
 
-	// called by everyone else in the game
+	// LOBBY FUNCTIONS
+
+	// called by on join
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void AddPlayerToLobby(string name) {
-		lobbyDriver.AddPlayer(new PlayerInfo(multiplayer.GetRemoteSenderId(), name));
+		lobbyDriver.AddPlayer(new PlayerInfo(MultiplayerAPIObject.GetRemoteSenderId(), name));
 	}
 
+	// called when model is switched by any peer
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void UpdatePlayerModelsRPC(int selector, int modelIndex) {
+	public void UpdatePlayerModels(long networkID, int modelIndex) {
+		int selector = 0;
+		foreach(PlayerInfo player in LobbyDriver.Players) {
+			if (player.NetworkID == networkID) {
+				selector = LobbyDriver.Players.IndexOf(player);
+				break;
+			}
+		}
 		EmitSignal(SignalName.ModelSwitch, selector, modelIndex);
+	}
+
+	// IN-GAME FUNCTIONS
+	
+	// called by host only to start game
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void StartGame(ScreenManager.ScreenState state) {
+		ScreenManager.Instance.NotifyEnd(state);
 	}
 }
