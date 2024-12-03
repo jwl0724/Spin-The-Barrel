@@ -35,7 +35,7 @@ public partial class PlayerCamera : Camera3D {
 		Rotation = new Vector3(rotationX, rotationY, 0);
 
 		GameNetwork network = GameNetwork.Instance;
-		network.Rpc(GameNetwork.MethodName.SyncRotation, player.NetworkID, Rotation);
+		network.Rpc(GameNetwork.MethodName.SyncRotation, player.NetworkID, new Vector3(0, rotationY, -rotationX));
 	}
 
 	private void OnPlayerDeath() {
