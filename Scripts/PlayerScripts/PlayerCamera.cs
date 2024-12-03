@@ -33,6 +33,9 @@ public partial class PlayerCamera : Camera3D {
 			Mathf.DegToRad(-MAX_CAMERA_X_ANGLE), Mathf.DegToRad(MAX_CAMERA_X_ANGLE)	
 		);
 		Rotation = new Vector3(rotationX, rotationY, 0);
+		GD.Print($"{player.NetworkID}: {Rotation}");
+		GameNetwork network = GameNetwork.Instance;
+		network.Rpc(GameNetwork.MethodName.SyncRotation, player.NetworkID, Rotation);
 	}
 
 	private void OnPlayerDeath() {

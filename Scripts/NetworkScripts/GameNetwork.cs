@@ -50,6 +50,8 @@ public partial class GameNetwork : Node {
 		MultiplayerAPIObject.MultiplayerPeer = null;
 		LobbyDriver.Players.Clear();
 		localPlayerInfo = null;
+		// put some sort of dialog box to show that the connection was lost
+		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.MAIN_MENU);
 	}
 
 	private void StartServer(int port = -1) {
@@ -133,16 +135,15 @@ public partial class GameNetwork : Node {
 	// IN-GAME FUNCTIONS
 	
 	// called by host only to start game
-	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void HostStartGame() {
-		// GD.Print(MultiplayerAPIObject.IsServer());
+		// send host player list to everyone to use
 		var array = NetworkHelperFunctions.ConvertPlayersToNetwork(LobbyDriver.Players);
 		Rpc(MethodName.ClientStartGame, array);
-		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.IN_GAME);
 	}
 
 	// called by clients after host does rpc call
-	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void ClientStartGame(Godot.Collections.Array<Godot.Collections.Array> data) {
 		var playerList = NetworkHelperFunctions.ConvertPlayersFromNetwork(data);
 		// standardize the order using the host's list
@@ -154,5 +155,13 @@ public partial class GameNetwork : Node {
 				player.IsRemote = false; 
 		}
 		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.IN_GAME);
+	}
+
+	// called when a player input is made
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	public void SyncRotation(long rotatorID, Vector3 rotation) {
+		foreach(Player player in GameDriver.Players) {
+			if (player.NetworkID == rotatorID) player.SetRotation(rotation);
+		}
 	}
 }
