@@ -37,6 +37,7 @@ emission_energy_multiplier = 3.64
 emission_texture = SubResource("NoiseTexture2D_kcjj0")
 
 [sub_resource type="TextMesh" id="TextMesh_qs30r"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_oono3")
 text = "NAME HERE"
 font = ExtResource("30_ptg05")

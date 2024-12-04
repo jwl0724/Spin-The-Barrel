@@ -24,6 +24,7 @@ emission = Color(0.513233, 0.513233, 0.513233, 1)
 emission_energy_multiplier = 2.23
 
 [sub_resource type="TextMesh" id="TextMesh_2l8mo"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_is6rj")
 text = "Model Name"
 font = ExtResource("5_sndho")
