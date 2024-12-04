@@ -8,17 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     name: Verify and Export Godot Project
     steps:
-      # Step 1: Check out the repository
+      # Check out the repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Step 2: List all files in the project root (debugging step)
+      # List all files in the project root (debugging step)
       - name: List root directory files
         run: ls -la .
 
-      # Step 3: Verify the export_presets.cfg file exists
+      # Verify the export_presets.cfg file exists
       - name: Check for export_presets.cfg
         run: |
           if [ -f ./export_presets.cfg ]; then
@@ -28,19 +28,28 @@ jobs:
             exit 1
           fi
 
-      # Optional Step: Display the content of export_presets.cfg (for debugging purposes)
+      # Display the content of export_presets.cfg (debug)
       - name: Display export_presets.cfg content
         run: cat ./export_presets.cfg
 
-      # Step 4: Export the Godot project
+      # Export the Godot project
       - name: Export project
         uses: firebelley/godot-export@v5.2.0
         with:
           godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.2.2/mono/Godot_v4.2.2-stable_mono_linux.x86_64.zip
           godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.2.2/mono/Godot_v4.2.2-stable_mono_export_templates.tpz
-          relative_project_path: . # Path to your Godot project
+          relative_project_path: .
           archive_output: false
           use_preset_export_path: true
           export_debug: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #  ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+      # - name: Upload to itch.io
+      #   uses: dulvui/itchio-butler-upload@v0.0.1
+      #   with:
+      #     api-key: ${{ secrets.BUTLER_CREDENTIALS }}
+      #     user: beijzum
+      #     game: spin-the-barrel
+      #     channel: html5
