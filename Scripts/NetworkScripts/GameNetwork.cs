@@ -135,9 +135,10 @@ public partial class GameNetwork : Node {
 	// IN-GAME FUNCTIONS
 	
 	// called by host only to start game
-	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void HostStartGame() {
 		// send host player list to everyone to use
+		if (!Multiplayer.IsServer()) return;
 		var array = NetworkHelperFunctions.ConvertPlayersToNetwork(LobbyDriver.Players);
 		Rpc(MethodName.ClientStartGame, array);
 	}

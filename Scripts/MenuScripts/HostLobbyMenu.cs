@@ -68,7 +68,6 @@ public partial class HostLobbyMenu : MenuItem {
 	}
 
 	private void OnStart() {
-		if (GameNetwork.Instance.MultiplayerAPIObject.IsServer())
-			GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostStartGame);
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostStartGame);
 	}
 }
