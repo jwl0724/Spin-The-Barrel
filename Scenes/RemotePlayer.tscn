@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bnx3p5vxipelj"]
+[gd_scene load_steps=25 format=3 uid="uid://bnx3p5vxipelj"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_rxqh0"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerModelManager.cs" id="2_m3mv1"]
@@ -14,9 +14,8 @@
 [ext_resource type="AudioStream" uid="uid://caiv1ofl8s8ny" path="res://Assets/Sounds/PlayerDied/Dead1.mp3" id="23_nha30"]
 [ext_resource type="AudioStream" uid="uid://bxs80sp5d2y81" path="res://Assets/Sounds/PlayerDied/Dead2.mp3" id="24_5djeq"]
 [ext_resource type="AudioStream" uid="uid://cawl3cf12wion" path="res://Assets/Sounds/PlayerDied/Dead3.mp3" id="25_sjtso"]
-[ext_resource type="AudioStream" uid="uid://gipy8ylmn3b5" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="26_1efqj"]
+[ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="26_1efqj"]
 [ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="27_j1ag1"]
-[ext_resource type="AudioStream" uid="uid://b6jhsmtsrpjrh" path="res://Assets/Sounds/PlayerDied/Dead6.mp3" id="28_nc40r"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/LookBox.cs" id="29_tx4lb"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="30_ptg05"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/NameText.cs" id="31_ssiqh"]
@@ -55,7 +54,7 @@ script = ExtResource("2_m3mv1")
 [node name="SoundEffects" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("14_t8vis")
 hurtCollection = Array[AudioStream]([ExtResource("15_l6as2"), ExtResource("16_oju3j"), ExtResource("17_n546s"), ExtResource("18_3ge0b"), ExtResource("19_m5icg"), ExtResource("20_xl5sj"), ExtResource("21_bt5ic"), ExtResource("22_d46ys")])
-deathCollection = Array[AudioStream]([ExtResource("23_nha30"), ExtResource("24_5djeq"), ExtResource("25_sjtso"), ExtResource("26_1efqj"), ExtResource("27_j1ag1"), ExtResource("28_nc40r")])
+deathCollection = Array[AudioStream]([ExtResource("23_nha30"), ExtResource("24_5djeq"), ExtResource("25_sjtso"), ExtResource("26_1efqj"), ExtResource("27_j1ag1")])
 
 [node name="PlayerHitBox" type="Area3D" parent="."]
 collision_layer = 2
