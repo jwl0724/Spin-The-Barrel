@@ -2,38 +2,45 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   export_game:
-    # Always use ubuntu-latest for this action
     runs-on: ubuntu-latest
-    # Job name, can be anything
-    name: Export game to Github
+    name: Verify and Export Godot Project
     steps:
-      # Always include the checkout step so that
-      # your project is available for Godot to export
-      - name: checkout
+      # Step 1: Check out the repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-        # Ensure that you get the entire project history
         with:
           fetch-depth: 0
-      - name: create game release
-        # Use latest version (see releases for all versions)
+
+      # Step 2: List all files in the project root (debugging step)
+      - name: List root directory files
+        run: ls -la .
+
+      # Step 3: Verify the export_presets.cfg file exists
+      - name: Check for export_presets.cfg
+        run: |
+          if [ -f ./export_presets.cfg ]; then
+            echo "export_presets.cfg found!"
+          else
+            echo "export_presets.cfg not found!"
+            exit 1
+          fi
+
+      # Optional Step: Display the content of export_presets.cfg (for debugging purposes)
+      - name: Display export_presets.cfg content
+        run: cat ./export_presets.cfg
+
+      # Step 4: Export the Godot project
+      - name: Export project
         uses: firebelley/godot-export@v5.2.0
         with:
-          # Defining all the required inputs
           godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.2.2/mono/Godot_v4.2.2-stable_mono_linux.x86_64.zip
           godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.2.2/mono/Godot_v4.2.2-stable_mono_export_templates.tpz
-          # set this either to . or your game path, e.g. ./godot in case
-          # your game is within a sub-directory
-          relative_project_path: .
+          relative_project_path: . # Path to your Godot project
+          archive_output: false
+          use_preset_export_path: true
+          export_debug: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_CREDENTIALS }}
-      #     ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      # - name: Upload to itch.io
-      #   uses: dulvui/itchio-butler-upload@v0.0.1
-      #   with:
-      #     api-key: ${{ secrets.BUTLER_CREDENTIALS }}
-      #     user: beijzum
-      #     game: spin-the-barrel
-      #     channel: html5
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
