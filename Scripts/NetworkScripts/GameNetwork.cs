@@ -201,4 +201,14 @@ public partial class GameNetwork : Node {
 	public void BroadcastEndGame(long winnerNetworkID) {
 		gameDriver.EndGame(winnerNetworkID);
 	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void UpdateDeadPlayer(long networkID) {
+		foreach(Player player in GameDriver.Players) {
+			if (player.NetworkID == networkID) {
+				player.KillPlayer();
+				break;
+			}
+		}
+	}
 }
