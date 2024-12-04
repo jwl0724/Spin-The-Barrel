@@ -19,6 +19,8 @@ public partial class GameDriver : Node {
 	[Signal] public delegate void NewRoundEventHandler();
 	[Signal] public delegate void GameOverEventHandler();
 	[Signal] public delegate void BackToMenuEventHandler();
+	[Signal] public delegate void UpdateGunStateEventHandler();
+	[Signal] public delegate void PlayAnimationEventHandler();
 
 	// STATIC CONSTANTS
 	public static readonly List<Player> Players = new(); // list of players in the game
@@ -47,17 +49,44 @@ public partial class GameDriver : Node {
 		forcedNextTurnPlayer = player;
 	}
 
-	public Vector3 GetCurrentPlayerGunPoint() {
+    public Vector3 GetCurrentPlayerGunPoint() {
 		Node3D spawnPoint = spawnPoints.GetChild<Node3D>(currentPlayerIndex);
 		Node3D gunPoint = spawnPoint.GetNode<Node3D>(GUN_POINT_NODE_NAME);
 		return gunPoint.GlobalPosition;
 	}
 
-	public void SetCurrentPlayer(int randomIndex, bool newRound = false) {
-		currentPlayerIndex = randomIndex;
-		currentTurnPlayer = Players[randomIndex];
-		if (newRound) EmitSignal(SignalName.NewRound, currentTurnPlayer);
+    public void SetCurrentPlayer(long networkID, bool newRound = false) {
+		foreach(Player player in Players) {
+			if (player.NetworkID == networkID) {
+				currentTurnPlayer = player;
+				currentPlayerIndex = Players.IndexOf(player);
+				break;
+			}
+		}
+		if (newRound) {
+			EmitSignal(SignalName.NewRound, currentTurnPlayer);
+			Round++;
+		}
 		else EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+	}
+
+	public void BroadcastGunState(Godot.Collections.Array<bool> chamber, int chamberIndex, int damage, long networkID) {
+		Player newHolder = null;
+		foreach(Player player in Players) {
+			if (player.NetworkID == networkID) {
+				newHolder = player;
+				break;
+			}
+		}
+		EmitSignal(SignalName.UpdateGunState, chamber, chamberIndex, damage, newHolder);
+	}
+
+	public void BroadcastShootAnimation() {
+		currentTurnPlayer.NerfGun.ShootAnimationOnly();
+	}
+
+	public void BroadcastGunAnimation(bool isPickup) {
+		EmitSignal(SignalName.PlayAnimation, isPickup);
 	}
 
 	public void EndTurn() {
@@ -75,19 +104,30 @@ public partial class GameDriver : Node {
 			currentPlayerIndex = aliveIndices[tempIndex];
 			currentTurnPlayer = Players[currentPlayerIndex];
 		}
-		GameNetwork.Instance.Rpc(GameNetwork.MethodName.BroadcastNextTurnCall, currentPlayerIndex);
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.BroadcastNextTurnCall, currentTurnPlayer.NetworkID);
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
+	}
+
+	public void EndGame(long winnerNetworkID) {
+		Player winner = null;
+		foreach(Player player in Players) {
+			if (winnerNetworkID == player.NetworkID) {
+				winner = player;
+				break;
+			}
+		}
+		DisplayWinner(winner);
+		EmitSignal(SignalName.GameOver);
+		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.POST_GAME);
 	}
 
 	public void EndRound() {
 		Player winner = GetWinner();
 		if (winner != null) {
-			DisplayWinner(winner);
-			EmitSignal(SignalName.GameOver);
-			ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.POST_GAME);
+			GameNetwork network = GameNetwork.Instance;
+			network.Rpc(GameNetwork.MethodName.BroadcastEndGame, winner.NetworkID);
 			return;
 		}
-		Round++;
 		Reverse = false;
 		forcedNextTurnPlayer = null;
 		ChooseRandomPlayer();
@@ -142,11 +182,13 @@ public partial class GameDriver : Node {
 		confetti.Emitting = false;
 	}
 
+	// only called by the server (host)
 	private void ChooseRandomPlayer() {
 		if (!GameNetwork.Instance.MultiplayerAPIObject.IsServer()) return;
 		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
 		int randomIndex = (int) (GD.Randi() % aliveIndices.Count);
-		GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostChooseRandomPlayer, randomIndex);
+		long networkID = Players[randomIndex].NetworkID;
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostChooseRandomPlayer, networkID);
 	}
 
 	private void OnScreenStateChanged(ScreenManager.ScreenState newState) {

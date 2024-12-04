@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://lnxb8j3m7ht3"]
+[gd_scene load_steps=25 format=3 uid="uid://lnxb8j3m7ht3"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/Player.cs" id="1_cp3cb"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerCamera.cs" id="2_p0sjk"]
@@ -16,9 +16,8 @@
 [ext_resource type="AudioStream" uid="uid://caiv1ofl8s8ny" path="res://Assets/Sounds/PlayerDied/Dead1.mp3" id="13_swsod"]
 [ext_resource type="AudioStream" uid="uid://bxs80sp5d2y81" path="res://Assets/Sounds/PlayerDied/Dead2.mp3" id="14_80rr8"]
 [ext_resource type="AudioStream" uid="uid://cawl3cf12wion" path="res://Assets/Sounds/PlayerDied/Dead3.mp3" id="15_ygm1e"]
-[ext_resource type="AudioStream" uid="uid://gipy8ylmn3b5" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="16_150rv"]
+[ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead4.mp3" id="16_150rv"]
 [ext_resource type="AudioStream" uid="uid://e821ba216wxb" path="res://Assets/Sounds/PlayerDied/Dead5.mp3" id="17_euge6"]
-[ext_resource type="AudioStream" uid="uid://b6jhsmtsrpjrh" path="res://Assets/Sounds/PlayerDied/Dead6.mp3" id="18_6g404"]
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/PlayerUI.cs" id="20_uvte5"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="21_k63qk"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/UI/TextShake.cs" id="22_pjq8t"]
@@ -65,19 +64,27 @@ ModelManager = NodePath("Model")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58365e-08, 0.375976, -0.362298)
 script = ExtResource("2_p0sjk")
 
-[node name="Raycast" type="RayCast3D" parent="Camera"]
+[node name="NameDetector" type="RayCast3D" parent="Camera"]
 target_position = Vector3(0, 0, -35)
-collision_mask = 14
+collision_mask = 2
 hit_back_faces = false
 collide_with_areas = true
 collide_with_bodies = false
 debug_shape_thickness = 1
 script = ExtResource("3_1jtrk")
 
+[node name="GunDetector" type="RayCast3D" parent="Camera"]
+target_position = Vector3(0, 0, -0.5)
+collision_mask = 12
+hit_back_faces = false
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource("3_1jtrk")
+
 [node name="SoundEffects" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("4_2gf8f")
 hurtCollection = Array[AudioStream]([ExtResource("5_ojert"), ExtResource("6_4pu4q"), ExtResource("7_acfh6"), ExtResource("8_j487r"), ExtResource("9_6qncg"), ExtResource("10_a6iq2"), ExtResource("11_lqegb"), ExtResource("12_e5xdx")])
-deathCollection = Array[AudioStream]([ExtResource("13_swsod"), ExtResource("14_80rr8"), ExtResource("15_ygm1e"), ExtResource("16_150rv"), ExtResource("17_euge6"), ExtResource("18_6g404")])
+deathCollection = Array[AudioStream]([ExtResource("13_swsod"), ExtResource("14_80rr8"), ExtResource("15_ygm1e"), ExtResource("16_150rv"), ExtResource("17_euge6")])
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)

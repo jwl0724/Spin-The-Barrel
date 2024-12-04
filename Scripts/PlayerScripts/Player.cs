@@ -21,7 +21,7 @@ public partial class Player : Node3D, IInteractableEntity {
 	[Signal] public delegate void GameEndEventHandler();
 
 	// CONSTANTS
-	public static readonly int DEFAULT_PLAYER_HEATLH = 4;
+	public static readonly int DEFAULT_PLAYER_HEATLH = 2;
 	public static readonly float SHOOT_DELAY_TIME = 0.75f;
 
 	// VARIABLES
@@ -126,6 +126,20 @@ public partial class Player : Node3D, IInteractableEntity {
 		driver.EndTurn();
 	}
 
+	public void KillPlayer() {
+		IsDead = true;
+		const float deathAngle = 75, tweenTime = 0.1f;
+		Tween turnSide = CreateTween();
+		Tween turnUp = CreateTween();
+		turnSide.TweenProperty(ModelManager, nameof(Rotation).ToLower(),
+			Vector3.Left * Mathf.DegToRad(deathAngle), tweenTime);
+		turnUp.TweenProperty(ModelManager, nameof(Rotation).ToLower(),
+			Vector3.Back * Mathf.DegToRad(deathAngle), tweenTime * 2);
+		turnSide.Play();
+		turnUp.Play();
+		EmitSignal(SignalName.PlayerDied);
+	}
+
 	public void DamagePlayer(int amount) {
 		if (IsProtected) {
 			driver.EndRound();
@@ -133,7 +147,9 @@ public partial class Player : Node3D, IInteractableEntity {
 		}
 		Health -= amount;
 		if (Health <= 0) {
-			IsDead = true;
+			GameNetwork network = GameNetwork.Instance;
+			network.Rpc(GameNetwork.MethodName.UpdateDeadPlayer, NetworkID);
+			KillPlayer();
 			Input.MouseMode = Input.MouseModeEnum.Visible;
 			EmitSignal(SignalName.PlayerDied);
 
@@ -149,13 +165,6 @@ public partial class Player : Node3D, IInteractableEntity {
 			IsDead = true;
 			EmitSignal(SignalName.PlayerDied);
 		}
-	}
-
-	// originally for play again, but now is useless, marked for deletion or just change its functionality
-	private void ResetPlayerState() {
-		Health = DEFAULT_PLAYER_HEATLH;
-		IsDead = false;
-		EmitSignal(SignalName.PlayerReset);
 	}
 
 	public void SetRotation(Vector3 newRotation) {

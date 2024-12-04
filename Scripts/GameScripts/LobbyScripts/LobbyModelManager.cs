@@ -59,6 +59,7 @@ public partial class LobbyModelManager : ModelManager {
 			if (model == dumpNode.GetChild(index)) {
 				model.Visible = true;
 				modelIndex = model.GetIndex();
+				SetNameText();
 			}
 			else model.Visible = false;
 		}

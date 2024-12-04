@@ -135,9 +135,10 @@ public partial class GameNetwork : Node {
 	// IN-GAME FUNCTIONS
 	
 	// called by host only to start game
-	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void HostStartGame() {
 		// send host player list to everyone to use
+		if (!Multiplayer.IsServer()) return;
 		var array = NetworkHelperFunctions.ConvertPlayersToNetwork(LobbyDriver.Players);
 		Rpc(MethodName.ClientStartGame, array);
 	}
@@ -167,17 +168,47 @@ public partial class GameNetwork : Node {
 
 	// called whenever player needs to be set
 	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void HostChooseRandomPlayer(int playerIndex) {
-		Rpc(MethodName.BroadcastNewPlayer, playerIndex);
+	public void HostChooseRandomPlayer(long networkID) {
+		Rpc(MethodName.BroadcastNewPlayer, networkID);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void BroadcastNextTurnCall(int nextPlayerIndex) {
-		gameDriver.SetCurrentPlayer(nextPlayerIndex, false);
+	public void BroadcastNextTurnCall(long networkID) {
+		gameDriver.SetCurrentPlayer(networkID, false);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void BroadcastNewPlayer(int playerIndex) {
-		gameDriver.SetCurrentPlayer(playerIndex, true);
+	private void BroadcastNewPlayer(long networkID) {
+		gameDriver.SetCurrentPlayer(networkID, true);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastGunState(Godot.Collections.Array<bool> chamberArray, int chamberIndex, int damage, long networkID) {
+		gameDriver.BroadcastGunState(chamberArray, chamberIndex, damage, networkID);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastGunAnimation(bool isPickup) {
+		gameDriver.BroadcastGunAnimation(isPickup);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastShootAnimation() {
+		gameDriver.BroadcastShootAnimation();
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastEndGame(long winnerNetworkID) {
+		gameDriver.EndGame(winnerNetworkID);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void UpdateDeadPlayer(long networkID) {
+		foreach(Player player in GameDriver.Players) {
+			if (player.NetworkID == networkID) {
+				player.KillPlayer();
+				break;
+			}
+		}
 	}
 }
