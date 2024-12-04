@@ -24,15 +24,15 @@ public partial class MainMenu : MenuItem {
 		fadeInTime = 1.5f;
 	}
 
-    public override void ShowScreen() {
+	public override void ShowScreen() {
 		base.ShowScreen();
 		BlurBackground(true);
-    }
+	}
 
-    public override void HideScreen() {
+	public override void HideScreen() {
 		base.HideScreen();
 		BlurBackground(false);
-    }
+	}
 
 	private void BlurBackground(bool doBlur) {
 		if (!doBlur) {

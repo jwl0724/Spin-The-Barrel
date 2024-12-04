@@ -27,7 +27,7 @@ public abstract partial class MenuItem : Control {
 		Visible = false;
 		SetProcessInput(false);
 		foreach(var component in components) FadeOut(component, fadeInTime);
-    }
+	}
 	
 	protected void FadeIn(Control node, float time) {
 		Tween fadeTween = CreateTween();
