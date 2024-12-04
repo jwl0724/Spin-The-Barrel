@@ -54,7 +54,7 @@ public partial class GameDriver : Node {
 		return gunPoint.GlobalPosition;
 	}
 
-	public void SetCurrentPlayer(long networkID, bool newRound = false) {
+    public void SetCurrentPlayer(long networkID, bool newRound = false) {
 		foreach(Player player in Players) {
 			if (player.NetworkID == networkID) {
 				currentTurnPlayer = player;
@@ -62,7 +62,10 @@ public partial class GameDriver : Node {
 				break;
 			}
 		}
-		if (newRound) EmitSignal(SignalName.NewRound, currentTurnPlayer);
+		if (newRound) {
+			EmitSignal(SignalName.NewRound, currentTurnPlayer);
+			Round++;
+		}
 		else EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
@@ -124,7 +127,6 @@ public partial class GameDriver : Node {
 			network.Rpc(GameNetwork.MethodName.BroadcastEndGame, winner.NetworkID);
 			return;
 		}
-		Round++;
 		Reverse = false;
 		forcedNextTurnPlayer = null;
 		ChooseRandomPlayer();
