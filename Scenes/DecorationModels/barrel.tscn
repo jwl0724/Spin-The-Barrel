@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://devmvwo42wddv"]
+
+[ext_resource type="PackedScene" uid="uid://ym6ailtlv6uu" path="res://Assets/Models/ObjectModels/wooden_barrel_tl3ifacfa_low.glb" id="1_odcay"]
+
+[node name="Barrel" type="Node3D"]
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_odcay")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.378372, 0)
