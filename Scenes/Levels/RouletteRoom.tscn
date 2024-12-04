@@ -97,9 +97,22 @@ spot_angle = 22.98
 spot_angle_attenuation = 0.554785
 
 [node name="OmniLight3D" type="OmniLight3D" parent="LevelVisuals/Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66944, 1.32252, 3.30059)
-light_color = Color(1, 0.580392, 0.258824, 1)
-omni_range = 1.201
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66944, 1.64712, 3.45691)
+light_color = Color(1, 0.819052, 0.701713, 1)
+omni_range = 2.091
+omni_attenuation = 0.00104665
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="LevelVisuals/Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 2.7332, 4.85014, -1.69841)
+light_color = Color(0.972271, 0.871885, 0.827531, 1)
+light_energy = 0.738
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="LevelVisuals/Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3)
+light_color = Color(0.888395, 0.782866, 0.583431, 1)
+light_energy = 2.657
+light_indirect_energy = 7.303
+light_volumetric_fog_energy = 0.975
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="LevelVisuals"]
 environment = SubResource("Environment_e8jpl")
