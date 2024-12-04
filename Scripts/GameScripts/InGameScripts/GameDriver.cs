@@ -20,6 +20,7 @@ public partial class GameDriver : Node {
 	[Signal] public delegate void GameOverEventHandler();
 	[Signal] public delegate void BackToMenuEventHandler();
 	[Signal] public delegate void UpdateGunStateEventHandler();
+	[Signal] public delegate void PlayAnimationEventHandler();
 
 	// STATIC CONSTANTS
 	public static readonly List<Player> Players = new(); // list of players in the game
@@ -85,7 +86,7 @@ public partial class GameDriver : Node {
 	}
 
 	public void BroadcastGunAnimation(bool isPickup) {
-		currentTurnPlayer.NerfGun.PlayInteractAnimation(isPickup);
+		EmitSignal(SignalName.PlayAnimation, isPickup);
 	}
 
 	public void EndTurn() {

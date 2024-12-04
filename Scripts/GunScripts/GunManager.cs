@@ -13,6 +13,7 @@ public partial class GunManager : Node {
 		driver.Connect(GameDriver.SignalName.NewRound, Callable.From((Player holder) => OnNewRound(holder)));
 		driver.Connect(GameDriver.SignalName.GameOver, Callable.From(OnGameOver));
 		driver.Connect(GameDriver.SignalName.BackToMenu, Callable.From(OnExiting));
+		driver.Connect(GameDriver.SignalName.PlayAnimation, Callable.From((bool isPickup) => gun.PlayInteractAnimation(isPickup)));
 		driver.Connect(GameDriver.SignalName.UpdateGunState, Callable.From(
 			(Godot.Collections.Array<bool> chamberArray, int chamberIndex, int damage, Player newHolder) => 
 				UpdateGunState(chamberArray, chamberIndex, damage, newHolder)

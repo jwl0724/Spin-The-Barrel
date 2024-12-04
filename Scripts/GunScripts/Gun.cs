@@ -72,7 +72,6 @@ public partial class Gun : Node3D, IInteractableEntity {
 	public void ShootAnimationOnly(Player player = null) {
 		model.PlayShoot(player, Callable.From(() => {
 			EmitSignal(SignalName.OnShoot, chamber[chamberIndex]);
-			Drop();
 		}));
 	}
 
