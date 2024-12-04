@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://eoe5nvseebt1"]
+[gd_scene load_steps=29 format=3 uid="uid://eoe5nvseebt1"]
 
 [ext_resource type="ArrayMesh" uid="uid://kqfyrrgp1jvl" path="res://Assets/Levels/RouletteRoom/RouletteRoom.obj" id="1_iflve"]
 [ext_resource type="Script" path="res://Scripts/GameScripts/InGameScripts/GameDriver.cs" id="1_py8cd"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ty1y100jy5" path="res://Scenes/Menus/HostLobbyMenu.tscn" id="17_jc5hn"]
 [ext_resource type="PackedScene" uid="uid://c6u4d7lejr2kb" path="res://Scenes/Menus/PostGameMenu.tscn" id="18_77hqw"]
 [ext_resource type="Script" path="res://Scripts/NetworkScripts/GameNetwork.cs" id="19_8ak34"]
+[ext_resource type="PackedScene" uid="uid://dson33x7ng73a" path="res://Scenes/DecorationModels/gate.tscn" id="20_7uhub"]
 
 [sub_resource type="Environment" id="Environment_e8jpl"]
 glow_enabled = true
@@ -96,6 +97,11 @@ spot_angle_attenuation = 0.554785
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="LevelVisuals"]
 environment = SubResource("Environment_e8jpl")
+
+[node name="Decorations" type="Node3D" parent="."]
+
+[node name="Node3D" parent="Decorations" instance=ExtResource("20_7uhub")]
+transform = Transform3D(-1.5299e-09, 0, -0.035, 0, 0.035, 0, 0.035, 0, -1.5299e-09, -0.00430393, 1.65354, -6.81547)
 
 [node name="LobbyDriver" type="Node3D" parent="."]
 script = ExtResource("3_aajhq")
