@@ -76,7 +76,7 @@ depth = 0.01
 script = ExtResource("1_it0jy")
 
 [node name="HitBox" type="Area3D" parent="."]
-collision_layer = 2
+collision_layer = 4
 collision_mask = 0
 script = ExtResource("2_rdrsf")
 
