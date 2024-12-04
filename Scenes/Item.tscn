@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://gy2kv2jwlsd3"]
+[gd_scene load_steps=12 format=3 uid="uid://gy2kv2jwlsd3"]
 
 [ext_resource type="Script" path="res://Scripts/ItemScripts/ItemManager.cs" id="1_eqgy8"]
-[ext_resource type="PackedScene" uid="uid://bp2nwt16e26ns" path="res://Scenes/ItemModels/Chemical.tscn" id="2_ep2xn"]
 [ext_resource type="Script" path="res://Scripts/GeneralScripts/LookBox.cs" id="2_fjd4x"]
 [ext_resource type="Script" path="res://Scripts/ItemScripts/ItemSoundEffectManager.cs" id="2_txlof"]
 [ext_resource type="FontFile" uid="uid://cmvbnpg8av5h0" path="res://Assets/Fonts/Halo Dek.ttf" id="3_xbuly"]
@@ -89,8 +88,6 @@ _data = {
 script = ExtResource("1_eqgy8")
 
 [node name="Model" type="Node3D" parent="."]
-
-[node name="Chemical" parent="Model" instance=ExtResource("2_ep2xn")]
 
 [node name="SoundEffect" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("2_txlof")
