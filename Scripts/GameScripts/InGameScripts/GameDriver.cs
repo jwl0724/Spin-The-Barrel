@@ -19,6 +19,7 @@ public partial class GameDriver : Node {
 	[Signal] public delegate void NewRoundEventHandler();
 	[Signal] public delegate void GameOverEventHandler();
 	[Signal] public delegate void BackToMenuEventHandler();
+	[Signal] public delegate void UpdateGunStateEventHandler();
 
 	// STATIC CONSTANTS
 	public static readonly List<Player> Players = new(); // list of players in the game
@@ -60,6 +61,25 @@ public partial class GameDriver : Node {
 		else EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
+	public void BroadcastGunState(Godot.Collections.Array<bool> chamber, int chamberIndex, int damage, long networkID) {
+		Player newHolder = null;
+		foreach(Player player in Players) {
+			if (player.NetworkID == networkID) {
+				newHolder = player;
+				break;
+			}
+		}
+		EmitSignal(SignalName.UpdateGunState, chamber, chamberIndex, damage, newHolder);
+	}
+
+	public void BroadcastShootAnimation() {
+		currentTurnPlayer.NerfGun.ShootAnimationOnly();
+	}
+
+	public void BroadcastGunAnimation(bool isPickup) {
+		currentTurnPlayer.NerfGun.PlayInteractAnimation(isPickup);
+	}
+
 	public void EndTurn() {
 		if (forcedNextTurnPlayer != null) {
 			currentTurnPlayer = forcedNextTurnPlayer;
@@ -79,12 +99,24 @@ public partial class GameDriver : Node {
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
+	public void EndGame(long winnerNetworkID) {
+		Player winner = null;
+		foreach(Player player in Players) {
+			if (winnerNetworkID == player.NetworkID) {
+				winner = player;
+				break;
+			}
+		}
+		DisplayWinner(winner);
+		EmitSignal(SignalName.GameOver);
+		ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.POST_GAME);
+	}
+
 	public void EndRound() {
 		Player winner = GetWinner();
 		if (winner != null) {
-			DisplayWinner(winner);
-			EmitSignal(SignalName.GameOver);
-			ScreenManager.Instance.NotifyEnd(ScreenManager.ScreenState.POST_GAME);
+			GameNetwork network = GameNetwork.Instance;
+			network.Rpc(GameNetwork.MethodName.BroadcastEndGame, winner.NetworkID);
 			return;
 		}
 		Round++;

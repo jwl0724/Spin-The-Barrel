@@ -6,7 +6,6 @@ public partial class GunManager : Node {
 	private static readonly string GUN_NODE_NAME = "Gun";
 	private GameDriver driver;
 	private Gun gun;
-	
 	public override void _Ready() {
 		gun = GetNode<Gun>(GUN_NODE_NAME);
 		driver = GetParent<GameDriver>();
@@ -14,6 +13,10 @@ public partial class GunManager : Node {
 		driver.Connect(GameDriver.SignalName.NewRound, Callable.From((Player holder) => OnNewRound(holder)));
 		driver.Connect(GameDriver.SignalName.GameOver, Callable.From(OnGameOver));
 		driver.Connect(GameDriver.SignalName.BackToMenu, Callable.From(OnExiting));
+		driver.Connect(GameDriver.SignalName.UpdateGunState, Callable.From(
+			(Godot.Collections.Array<bool> chamberArray, int chamberIndex, int damage, Player newHolder) => 
+				UpdateGunState(chamberArray, chamberIndex, damage, newHolder)
+		));
 	}
 
 	private void OnNewTurn(Player holder) {
@@ -38,6 +41,10 @@ public partial class GunManager : Node {
 			gun.SetupNewRound(startingPlayer);
 		}));
 		slide.Play();
+	}
+
+	public void UpdateGunState(Godot.Collections.Array<bool> chamber, int chamberIndex, int damage, Player newHolder) {
+		gun.UpdateGunState(chamber, chamberIndex, damage, newHolder);
 	}
 
 	// hides the gun in the post-game winner screen

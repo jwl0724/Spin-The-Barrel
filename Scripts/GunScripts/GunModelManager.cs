@@ -23,7 +23,8 @@ public partial class GunModelManager : Node3D {
 	// handles only rotational component, since gun actually needs to move not just the visuals
 	public void PlayPickUp(float duration) {
 		Tween tween = CreateTween();
-		tween.TweenProperty(this, nameof(Rotation).ToLower(), pickedUpRotation, duration);
+		Vector3 adjustedPickup = pickedUpRotation + Vector3.Up * Mathf.Pi / 2 * GameDriver.Players.IndexOf(gun.Holder);
+		tween.TweenProperty(this, nameof(Rotation).ToLower(), adjustedPickup, duration);
 		tween.TweenCallback(Callable.From(() => IsPlayingAnimation = false));
 		IsPlayingAnimation = true;
 		tween.Play();
@@ -31,7 +32,8 @@ public partial class GunModelManager : Node3D {
 
 	public void PlayDrop(float duration) {
 		Tween tween = CreateTween();
-		tween.TweenProperty(this, nameof(Rotation).ToLower(), droppedRotation, duration);
+		Vector3 adjustedDrop = droppedRotation + Vector3.Up * Mathf.Pi / 2 * GameDriver.Players.IndexOf(gun.Holder);
+		tween.TweenProperty(this, nameof(Rotation).ToLower(), adjustedDrop, duration);
 		tween.TweenCallback(Callable.From(() => IsPlayingAnimation = false));
 		IsPlayingAnimation = true;
 		tween.Play();

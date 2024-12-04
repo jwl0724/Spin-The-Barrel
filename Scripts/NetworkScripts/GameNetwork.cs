@@ -180,4 +180,24 @@ public partial class GameNetwork : Node {
 	private void BroadcastNewPlayer(int playerIndex) {
 		gameDriver.SetCurrentPlayer(playerIndex, true);
 	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastGunState(Godot.Collections.Array<bool> chamberArray, int chamberIndex, int damage, long networkID) {
+		gameDriver.BroadcastGunState(chamberArray, chamberIndex, damage, networkID);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastGunAnimation(bool isPickup) {
+		gameDriver.BroadcastGunAnimation(isPickup);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastShootAnimation() {
+		gameDriver.BroadcastShootAnimation();
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void BroadcastEndGame(long winnerNetworkID) {
+		gameDriver.EndGame(winnerNetworkID);
+	}
 }

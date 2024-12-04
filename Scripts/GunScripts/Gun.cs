@@ -31,12 +31,30 @@ public partial class Gun : Node3D, IInteractableEntity {
 		model = GetNode<GunModelManager>(MODEL_MANAGER_NODE_NAME);
 	}
 
+	public void UpdateGunState(Godot.Collections.Array<bool> chamberArray, int chamberIndex, int damage, Player holder) {
+		int currentBulletsInChamber = 0, newBulletsInChamber = 0;
+		foreach(bool bullet in chamber) {
+			if (bullet) currentBulletsInChamber++;
+		}
+		for(int i = 0; i < chamberArray.Count; i++) {
+			chamber[i] = chamberArray[i];
+			if (chamber[i]) newBulletsInChamber++;
+		}
+		// update is called on new turns 
+		if (currentBulletsInChamber < newBulletsInChamber && newBulletsInChamber != 1) 
+			model.PlaySpinBarrel();
+		this.chamberIndex = chamberIndex;
+		currentDamage = damage;
+		Holder = holder;
+	}
+
 	public void DoubleGunDamage() {
 		currentDamage *= 2;
 	}
 
 	public void Shoot(Player player = null) {
 		if (model.IsPlayingAnimation) return;
+		BroadcastShoot();
 		bool hasBullet = chamber[chamberIndex++];
 		if (chamberIndex >= chamber.Length) chamberIndex = 0;
 		model.PlayShoot(player, Callable.From(() => {
@@ -47,6 +65,13 @@ public partial class Gun : Node3D, IInteractableEntity {
 			}
 			if (player != null) player.DamagePlayer(currentDamage);
 			else Holder.DamagePlayer(currentDamage);
+			Drop();
+		}));
+	}
+
+	public void ShootAnimationOnly(Player player = null) {
+		model.PlayShoot(player, Callable.From(() => {
+			EmitSignal(SignalName.OnShoot, chamber[chamberIndex]);
 			Drop();
 		}));
 	}
@@ -70,6 +95,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 		int randomIndex = unloadedIndices[(int) (GD.Randi() % unloadedIndices.Count)];
 		chamber[randomIndex] = true;
 		model.PlaySpinBarrel();
+		BroadcastGunState();
 		EmitSignal(SignalName.SpinBarrel);
 	}
 
@@ -84,6 +110,17 @@ public partial class Gun : Node3D, IInteractableEntity {
 		}));
 		model.PlayPickUp(tweenTime);
 		liftTween.Play();
+		BroadcastAnimation(true);
+	}
+
+	public void PlayInteractAnimation(bool isPickupEvent) {
+		const float tweenTime = 0.2f;
+		if (isPickupEvent) model.PlayPickUp(tweenTime);
+		else model.PlayDrop(tweenTime);
+		Tween heightTween = CreateTween();
+		float heightFactor = isPickupEvent ? 0.25f : -0.25f;
+		heightTween.TweenProperty(this, nameof(Position).ToLower(), Position + Vector3.Up * heightFactor, tweenTime);
+		heightTween.Play();
 	}
 
 	public void Drop() {
@@ -99,6 +136,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 		model.PlayDrop(tweenTime);
 		dropTween.Play();
 		Holder.DropGun();
+		BroadcastAnimation(false);
 	}
 
 	public void RollToSafe() {
@@ -117,6 +155,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 	public void SetupNewTurn(Player newHolder) {
 		ExitAimMode();
 		Holder = newHolder;
+		BroadcastGunState();
 		EmitSignal(SignalName.NewHolder, newHolder);
 	}
 
@@ -127,6 +166,7 @@ public partial class Gun : Node3D, IInteractableEntity {
 		chamberIndex = (int) (GD.Randi() % chamber.Length);
 		chamber[(int) (GD.Randi() % chamber.Length)] = true;
 		model.SpinBarrelOnly();
+		BroadcastGunState();
 		EmitSignal(SignalName.SpinBarrel);
 		EmitSignal(SignalName.NewHolder, startingPlayer);
 	}
@@ -151,4 +191,22 @@ public partial class Gun : Node3D, IInteractableEntity {
     public void Interact() {
 		Holder?.PickUpGun();
     }
+
+	private void BroadcastGunState()  {
+		// need to notify damage, chamberIndex, chamber
+		GameNetwork network = GameNetwork.Instance;
+		Godot.Collections.Array sendArray = new();
+		foreach(bool bullet in chamber) sendArray.Add(bullet);
+		network.Rpc(GameNetwork.MethodName.BroadcastGunState, sendArray, chamberIndex, currentDamage, Holder.NetworkID);
+	}
+
+	private void BroadcastAnimation(bool isPickupEvent) {
+		GameNetwork network = GameNetwork.Instance;
+		network.Rpc(GameNetwork.MethodName.BroadcastGunAnimation, isPickupEvent);
+	}
+
+	private void BroadcastShoot() {
+		GameNetwork network = GameNetwork.Instance;
+		network.Rpc(GameNetwork.MethodName.BroadcastShootAnimation);
+	}
 }
