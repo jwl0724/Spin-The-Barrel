@@ -167,18 +167,18 @@ public partial class GameNetwork : Node {
 
 	// called whenever player needs to be set
 	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void HostChooseRandomPlayer(int playerIndex) {
-		Rpc(MethodName.BroadcastNewPlayer, playerIndex);
+	public void HostChooseRandomPlayer(long networkID) {
+		Rpc(MethodName.BroadcastNewPlayer, networkID);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void BroadcastNextTurnCall(int nextPlayerIndex) {
-		gameDriver.SetCurrentPlayer(nextPlayerIndex, false);
+	public void BroadcastNextTurnCall(long networkID) {
+		gameDriver.SetCurrentPlayer(networkID, false);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void BroadcastNewPlayer(int playerIndex) {
-		gameDriver.SetCurrentPlayer(playerIndex, true);
+	private void BroadcastNewPlayer(long networkID) {
+		gameDriver.SetCurrentPlayer(networkID, true);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

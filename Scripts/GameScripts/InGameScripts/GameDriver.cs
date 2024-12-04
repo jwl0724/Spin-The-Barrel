@@ -48,15 +48,20 @@ public partial class GameDriver : Node {
 		forcedNextTurnPlayer = player;
 	}
 
-	public Vector3 GetCurrentPlayerGunPoint() {
+    public Vector3 GetCurrentPlayerGunPoint() {
 		Node3D spawnPoint = spawnPoints.GetChild<Node3D>(currentPlayerIndex);
 		Node3D gunPoint = spawnPoint.GetNode<Node3D>(GUN_POINT_NODE_NAME);
 		return gunPoint.GlobalPosition;
 	}
 
-	public void SetCurrentPlayer(int randomIndex, bool newRound = false) {
-		currentPlayerIndex = randomIndex;
-		currentTurnPlayer = Players[randomIndex];
+	public void SetCurrentPlayer(long networkID, bool newRound = false) {
+		foreach(Player player in Players) {
+			if (player.NetworkID == networkID) {
+				currentTurnPlayer = player;
+				currentPlayerIndex = Players.IndexOf(player);
+				break;
+			}
+		}
 		if (newRound) EmitSignal(SignalName.NewRound, currentTurnPlayer);
 		else EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
@@ -95,7 +100,7 @@ public partial class GameDriver : Node {
 			currentPlayerIndex = aliveIndices[tempIndex];
 			currentTurnPlayer = Players[currentPlayerIndex];
 		}
-		GameNetwork.Instance.Rpc(GameNetwork.MethodName.BroadcastNextTurnCall, currentPlayerIndex);
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.BroadcastNextTurnCall, currentTurnPlayer.NetworkID);
 		EmitSignal(SignalName.NewTurn, currentTurnPlayer);
 	}
 
@@ -174,11 +179,13 @@ public partial class GameDriver : Node {
 		confetti.Emitting = false;
 	}
 
+	// only called by the server (host)
 	private void ChooseRandomPlayer() {
 		if (!GameNetwork.Instance.MultiplayerAPIObject.IsServer()) return;
 		var aliveIndices = Enumerable.Range(0, Players.Count).Where(i => !Players[i].IsDead).ToList();
 		int randomIndex = (int) (GD.Randi() % aliveIndices.Count);
-		GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostChooseRandomPlayer, randomIndex);
+		long networkID = Players[randomIndex].NetworkID;
+		GameNetwork.Instance.Rpc(GameNetwork.MethodName.HostChooseRandomPlayer, networkID);
 	}
 
 	private void OnScreenStateChanged(ScreenManager.ScreenState newState) {
